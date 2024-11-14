@@ -1,0 +1,33 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "エンドポイントを実装したRESTful APIサーバー。",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/**/*.test.js --watch --reporter dot",
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "start": "node index.js",
+    "server": "node index.js",
+    "client": "PORT=3002 npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.1.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "knex": "^3.1.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.8.2",
+    "sinon": "^19.0.2"
+  }
+}
