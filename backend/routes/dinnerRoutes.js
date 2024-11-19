@@ -1,24 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const knex = require('../knexConfig');
 const dinnerController = require('../controllers/dinnerController')
 
-//router.get('/', dinnerController.getAllTodos)
-router.get('/', async (req, res, next) => {
-  try {
-    const todos = await knex('daily').select('*')
-    res.status(200).json(todos)
-  } catch (err) {
-    next(err)
-  }
-})
+// 自炊の予定(cooking)
+router.post('/addCook', dinnerController.addCooking)
+router.post('/deleteCook', dinnerController.deleteCooking)
 
-router.post('/', async (req, res, next) => {
-  try {
-    res.json(req.body);
-  } catch (error) {
-    console.error(error);
-  }
-})
+// 飲み会の予定(drinking)
+router.post('/addDrink', dinnerController.addDrinking)
+router.post('/deleteDrink', dinnerController.deleteDrinking)
 
 module.exports = router
