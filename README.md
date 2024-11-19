@@ -20,7 +20,10 @@ Google Slidesで作成した紹介スライドです。<br />
 [夕食管理アプリの紹介](https://docs.google.com/presentation/d/1j_uo1gGUxZC5jtoRbxpccwgTvK4OZ2Ok/edit?usp=sharing&ouid=110396467670759702687&rtpof=true&sd=true)
 
 ### 使用方法
-- 
+- カレンダーの日付部分をクリックすると予定の追加ができます。
+- 登録した予定をクリックすることで削除することができます。
+<img width="600" alt="appImage" src="https://github.com/user-attachments/assets/b8f34b12-0331-4ffc-b17a-77c3ace42941">
+
 
 ### 今後の展望
   - APIの追加
