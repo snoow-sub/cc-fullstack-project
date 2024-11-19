@@ -32,9 +32,9 @@
 
 ### セットアップ手順
 ```bash
+cd backend
 npm i
-npm start
+npm run migrate
+npm run seed
+npm run start
 ```
-
-### 関数の説明
-- 
