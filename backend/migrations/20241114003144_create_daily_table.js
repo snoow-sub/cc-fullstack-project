@@ -6,9 +6,10 @@ exports.up = function(knex) {
   return knex.schema.createTable('daily', (table) => {
     table.increments('id').primary();
     table.string('date').notNullable();
-    table.string('title').notNullable();
-    table.boolean('make').notNullable().defaultTo(false);
-    table.boolean('need').notNullable().defaultTo(false);
+    table.string('cookTitle');
+    table.string('drinkTitle');
+    table.boolean('cooking').notNullable().defaultTo(false);
+    table.boolean('drinking').notNullable().defaultTo(false);
   });
 };
 
