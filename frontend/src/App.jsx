@@ -6,15 +6,9 @@ import { ShowActivity } from "./ShowActivity";
 import "./App.css";
 
 export default function App() {
-  const [profile, setProfiles] = useState({});
   const [login, setLogin] = useState(false);
-
-  // const [profiles, setProfiles] = useState([]);
-
-  // mock的なもの
-  const returnValue= [{id:1, store_id:1, date:'2024-11-24', start_time:'8:00', end_time:'22:00',tags:'test', review:3, indicator:2},
-    {id:1, store_id:1, date:'2024-11-24', start_time:'8:00', end_time:'22:00',tags:'test', review:3, indicator:2},
-    {id:1, store_id:1, date:'2024-11-24', start_time:'8:00', end_time:'22:00',tags:'test', review:3, indicator:2}]
+  const [profile, setProfile] = useState(null);
+  const [lesson, setLesson] = useState([]);
 
   async function getPlans() {
     try {
@@ -22,30 +16,8 @@ export default function App() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const responseData = await response.json()
+      const responseData = await response.json();
       return responseData;
-      // let cookData = responseData.filter((item) => item.cooking === true)
-      // cookData = cookData.map((item) => {
-      // return {
-      //   title: item.cookTitle,
-      //   start: item.date,
-      //   end: item.date,
-      //   color: 'orange',
-      //   textColor: 'black'
-      // }
-      // }
-      // setCooking(cookData)
-      // let drinkData = responseData.filter((item) => item.drinking === true)
-      // drinkData = drinkData.map((item) => {
-      //   return {
-      //     title: item.drinkTitle,
-      //     start: item.date,
-      //     end: item.date,
-      //     color: 'purple',
-      //     textColor: 'white'
-      //   }
-      // })
-      // setDrinking(drinkData)
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -55,8 +27,17 @@ export default function App() {
     setLogin(state);
   }
 
+  function receiveFormData(data) {
+    setProfile(data);
+  }
+
   useEffect(() => {
-   const responseData = getPlans();
+    async function fetchPlans() {
+      const responseData = await getPlans();
+      setLesson((prevLessons) => [...prevLessons, responseData]);
+      console.log("取得したデータ:", responseData);
+    }
+    fetchPlans();
   }, [profile]);
 
   return (
@@ -66,11 +47,15 @@ export default function App() {
       }}>
         プランを取得
       </button> */}
-       {login ? (
-      <ShowActivity /> 
-    ) : (
-      <Login profile={profile} handleLogin={handleLogin} /> 
-    )}
+      {login ? (
+        <ShowActivity profile={profile} lesson={lesson} />
+      ) : (
+        <Login
+          profile={profile}
+          handleLogin={handleLogin}
+          sendFormData={receiveFormData}
+        />
+      )}
     </>
   );
 }
