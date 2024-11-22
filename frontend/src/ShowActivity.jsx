@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
-import "./ShowActivity.css";
+// import "./ShowActivity.css";
+import "./css/swipe.css";
 
 export function ShowActivity({ profile, setFlick, handleSwipeType, lesson }) {
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       handleSwipeType("left");
       setFlick(false);
-      console.log("呼ばれてますよ");
+      console.log("呼ばれてますよ左");
       setTimeout(() => {
         setFlick(true);
         handleSwipeType("なし");
@@ -27,14 +28,17 @@ export function ShowActivity({ profile, setFlick, handleSwipeType, lesson }) {
   return (
     <>
       <div className="profile-info">
-        <p className="greeting">Hello! {profile.name}さん</p>
+        {/* <p className="greeting"></p>
         <p className="profile_details">
-          あなたの条件
+          Hello! {profile.name}さん
           <br />
           生年月日：{profile.birthday}
           <br />
           性別：{profile.sex}
-        </p>
+        </p> */}
+        <p className="set-calendar">
+         検索日時: {profile.birthday}
+        </p><br />
       </div>
 
       <div className="activity-box" {...handlers}>
@@ -45,10 +49,13 @@ export function ShowActivity({ profile, setFlick, handleSwipeType, lesson }) {
           {...handlers}
         />
         <div className="activity-details">
-          <p>講座番号：{lesson[0][0].store_id}</p>
-          <p>講座内容：一緒に生け花で遊びませんか</p>
-          <p>講義時間：30分</p>
-          <p>講義形態：オンライン(お家でできます)</p>
+          <p>{profile.calendar}</p>
+          <p>生け花教室</p>
+          {/* <p>講座番号：{lesson[0][0].store_id}</p> */}
+          <p>一緒に生け花で遊びませんか？</p>
+          <p>簡単なキットをお送りしますので、当日はオンラインでご参加いただけます！</p>
+          <p>興味がある方は一緒に生花について学びましょう！</p>
+          <p>講師：Rena</p>
         </div>
       </div>
     </>
