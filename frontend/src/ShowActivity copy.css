@@ -1,0 +1,72 @@
+/* 基本的なレイアウト */
+.profile_info {
+  font-family: "Arial", sans-serif;
+  background-color: blanchedalmond;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* .details {
+  text-align: center;
+  margin-bottom: 20px;
+} */
+
+.profile_details {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: rgb(146, 129, 101); /* Dark green background */
+  border-radius: 8px; /* Rounded corners */
+  color: black; /* White text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  border: 1px solid #2d3e2f; /* Border matching the overall theme */
+}
+
+/* プロフィール情報 */
+/* .profile-info {
+  text-align: center;
+  /* margin-bottom: 20px;
+} */
+*/ .greeting {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.details {
+  font-size: 18px;
+  color: #555;
+}
+
+.activity-box {
+  width: 80%;
+  max-width: 600px;
+  background-color: grey;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.activity-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.activity-details {
+  font-size: 16px;
+  color: white;
+}
+
+.activity-details p {
+  margin: 10px 0;
+}
