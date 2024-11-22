@@ -5,9 +5,9 @@ import "./Login.css";
 
 export function Login({ handleLogin, sendFormData }) {
   const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    gender: "",
+    name: "test",
+    age: "22",
+    gender: "male",
   });
 
   function handleSubmit(e) {

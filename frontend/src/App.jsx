@@ -6,6 +6,8 @@ import { ShowActivity } from "./ShowActivity";
 import "./App.css";
 
 export default function App() {
+  const [flick, setFlick] = useState(true);
+  const [swipeType, setSwipeType] = useState("なし");
   const [login, setLogin] = useState(false);
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
@@ -25,6 +27,10 @@ export default function App() {
 
   function handleLogin(state) {
     setLogin(state);
+  }
+
+  function handleSwipeType(direction) {
+    setSwipeType(direction);
   }
 
   function receiveFormData(data) {
@@ -48,7 +54,12 @@ export default function App() {
         プランを取得
       </button> */}
       {login ? (
-        <ShowActivity profile={profile} lesson={lesson} />
+        <ShowActivity
+          profile={profile}
+          lesson={lesson}
+          setFlick={setFlick}
+          handleSwipeType={handleSwipeType}
+        />
       ) : (
         <Login
           profile={profile}
