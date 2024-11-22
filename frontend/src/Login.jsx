@@ -29,9 +29,11 @@ export function Login({ handleLogin, sendFormData }) {
   return (
     <>
       <div>
-        <h1>入力フォーム</h1>
+        <h1>　　　　　入力フォーム</h1>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name">名前 : </label>
+          <label htmlFor="name">
+            名前 : <br></br>
+          </label>
           <input
             type="text"
             id="name"
@@ -42,7 +44,10 @@ export function Login({ handleLogin, sendFormData }) {
             onChange={handleChange}
           />
           <br></br>
-          <label htmlFor="gender">性別 : </label>
+          <br></br>
+          <label htmlFor="gender">
+            性別 : <br></br>
+          </label>
           <select
             id="gender"
             name="gender"
@@ -51,6 +56,7 @@ export function Login({ handleLogin, sendFormData }) {
             onChange={handleChange}
           >
             <br />
+
             <option value="">選択してください</option>
             <br />
             <option value="male">男性</option>
@@ -61,7 +67,10 @@ export function Login({ handleLogin, sendFormData }) {
             <br />
           </select>
           <br />
-          <label htmlFor="age">年齢 : </label>
+          <br></br>
+          <label htmlFor="age">
+            年齢 : <br></br>
+          </label>
           <input
             type="number"
             id="age"
@@ -72,7 +81,10 @@ export function Login({ handleLogin, sendFormData }) {
             onChange={handleChange}
           />
           <br />
-          <label for="address">住所 : </label>
+          <br></br>
+          <label for="address">
+            住所 :<br></br>{" "}
+          </label>
           <input
             type="address"
             id="address"
@@ -80,6 +92,7 @@ export function Login({ handleLogin, sendFormData }) {
             placeholder="東京都XXXXXXXX"
             required
           />
+          <br></br>
           <br></br>
           <label>趣味 : </label> <br />
           <label>
@@ -97,7 +110,10 @@ export function Login({ handleLogin, sendFormData }) {
             <input type="checkbox" name="hobbies" value="travel" /> 旅行
             <br />
           </label>
-          <label for="name">どこで : </label>
+          <label for="name">
+            <br></br>
+            どこで :<br></br>{" "}
+          </label>
           <input
             type="text"
             id="location"
@@ -106,24 +122,29 @@ export function Login({ handleLogin, sendFormData }) {
             required
           />
           <br></br>
-          <label for="inout"></label>
-          インドア派
+          <br></br>
+          <label for="inout">内外：</label>
+          　　　　　インドア派
           <input type="range" name="inout" min="0" max="100" />
           アウトドア派
+          <br></br>
           <br />
-          <label>規模感</label>
-          小
+          <label>規模感：</label>
+          　　　　　　　　小
           <input type="range" name="scale" min="0" max="100" step="5" /> 大
           <br />
-          <label>距離の近さ</label>
-          近い方が良い
+          <br></br>
+          <label>距離の近さ：</label>
+          　近い方が良い
           <input type="range" name="distance" min="0" max="100" step="5" />{" "}
           遠くても良い
+          <br></br>
           <br />
-          <label>静かさ</label>
-          黙々とやりたい
+          <label>静かさ：</label>
+          　　黙々とやりたい
           <input type="range" name="silent" min="0" max="100" step="5" />{" "}
           和気藹々とやりたい
+          <br></br>
           <br />
           <button id="" type="submit">
             送信
