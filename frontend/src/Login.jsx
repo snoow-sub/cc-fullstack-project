@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import "./Login.css";
 // import { useSwipeable } from "react-swipeable";
 
 export function Login({ handleLogin, sendFormData }) {
@@ -28,11 +29,14 @@ export function Login({ handleLogin, sendFormData }) {
 
   return (
     <>
-      <div>
-        <h1>　　　　　入力フォーム</h1>
+      <div className="form-group">
+        <h1>
+          <br></br>
+          <br></br>　　　　　入力フォーム
+        </h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">
-            名前 : <br></br>
+            名前 <br></br>
           </label>
           <input
             type="text"
@@ -42,11 +46,12 @@ export function Login({ handleLogin, sendFormData }) {
             required
             value={formData.name}
             onChange={handleChange}
+            className="full-width-input"
           />
           <br></br>
           <br></br>
           <label htmlFor="gender">
-            性別 : <br></br>
+            性別 <br></br>
           </label>
           <select
             id="gender"
@@ -54,6 +59,7 @@ export function Login({ handleLogin, sendFormData }) {
             required
             value={formData.gender}
             onChange={handleChange}
+            className="full-width-input"
           >
             <br />
 
@@ -69,7 +75,7 @@ export function Login({ handleLogin, sendFormData }) {
           <br />
           <br></br>
           <label htmlFor="age">
-            年齢 : <br></br>
+            年齢 <br></br>
           </label>
           <input
             type="number"
@@ -79,22 +85,24 @@ export function Login({ handleLogin, sendFormData }) {
             required
             value={formData.age}
             onChange={handleChange}
+            className="full-width-input"
           />
           <br />
           <br></br>
           <label for="address">
-            住所 :<br></br>{" "}
+            住所 <br></br>{" "}
           </label>
           <input
             type="address"
             id="address"
             name="address"
             placeholder="東京都XXXXXXXX"
-            required
+            className="full-width-input"
+            // required
           />
           <br></br>
           <br></br>
-          <label>趣味 : </label> <br />
+          <label>趣味 </label> <br />
           <label>
             <input type="checkbox" name="hobbies" value="sports" /> スポーツ{" "}
             <br />
@@ -112,14 +120,15 @@ export function Login({ handleLogin, sendFormData }) {
           </label>
           <label for="name">
             <br></br>
-            どこで :<br></br>{" "}
+            どこで <br></br>{" "}
           </label>
           <input
             type="text"
             id="location"
             name="location"
             placeholder="取り組みたい場所を選択してください"
-            required
+            // required
+            className="full-width-input"
           />
           <br></br>
           <br></br>
