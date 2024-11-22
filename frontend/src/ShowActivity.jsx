@@ -6,7 +6,7 @@ export function ShowActivity({ profile, lesson }) {
     <>
       <div className="profile-info">
         <p className="greeting">Hello! {profile.name}さん</p>
-        <p className="details">
+        <p className="profile_details">
           あなたの条件
           <br />
           年齢：{profile.age}

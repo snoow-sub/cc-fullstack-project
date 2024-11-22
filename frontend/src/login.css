@@ -1,4 +1,4 @@
-/* Reset basic styles */
+/* Reset basic styles
 * {
   margin: 0;
   padding: 0;
@@ -23,7 +23,7 @@ form {
   border-radius: 8px;
   width: 100%;
   max-width: 600px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(117, 50, 50, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,4 +90,4 @@ button:hover {
   form {
     width: 500px;
   }
-}
+} */

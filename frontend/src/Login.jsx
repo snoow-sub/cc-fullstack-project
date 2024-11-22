@@ -12,7 +12,7 @@ export function Login({ handleLogin, sendFormData }) {
   function handleSubmit(e) {
     // e.preventDefault();
     sendFormData(formData);
-    console.log("送信されたデータ:", formData);
+    console.log("送信されたデータ : ", formData);
     handleLogin(true);
   }
 
@@ -31,7 +31,7 @@ export function Login({ handleLogin, sendFormData }) {
       <div>
         <h1>入力フォーム</h1>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name">名前:</label>
+          <label htmlFor="name">名前 : </label>
           <input
             type="text"
             id="name"
@@ -42,7 +42,7 @@ export function Login({ handleLogin, sendFormData }) {
             onChange={handleChange}
           />
           <br></br>
-          <label htmlFor="gender">性別:</label>
+          <label htmlFor="gender">性別 : </label>
           <select
             id="gender"
             name="gender"
@@ -61,7 +61,7 @@ export function Login({ handleLogin, sendFormData }) {
             <br />
           </select>
           <br />
-          <label htmlFor="age">年齢:</label>
+          <label htmlFor="age">年齢 : </label>
           <input
             type="number"
             id="age"
@@ -72,7 +72,7 @@ export function Login({ handleLogin, sendFormData }) {
             onChange={handleChange}
           />
           <br />
-          <label for="address">住所:</label>
+          <label for="address">住所 : </label>
           <input
             type="address"
             id="address"
@@ -80,7 +80,8 @@ export function Login({ handleLogin, sendFormData }) {
             placeholder="東京都XXXXXXXX"
             required
           />
-          <label>趣味:</label> <br />
+          <br></br>
+          <label>趣味 : </label> <br />
           <label>
             <input type="checkbox" name="hobbies" value="sports" /> スポーツ{" "}
             <br />
@@ -96,7 +97,7 @@ export function Login({ handleLogin, sendFormData }) {
             <input type="checkbox" name="hobbies" value="travel" /> 旅行
             <br />
           </label>
-          <label for="name">どこで:</label>
+          <label for="name">どこで : </label>
           <input
             type="text"
             id="location"
