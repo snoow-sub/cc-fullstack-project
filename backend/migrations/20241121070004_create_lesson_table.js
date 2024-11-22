@@ -9,9 +9,13 @@ exports.up = function (knex) {
     table.date("date").notNullable();
     table.time("start_time").notNullable();
     table.time("end_time").notNullable();
-    table.string("tags", 255).notNullable();
-    table.integer("review").nullable(); //reviewのみnullable
+    table.string("location", 255).notNullable();
+    table.string("description", 255).notNullable();
+    table.string("imagePath", 255).notNullable();
+    table.string("moviePath", 255).notNullable();
+    table.integer("review").nullable();
     table.float("indicator").notNullable();
+    table.integer("momentum").nullable();
   });
 };
 

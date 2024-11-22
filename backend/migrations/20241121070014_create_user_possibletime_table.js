@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("user_possibletime", function (table) {
     table.increments("id").primary();
-    table.integer("user_id").notNullable().references("id").inTable("user").onDelete("CASCADE");
+    table.integer("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
     table.varchar("select_datetime", 255).notNullable();
   });
 };

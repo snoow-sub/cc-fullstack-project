@@ -8,7 +8,7 @@ exports.up = function (knex) {
     table.date("date").notNullable();
     table.time("start_time").notNullable();
     table.time("end_time").notNullable();
-    table.integer("user_id").notNullable().references("id").inTable("user").onDelete("CASCADE");
+    table.integer("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
     table.integer("store_id").notNullable().references("id").inTable("store").onDelete("CASCADE");
     table.integer("lesson_id").notNullable().references("id").inTable("lesson").onDelete("CASCADE");
   });
