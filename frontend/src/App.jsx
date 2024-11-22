@@ -3,11 +3,11 @@ import ExtButton from "./components/extButton";
 import { Login } from "./Login";
 import { ShowActivity } from "./ShowActivity";
 
-import "./App.css";
+import "./css/App.css";
 
 export default function App() {
   const [flick, setFlick] = useState(true);
-  const [swipeType, setSwipeType] = useState("なし");
+  const [swipeType, setSwipeType] = useState("");
   const [login, setLogin] = useState(false);
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);

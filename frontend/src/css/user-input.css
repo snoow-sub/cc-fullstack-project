@@ -1,0 +1,91 @@
+.form-group {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  /* line-height: %; */
+}
+
+.hello-comment{
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  isolation: isolate;
+  /* position: absolute; */
+  width: 337px;
+  height: 37px;
+  left: 33px;
+  top: 165px;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  box-shadow: 0px 1px 4px rgba(12, 12, 13, 0.1), 0px 1px 4px rgba(12, 12, 13, 0.05);
+  border-radius: 8px;
+}
+
+.beak{
+  /* position: absolute; */
+  margin: 0 auto;
+  width: 8px;
+  height: 8px;
+  left: calc(50% - 8px/2 + 4.5px);
+  bottom: -2.05px;
+
+  background: #D9D9D9;
+  transform: rotate(45deg);
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  z-index: 1;
+}
+
+.input-text{
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.slide-bar{
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+
+  width: 320px;
+  height: 8px;
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}
+
+.button-deco{
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  gap: 8px;
+
+  width: 99.5px;
+  height: 32px;
+
+  background: #2C2C2C;
+  border: 1px solid #2C2C2C;
+  border-radius: 8px;
+  color: #FFFFFF;
+
+  flex: none;
+  order: 1;
+  flex-grow: 1;
+}

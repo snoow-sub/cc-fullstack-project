@@ -31,9 +31,9 @@ export function ShowActivity({ profile, setFlick, handleSwipeType, lesson }) {
         <p className="profile_details">
           あなたの条件
           <br />
-          年齢：{profile.age}
+          生年月日：{profile.birthday}
           <br />
-          性別：{profile.gender}
+          性別：{profile.sex}
         </p>
       </div>
 
