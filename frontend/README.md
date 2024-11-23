@@ -1,9 +1,8 @@
 # フロントエンドの概要
-夕食管理アプリで使用するユーザーインターフェースの実装を行いました。
+DiscoverUのフロントエンド部分の概要です。
 
 ## 使用技術
 - React
-- FullCalendar
 
 ### ディレクトリ構成
 ```
@@ -12,7 +11,10 @@
 ├── /public/index.html    # 接続先のHTML
 ├── /src                  # フロントエンドのソースコード
 │   ├── /components       # 子コンポーネント
-│   │   └── extButton.jsx # 拡張ボタン用の子コンポーネント
+│   │   ├── SwipeLessons  # スワイプ機能のコンポーネント
+│   │   └── UserInput     # ユーザーの入力画面コンポーネント
+│   ├── /css              # CSSファイル
+│   │   └── *.css         # 各コンポーネントに対するスタイルシート
 │   ├── App.jsx           # アプリケーションの親コンポーネント
 │   ├── index.js          # サーバーの起動スクリプト
 ├── package.json          # プロジェクト情報と依存関係
@@ -20,14 +22,14 @@
 ```
 
 ### アクセス用URL
-Local:            `http://localhost:3000` <br />
-On Your Network:  `http://192.168.151.xxx:3000`
+Local:   `http://localhost:3000` <br />
+Global:  `http://ec2-23-22-12-178.compute-1.amazonaws.com:3000`
 
 ### セットアップ手順
 1. アプリケーションの起動
 ```bash
 npm i
-npm start
+npm run start
 ```
 2. ブラウザでアクセス
-   - PCのブラウザを開き、URL欄に「`http://localhost:3000`」と入力しアクセス
+   - PCのブラウザを開き、アクセスURLにアクセスをする
