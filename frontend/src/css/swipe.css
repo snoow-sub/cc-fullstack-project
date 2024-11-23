@@ -1,7 +1,7 @@
 /* 基本的なレイアウト */
 .profile_info {
   font-family: "Arial", sans-serif;
-  background-color: blanchedalmond;
+  background-color: rgb(105, 104, 101);
   color: black;
   display: flex;
   justify-content: center;
@@ -71,7 +71,7 @@
   margin: 10px 0;
 }
 
-.set-calendar{
+.set-calendar {
   box-sizing: border-box;
 
   display: flex;
@@ -86,9 +86,10 @@
   left: 33px;
   top: 165px;
 
-  background: #FFFFFF;
-  border: 1px solid #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
   /* Drop Shadow/200 */
-  box-shadow: 0px 1px 4px rgba(12, 12, 13, 0.1), 0px 1px 4px rgba(12, 12, 13, 0.05);
+  box-shadow: 0px 1px 4px rgba(12, 12, 13, 0.1),
+    0px 1px 4px rgba(12, 12, 13, 0.05);
   border-radius: 8px;
 }

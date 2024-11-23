@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { Login, UserInput } from "./components/UserInput";
 import { ShowActivity, SwipeLessons } from "./components/SwipeLessons";
 
+import { Reservation } from "./components/Reservation";
+
 import "./css/App.css";
 
 export default function App() {
@@ -10,10 +12,11 @@ export default function App() {
   const [login, setLogin] = useState(false);
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
+  const [start, setStart] = useState(false);
 
   async function getPlans() {
     try {
-      const response = await fetch("http://localhost:3001/api/lesson");
+      const response = await fetch("http://localhost:3000/api/lesson");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -47,12 +50,16 @@ export default function App() {
 
   return (
     <>
-      {/* <button onClick={() => {
-        getPlans();
-      }}>
-        プランを取得
-      </button> */}
-      {login ? (
+      {!start ? (
+        <div className="start-screen">
+          <h1>-- Tap to Start --</h1>
+          <button onClick={() => setStart(true)}>
+            ボタンを押して新たな旅に出かけよう
+          </button>
+        </div>
+      ) : !flick ? ( // flickがfalseならReservationを表示
+        <Reservation lesson={lesson} />
+      ) : login ? (
         <SwipeLessons
           profile={profile}
           lesson={lesson}
