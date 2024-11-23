@@ -11,23 +11,25 @@ exports.seed = async function (knex) {
     {
       user_id: 1, // user テーブルの既存 ID を参照
       question_id: 1, // question テーブルの既存 ID を参照
-      answer: "はい", // ユーザー回答
+      answer: 1.0,
     },
     {
       user_id: 1,
       question_id: 2,
-      answer: "いいえ",
+      answer: 0.7,
     },
     {
       user_id: 2,
       question_id: 1,
-      answer: "わからない", // 任意の回答例
+      answer: 0.3,
     },
     {
       user_id: 3,
       question_id: 3,
-      answer: null, // 未回答の場合
+      answer: 0.0,
     },
   ]);
-  await knex.raw("select setval(pg_get_serial_sequence('user_answer', 'id'), MAX(id)) FROM user_answer");
+  await knex.raw(
+    "select setval(pg_get_serial_sequence('user_answer', 'id'), MAX(id)) FROM user_answer"
+  );
 };

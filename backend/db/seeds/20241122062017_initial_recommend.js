@@ -11,28 +11,30 @@ exports.seed = async function (knex) {
     {
       user_id: 1, // user テーブルの既存 ID を参照
       lesson_id: 1, // lesson テーブルの既存 ID を参照
-      like: 4.5, // 推奨度 (0.0〜5.0 の範囲を仮定)
+      like: 1.0, // Goodが1.0、Badが0.0
     },
     {
       user_id: 2,
       lesson_id: 2,
-      like: 3.8,
+      like: 0.0,
     },
     {
       user_id: 1,
       lesson_id: 3,
-      like: 5.0,
+      like: 0.0,
     },
     {
       user_id: 3,
       lesson_id: 1,
-      like: 4.0,
+      like: 1.0,
     },
     {
       user_id: 3,
       lesson_id: 2,
-      like: 4.2,
+      like: 1.0,
     },
   ]);
-  await knex.raw("select setval(pg_get_serial_sequence('recommend', 'id'), MAX(id)) FROM recommend");
+  await knex.raw(
+    "select setval(pg_get_serial_sequence('recommend', 'id'), MAX(id)) FROM recommend"
+  );
 };

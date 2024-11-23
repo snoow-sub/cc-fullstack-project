@@ -11,33 +11,35 @@ exports.seed = async function (knex) {
     {
       lesson_id: 1, // lesson テーブルの既存 ID を参照
       question_id: 1, // question テーブルの既存 ID を参照
-      answer: "ヨガに興味があります", // レッスンに関連する回答
+      answer: 0.9,
     },
     {
       lesson_id: 1,
       question_id: 2,
-      answer: "午前中が最適です",
+      answer: 0.6,
     },
     {
       lesson_id: 2,
       question_id: 1,
-      answer: "ピラティスを試してみたいです",
+      answer: 0.2,
     },
     {
       lesson_id: 2,
       question_id: 3,
-      answer: "静かな場所を希望します",
+      answer: 0.8,
     },
     {
       lesson_id: 3,
       question_id: 1,
-      answer: "ヨガ上級者向けを探しています",
+      answer: 0.1,
     },
     {
       lesson_id: 3,
       question_id: 2,
-      answer: "夕方が良いです",
+      answer: 0.5,
     },
   ]);
-  await knex.raw("select setval(pg_get_serial_sequence('lesson_answer', 'id'), MAX(id)) FROM lesson_answer");
+  await knex.raw(
+    "select setval(pg_get_serial_sequence('lesson_answer', 'id'), MAX(id)) FROM lesson_answer"
+  );
 };
