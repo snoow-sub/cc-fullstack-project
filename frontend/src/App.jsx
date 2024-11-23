@@ -1,20 +1,19 @@
 import { useEffect, useState, useRef } from "react";
-import ExtButton from "./components/extButton";
-import { Login } from "./Login";
-import { ShowActivity } from "./ShowActivity";
+import { Login, UserInput } from "./components/UserInput";
+import { ShowActivity, SwipeLessons } from "./components/SwipeLessons";
 
-import "./App.css";
+import "./css/App.css";
 
 export default function App() {
   const [flick, setFlick] = useState(true);
-  const [swipeType, setSwipeType] = useState("なし");
+  const [swipeType, setSwipeType] = useState("");
   const [login, setLogin] = useState(false);
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
 
   async function getPlans() {
     try {
-      const response = await fetch("http://localhost:3001/api/activities");
+      const response = await fetch("http://localhost:3001/api/lesson");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -54,14 +53,14 @@ export default function App() {
         プランを取得
       </button> */}
       {login ? (
-        <ShowActivity
+        <SwipeLessons
           profile={profile}
           lesson={lesson}
           setFlick={setFlick}
           handleSwipeType={handleSwipeType}
         />
       ) : (
-        <Login
+        <UserInput
           profile={profile}
           handleLogin={handleLogin}
           sendFormData={receiveFormData}
