@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import React from "react";
-// import "./login.css";
-import "./css/user-input.css";
+import "../css/userInput.css";
 // import { useSwipeable } from "react-swipeable";
 
-export function Login({ handleLogin, sendFormData }) {
+export function UserInput({ handleLogin, sendFormData }) {
   const [formData, setFormData] = useState({
     name: "",
     brithday: "",

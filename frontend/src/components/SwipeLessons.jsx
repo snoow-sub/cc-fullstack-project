@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
-// import "./ShowActivity.css";
-import "./css/swipe.css";
+import "../css/swipe.css";
 
-export function ShowActivity({ profile, setFlick, handleSwipeType, lesson }) {
+export function SwipeLessons({ profile, setFlick, handleSwipeType, lesson }) {
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       handleSwipeType("left");
