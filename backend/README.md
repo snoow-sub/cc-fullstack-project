@@ -27,13 +27,23 @@
 ```
 
 ### 実装したエンドポイント
-`GET /api/view` <br />
-`POST /api/dinner` ※作成中
+
+※整理中
 
 ### セットアップ手順
+
 ```bash
 cd backend
 npm i
+sudo apt install postgresql
+sudo psql -U postgres
+```
+```postgresql
+create database discoveru_db;
+create user discovery with login password 'discovery';
+grant connect on database discoveru_db to discovery;
+```
+```bash
 npm run migrate
 npm run seed
 npm run start
