@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "../css/userInput.css";
-// import { useSwipeable } from "react-swipeable";
 
 export function UserInput({ handleLogin, sendFormData }) {
   const [formData, setFormData] = useState({
@@ -97,8 +96,7 @@ export function UserInput({ handleLogin, sendFormData }) {
   };
 
   const handleRangeChange = (questionId, value) => {
-    console.log("読んでいるか");
-    console.log(answer);
+    console.log("handleRangeChange", questionId, value);
     setAnswer((prevAnswer) => ({
       ...prevAnswer,
       user_answer: prevAnswer.user_answer.map((item) =>
@@ -110,8 +108,10 @@ export function UserInput({ handleLogin, sendFormData }) {
   return (
     <>
       <div className="form-group">
-        <h5 className="hello-comment">最初にあなたのことを教えてください！</h5>
-        <div className="beak"></div>
+        <div class="hello-comment">
+          <div class="text">最初にあなたのことを教えてください！</div>
+          <span class="ornament"></span>
+        </div>
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">
             <pre>名前</pre>
@@ -217,13 +217,13 @@ export function UserInput({ handleLogin, sendFormData }) {
           <br />
           <br />
           <br />
-          <h5 className="hello-comment">
-            次にあなたの興味について教えてください！
-          </h5>
-          <div className="beak"></div>
+          <div class="hello-comment">
+            <div class="text">次にあなたの興味について教えてください！</div>
+            <span class="ornament"></span>
+          </div>
           <label className="slide-bar" htmlFor="inout">
             <pre>
-              インドア派　　　
+              　　インドア派　　　
               <input
                 type="range"
                 name="inout"
@@ -233,12 +233,12 @@ export function UserInput({ handleLogin, sendFormData }) {
                 value={answer.user_answer[0].answer}
                 onChange={(e) => handleRangeChange(1, Number(e.target.value))}
               />
-              　アウトドア派
+              　アウトドア派　　　
             </pre>
           </label>
           <label className="slide-bar" htmlFor="scale">
             <pre>
-              少人数　　　　　
+              　　少人数　　　　　
               <input
                 type="range"
                 name="scale"
@@ -248,12 +248,12 @@ export function UserInput({ handleLogin, sendFormData }) {
                 value={answer.user_answer[1].answer}
                 onChange={(e) => handleRangeChange(2, Number(e.target.value))}
               />
-              　大人数
+              　大人数　　　　　　
             </pre>
           </label>
           <label className="slide-bar" htmlFor="distance">
             <pre>
-              近い方が良い　　
+              　　近い方が良い　　
               <input
                 type="range"
                 name="distance"
@@ -263,12 +263,12 @@ export function UserInput({ handleLogin, sendFormData }) {
                 value={answer.user_answer[2].answer}
                 onChange={(e) => handleRangeChange(3, Number(e.target.value))}
               />
-              　遠くても良い
+              　遠くても良い　　　
             </pre>
           </label>
           <label className="slide-bar" htmlFor="silent">
             <pre>
-              黙々とやりたい　
+              　　黙々とやりたい　
               <input
                 type="range"
                 name="silent"
