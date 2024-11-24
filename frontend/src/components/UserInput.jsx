@@ -5,21 +5,59 @@ import "../css/userInput.css";
 
 export function UserInput({ handleLogin, sendFormData }) {
   const [formData, setFormData] = useState({
-    name: "",
-    brithday: "",
-    sex: "",
+    name: "test",
+    birthday: "1992-02-20",
+    sex: 2,
+    address: "test",
     calendar: "2024-11-29 16:00-17:00",
+    hobby: "test",
+    location: "test",
   });
 
-  function handleSubmit(e) {
-    // e.preventDefault();
-    sendFormData(formData);
-    console.log("送信されたデータ : ", formData);
-    handleLogin(true);
+  // function handleSubmit(e) {
+  //   // e.preventDefault();
+  //   sendFormData(formData);
+  //   console.log("送信されたデータ : ", formData);
+  //   handleLogin(true);
+  // }
+
+  // const handleChange = (e) => {
+  //   console.log(e.target);
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/api/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("登録成功:", data);
+      sendFormData(formData); // 上位コンポーネントにデータを渡す
+      handleLogin(true); // ログイン状態にする
+    } catch (error) {
+      console.error("エラーが発生しました:", error);
+      setErrorMessage("ユーザー登録に失敗しました。もう一度お試しください。");
+    }
   }
 
   const handleChange = (e) => {
-    console.log(e.target);
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -33,7 +71,9 @@ export function UserInput({ handleLogin, sendFormData }) {
         <h5 className="hello-comment">最初にあなたのことを教えてください！</h5>
         <div className="beak"></div>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name"><pre>名前</pre></label>
+          <label htmlFor="name">
+            <pre>名前</pre>
+          </label>
           <input
             type="text"
             id="name"
@@ -45,7 +85,9 @@ export function UserInput({ handleLogin, sendFormData }) {
             className="input-text"
             // required
           />
-          <label htmlFor="sex"><pre>性別</pre></label>
+          <label htmlFor="sex">
+            <pre>性別</pre>
+          </label>
           <select
             id="sex"
             name="sex"
@@ -56,34 +98,40 @@ export function UserInput({ handleLogin, sendFormData }) {
             // required
           >
             <option value="">選択してください</option>
-            <option value="male">男性</option>
-            <option value="female">女性</option>
-            <option value="other">その他</option>
+            <option value="0">男性</option>
+            <option value="1">女性</option>
+            <option value="2">その他</option>
           </select>
-          <label htmlFor="birthday"><pre>生年月日</pre></label>
+          <label htmlFor="birthday">
+            <pre>生年月日</pre>
+          </label>
           <input
             type="date"
             id="brithday"
             name="birthday"
             placeholder="生年月日を入力してください"
-            value={formData.age}
+            value={formData.brithday}
             // value="1990-01-01"
             onChange={handleChange}
             className="input-text"
             // required
           />
-          <label htmlFor="address"><pre>住所</pre></label>
+          <label htmlFor="address">
+            <pre>住所</pre>
+          </label>
           <input
             type="address"
             id="address"
             name="address"
             placeholder="東京都〇〇区〇〇町〇〇番地"
-            // value={formData.address}
-            value="東京都〇〇区〇〇町〇〇番地"
+            value={formData.address}
+            // value="東京都〇〇区〇〇町〇〇番地"
             className="input-text"
             // required
           />
-          <label><pre>趣味</pre></label>
+          <label>
+            <pre>趣味</pre>
+          </label>
           <select
             id="hobby"
             name="hobby"
@@ -101,7 +149,9 @@ export function UserInput({ handleLogin, sendFormData }) {
             <option value="cook">料理</option>
             <option value="none">特になし</option>
           </select>
-          <label htmlFor="location"><pre>受講場所</pre></label>
+          <label htmlFor="location">
+            <pre>受講場所</pre>
+          </label>
           <select
             id="hobby"
             name="hobby"
@@ -119,22 +169,45 @@ export function UserInput({ handleLogin, sendFormData }) {
             <option value="kanagawa">神奈川県</option>
             <option value="ibaraki">茨城県</option>
             <option value="none">住所近くであればどこでも可</option>
-          </select> <br /><br /><br />
-          <h5 className="hello-comment">次にあなたの興味について教えてください！</h5>
+          </select>{" "}
+          <br />
+          <br />
+          <br />
+          <h5 className="hello-comment">
+            次にあなたの興味について教えてください！
+          </h5>
           <div className="beak"></div>
           <label className="slide-bar" htmlFor="inout">
-          <pre>インドア派　　　<input type="range" name="inout" min="0" max="100" step="1"/>　アウトドア派</pre>
+            <pre>
+              インドア派　　　
+              <input type="range" name="inout" min="0" max="100" step="1" />
+              　アウトドア派
+            </pre>
           </label>
           <label className="slide-bar" htmlFor="scale">
-          <pre>少人数　　　　　<input type="range" name="scale" min="0" max="100" step="1"/>　大人数</pre>
+            <pre>
+              少人数　　　　　
+              <input type="range" name="scale" min="0" max="100" step="1" />
+              　大人数
+            </pre>
           </label>
           <label className="slide-bar" htmlFor="distance">
-          <pre>近い方が良い　　<input type="range" name="distance" min="0" max="100" step="1"/>　遠くても良い</pre>
+            <pre>
+              近い方が良い　　
+              <input type="range" name="distance" min="0" max="100" step="1" />
+              　遠くても良い
+            </pre>
           </label>
           <label className="slide-bar" htmlFor="silent">
-          <pre>黙々とやりたい　<input type="range" name="silent" min="0" max="100" step="1"/>　和気藹々とやりたい</pre>
+            <pre>
+              黙々とやりたい　
+              <input type="range" name="silent" min="0" max="100" step="1" />
+              　和気藹々とやりたい
+            </pre>
           </label>
-          <button class="button-deco" id="user-submit" type="submit">送信</button>
+          <button class="button-deco" id="user-submit" type="submit">
+            送信
+          </button>
         </form>
       </div>
     </>
