@@ -5,6 +5,7 @@ import "../css/userInput.css";
 
 export function UserInput({ handleLogin, sendFormData }) {
   const [formData, setFormData] = useState({
+    id: 13,
     name: "test",
     birthday: "1992-02-20",
     sex: 2,
@@ -14,23 +15,30 @@ export function UserInput({ handleLogin, sendFormData }) {
     location: "test",
   });
 
-  // function handleSubmit(e) {
-  //   // e.preventDefault();
-  //   sendFormData(formData);
-  //   console.log("送信されたデータ : ", formData);
-  //   handleLogin(true);
-  // }
+  // ログインが面倒なので上にしておく
+  // const [formData, setFormData] = useState({
+  //   id: 13,
+  //   name: "",
+  //   birthday: "",
+  //   sex: 2,
+  //   address: "",
+  //   calendar: "2024-11-29 16:00-17:00",
+  //   hobby: "",
+  //   location: "",
+  // });
 
-  // const handleChange = (e) => {
-  //   console.log(e.target);
-  //   const { name, value } = e.target;
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [name]: value,
-  //   }));
-  // };
+  const [answer, setAnswer] = useState({
+    user_id: null,
+    user_answer: [
+      { question_id: 1, answer: 0.5 },
+      { question_id: 2, answer: 0.5 },
+      { question_id: 3, answer: 0.5 },
+      { question_id: 4, answer: 0.5 },
+    ],
+  });
 
   const [errorMessage, setErrorMessage] = useState("");
+  // const [responseData, setResponseData] = useState();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -47,9 +55,32 @@ export function UserInput({ handleLogin, sendFormData }) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("登録成功:", data);
-      sendFormData(formData); // 上位コンポーネントにデータを渡す
+      const responseData = await response.json();
+      console.log("登録成功:", responseData.id);
+
+      const updatedAnswer = {
+        ...answer,
+        user_id: responseData.id,
+      };
+
+      setAnswer(updatedAnswer);
+
+      const responseAnswer = await fetch(
+        "http://localhost:3000/api/user_answer",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedAnswer),
+        }
+      );
+      if (!responseAnswer.ok) {
+        throw new Error(`HTTP error! Status: ${responseAnswer.status}`);
+      }
+      console.log("回答登録成功:", await responseAnswer.json());
+
+      sendFormData(formData);
       handleLogin(true); // ログイン状態にする
     } catch (error) {
       console.error("エラーが発生しました:", error);
@@ -62,6 +93,17 @@ export function UserInput({ handleLogin, sendFormData }) {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  const handleRangeChange = (questionId, value) => {
+    console.log("読んでいるか");
+    console.log(answer);
+    setAnswer((prevAnswer) => ({
+      ...prevAnswer,
+      user_answer: prevAnswer.user_answer.map((item) =>
+        item.question_id === questionId ? { ...item, answer: value } : item
+      ),
     }));
   };
 
@@ -110,7 +152,7 @@ export function UserInput({ handleLogin, sendFormData }) {
             id="brithday"
             name="birthday"
             placeholder="生年月日を入力してください"
-            value={formData.brithday}
+            value={formData.birthday}
             // value="1990-01-01"
             onChange={handleChange}
             className="input-text"
@@ -124,6 +166,7 @@ export function UserInput({ handleLogin, sendFormData }) {
             id="address"
             name="address"
             placeholder="東京都〇〇区〇〇町〇〇番地"
+            onChange={handleChange}
             value={formData.address}
             // value="東京都〇〇区〇〇町〇〇番地"
             className="input-text"
@@ -136,7 +179,8 @@ export function UserInput({ handleLogin, sendFormData }) {
             id="hobby"
             name="hobby"
             // value={formData.gender}
-            value="none"
+            // value="none"
+            value={formData.hobby}
             onChange={handleChange}
             className="input-text"
             // required
@@ -153,10 +197,10 @@ export function UserInput({ handleLogin, sendFormData }) {
             <pre>受講場所</pre>
           </label>
           <select
-            id="hobby"
-            name="hobby"
-            // value={formData.gender}
-            value="none"
+            id="location"
+            name="location"
+            value={formData.location}
+            // value="none"
             onChange={handleChange}
             className="input-text"
             // required
@@ -180,28 +224,60 @@ export function UserInput({ handleLogin, sendFormData }) {
           <label className="slide-bar" htmlFor="inout">
             <pre>
               インドア派　　　
-              <input type="range" name="inout" min="0" max="100" step="1" />
+              <input
+                type="range"
+                name="inout"
+                min="0"
+                max="1"
+                step="0.1"
+                value={answer.user_answer[0].answer}
+                onChange={(e) => handleRangeChange(1, Number(e.target.value))}
+              />
               　アウトドア派
             </pre>
           </label>
           <label className="slide-bar" htmlFor="scale">
             <pre>
               少人数　　　　　
-              <input type="range" name="scale" min="0" max="100" step="1" />
+              <input
+                type="range"
+                name="scale"
+                min="0"
+                max="1"
+                step="0.1"
+                value={answer.user_answer[1].answer}
+                onChange={(e) => handleRangeChange(2, Number(e.target.value))}
+              />
               　大人数
             </pre>
           </label>
           <label className="slide-bar" htmlFor="distance">
             <pre>
               近い方が良い　　
-              <input type="range" name="distance" min="0" max="100" step="1" />
+              <input
+                type="range"
+                name="distance"
+                min="0"
+                max="1"
+                step="0.1"
+                value={answer.user_answer[2].answer}
+                onChange={(e) => handleRangeChange(3, Number(e.target.value))}
+              />
               　遠くても良い
             </pre>
           </label>
           <label className="slide-bar" htmlFor="silent">
             <pre>
               黙々とやりたい　
-              <input type="range" name="silent" min="0" max="100" step="1" />
+              <input
+                type="range"
+                name="silent"
+                min="0"
+                max="1"
+                step="0.1"
+                value={answer.user_answer[3].answer}
+                onChange={(e) => handleRangeChange(4, Number(e.target.value))}
+              />
               　和気藹々とやりたい
             </pre>
           </label>
