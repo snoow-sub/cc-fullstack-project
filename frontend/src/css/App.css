@@ -1,6 +1,6 @@
 body {
   font-family: "Arial", sans-serif;
-  background-color: rgb(146, 141, 178);
+  background-color: rgb(255, 252, 238);
   color: black;
   display: flex;
   justify-content: center;
@@ -10,3 +10,7 @@ body {
   height: 100vh;
   margin: 0;
 }
+
+/* R:255
+G:252
+B:238 */

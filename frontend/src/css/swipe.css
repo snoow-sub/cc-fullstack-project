@@ -1,7 +1,7 @@
 /* 基本的なレイアウト */
 .profile_info {
   font-family: "Arial", sans-serif;
-  background-color: rgb(105, 104, 101);
+  background-color: rgb(124, 114, 84);
   color: black;
   display: flex;
   justify-content: center;
@@ -44,7 +44,7 @@
 .activity-box {
   width: 80%;
   max-width: 600px;
-  background-color: grey;
+  background-color: rgb(106, 170, 222);
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -53,6 +53,13 @@
   color: white;
   padding: 20px;
 }
+
+/* R:201
+G:232
+B:248 */
+/* R:106
+G:170
+B:222 */
 
 .activity-image {
   width: 100%;
