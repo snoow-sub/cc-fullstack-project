@@ -1,6 +1,6 @@
 body {
   font-family: "Arial", sans-serif;
-  background-color: rgb(255, 252, 238);
+  background-color: white;
   color: black;
   display: flex;
   justify-content: center;
@@ -9,6 +9,18 @@ body {
   padding: 20px;
   height: 100vh;
   margin: 0;
+}
+
+a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Quicksand;
+  font-weight: bold;
+  font-size: 20px;
+  color: #999999;
+  margin: 0 auto;
 }
 
 /* R:255

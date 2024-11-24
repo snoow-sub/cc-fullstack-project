@@ -72,10 +72,10 @@ export default function App() {
     <>
       {!start ? (
         <div className="start-screen">
-          <h1>-- Tap to Start --</h1>
-          <button onClick={() => setStart(true)}>
-            ボタンを押して新たな旅に出かけよう
-          </button>
+          <div>
+            <img src="./image/title.png" alt="logo" width={300} /><br />
+            <a href="javascript:void(0);" onClick={() => setStart(true)}>Tap to Start</a>
+          </div>
         </div>
       ) : !flick ? ( // flickがfalseならReservationを表示
         <Reservation lesson={lesson} />
