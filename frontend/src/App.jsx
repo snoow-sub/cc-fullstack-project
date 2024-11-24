@@ -14,9 +14,28 @@ export default function App() {
   const [lesson, setLesson] = useState([]);
   const [start, setStart] = useState(false);
 
-  async function getPlans() {
+  async function getPlans(userId) {
     try {
-      const response = await fetch("http://localhost:3000/api/lesson");
+      const response = await fetch(
+        `http://localhost:3000/api/user/${userId}/lesson`
+      );
+      console.log("レスポンス取れるか確認");
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
+
+  async function getUser() {
+    try {
+      const response = await fetch(`http://localhost:3000/api/user/`);
+      console.log("userレスポンス取れるか確認");
+      console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -41,7 +60,8 @@ export default function App() {
 
   useEffect(() => {
     async function fetchPlans() {
-      const responseData = await getPlans();
+      const responseData = await getPlans(1);
+      // const userData = await getUser();
       setLesson((prevLessons) => [...prevLessons, responseData]);
       console.log("取得したデータ:", responseData);
     }
