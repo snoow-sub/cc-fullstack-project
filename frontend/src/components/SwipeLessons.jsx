@@ -27,13 +27,14 @@ export function SwipeLessons({ profile, setFlick, handleSwipeType, lesson }) {
     },
   });
 
+  //デモ用データ
   const mockData = [
     {
       date: "2024-12-02T15:00:00.000Z",
       description: "テニスを一緒にしませんか？",
       end_time: "20:00:00",
       id: 3,
-      imagePath: "/image/tennis.png",
+      imagePath: "/image/tennis_1.gif",
       indicator: 92.1,
       location: "関東",
       momentum: null,
@@ -47,7 +48,7 @@ export function SwipeLessons({ profile, setFlick, handleSwipeType, lesson }) {
       description: "上級者向けヨガレッスン",
       end_time: "20:00:00",
       id: 3,
-      imagePath: "./image/yoga.png",
+      imagePath: "./image/yoga_1.gif",
       indicator: 92.1,
       location: "関東",
       momentum: null,
@@ -62,7 +63,7 @@ export function SwipeLessons({ profile, setFlick, handleSwipeType, lesson }) {
         "一緒に生け花で遊びませんか?簡単なキットをお送りしますので、当日はオンラインでご参加いただけます！ 講師Rena",
       end_time: "20:00:00",
       id: 3,
-      imagePath: "./image/ike.png",
+      imagePath: "./image/hana_1.gif",
       indicator: 92.1,
       location: "関東",
       momentum: null,
