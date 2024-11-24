@@ -1,0 +1,49 @@
+.nav {
+  /* 背景色設定 */
+  background-color: #c9e8f8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
+}
+
+.nav a {
+  /* アンダーライン削除 */
+  text-decoration: none;
+  /* 文字色設定 */
+  color: #6aaade;
+  /* 内側余白を上右下左の順で設定 */
+  padding: 10px 20px 10px 0px;
+  /*ブロックにする */
+  display: block;
+  /* 文字を大き目に設定 */
+  font-family: 'Quicksand';
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.nav a:hover {
+  /* マウスオーバーした時の文字色を設定 */
+  color: white;
+}
+
+.font-orange {
+  color: #f39867;
+}
+
+@media screen and (max-width: 640px) {
+  .nav {
+      background-color: #c9e8f8;
+      height: 80px;
+  }
+
+  .nav ul {
+      flex-direction: column;
+      padding: 0;
+  }
+
+  .nav li {
+      border-bottom: solid 1px #fff;
+  }
+}
