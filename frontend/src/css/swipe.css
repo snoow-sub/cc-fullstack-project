@@ -1,6 +1,6 @@
 /* 基本的なレイアウト */
 .profile_info {
-  font-family: "Arial", sans-serif;
+  font-family: "Quicksand";
   background-color: rgb(124, 114, 84);
   color: black;
   display: flex;
@@ -41,10 +41,10 @@
   color: #555;
 }
 
-.activity-box {
+.lesson-box {
   width: 80%;
   max-width: 600px;
-  background-color: rgb(106, 170, 222);
+  background: linear-gradient(#f39867, #6aaade);
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -61,7 +61,7 @@ B:248 */
 G:170
 B:222 */
 
-.activity-image {
+.lesson-image {
   width: 100%;
   height: auto;
   border-radius: 10px;
@@ -69,34 +69,68 @@ B:222 */
   margin-bottom: 20px;
 }
 
-.activity-details {
+.lesson-details {
   font-size: 16px;
   color: white;
 }
 
-.activity-details p {
+.lesson-details p {
   margin: 10px 0;
 }
 
 .set-calendar {
+  position: relative;
+  width: fit-content;
+  padding: 12px 16px;
+  border-bottom: 2px solid #333333;
+  background-color: #fffcee;
+}
+.set-calendar::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 15px;
+  height: 15px;
   box-sizing: border-box;
+  background-color: #fffcee;
+  /* 背景色と同じ色を指定 */
+  rotate: 135deg;
+  translate: -50%;
+}
+.set-calendar::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  z-index: -1;
+  width: 15px;
+  height: 15px;
+  box-sizing: border-box;
+  border: 2px solid;
+  border-color: #333333 #333333 transparent transparent;
+  background-color: #ffffff;
+  rotate: 135deg;
+  translate: -50%;
+}
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px 12px;
-  isolation: isolate;
+.calendar-design {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  height: 36px;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+}
 
-  margin: 0 auto;
-  width: 337px;
-  height: 40px;
-  left: 33px;
-  top: 165px;
-
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  /* Drop Shadow/200 */
-  box-shadow: 0px 1px 4px rgba(12, 12, 13, 0.1),
-    0px 1px 4px rgba(12, 12, 13, 0.05);
-  border-radius: 8px;
+input[type="date"] {
+  position: relative;
+  padding: 0 10px;
+  width: 200px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #999;
 }

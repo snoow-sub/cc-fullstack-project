@@ -13,7 +13,7 @@ export default function App() {
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
   const [start, setStart] = useState(false);
-  const port = process.env.PORT || 4000;
+  const port = process.env.PORT || 3000;
 
   async function getPlans(userId) {
     try {
@@ -74,7 +74,7 @@ export default function App() {
       {!start ? (
         <div className="start-screen">
           <div>
-            <img src="./image/title.png" alt="logo" width={300} /><br />
+            <img src="./image/logo.png" alt="logo" width={300} /><br />
             <a href="javascript:void(0);" onClick={() => setStart(true)}>Tap to Start</a>
           </div>
         </div>

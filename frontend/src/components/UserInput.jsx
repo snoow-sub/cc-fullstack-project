@@ -38,7 +38,7 @@ export function UserInput({ handleLogin, sendFormData }) {
   const [page, setPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   // const [responseData, setResponseData] = useState();
-  const port = process.env.PORT || 4000;
+  const port = process.env.PORT || 3000;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -111,9 +111,9 @@ export function UserInput({ handleLogin, sendFormData }) {
       <form onSubmit={handleSubmit}>
         { page === 1 ? (
           <div>
-            <div class="hello-comment">
-              <div class="text">最初にあなたのことを教えてください！</div>
-              <span class="ornament"></span>
+            <div className="hello-comment">
+              <div className="text">最初にあなたのことを教えてください！</div>
+              <span className="ornament"></span>
             </div><br />
             <label htmlFor="name">
               <pre>名前</pre>
@@ -124,7 +124,6 @@ export function UserInput({ handleLogin, sendFormData }) {
               name="name"
               placeholder="お名前を入力してください"
               value={formData.name}
-              // value="test"
               onChange={handleChange}
               className="input-text"
               // required
@@ -136,11 +135,10 @@ export function UserInput({ handleLogin, sendFormData }) {
               id="sex"
               name="sex"
               value={formData.sex}
-              // value="male"
               onChange={handleChange}
               className="input-text"
               // required
-            ><br /><br />
+            >
               <option value="">選択してください</option>
               <option value="0">男性</option>
               <option value="1">女性</option>
@@ -155,7 +153,6 @@ export function UserInput({ handleLogin, sendFormData }) {
               name="birthday"
               placeholder="生年月日を入力してください"
               value={formData.birthday}
-              // value="1990-01-01"
               onChange={handleChange}
               className="input-text"
               // required
@@ -170,7 +167,6 @@ export function UserInput({ handleLogin, sendFormData }) {
               placeholder="東京都〇〇区〇〇町〇〇番地"
               onChange={handleChange}
               value={formData.address}
-              // value="東京都〇〇区〇〇町〇〇番地"
               className="input-text"
               // required
             /><br /><br />
@@ -180,13 +176,11 @@ export function UserInput({ handleLogin, sendFormData }) {
             <select
               id="hobby"
               name="hobby"
-              // value={formData.gender}
-              // value="none"
               value={formData.hobby}
               onChange={handleChange}
               className="input-text"
               // required
-            ><br /><br />
+            >
               <option value="">選択してください</option>
               <option value="sports">スポーツ</option>
               <option value="book">読書</option>
@@ -202,11 +196,10 @@ export function UserInput({ handleLogin, sendFormData }) {
               id="location"
               name="location"
               value={formData.location}
-              // value="none"
               onChange={handleChange}
               className="input-text"
               // required
-            ><br /><br />
+            >
               <option value="">選択してください</option>
               <option value="kantou"></option>
               <option value="chiba">千葉県</option>
@@ -216,15 +209,15 @@ export function UserInput({ handleLogin, sendFormData }) {
               <option value="ibaraki">茨城県</option>
               <option value="none">住所近くであればどこでも可</option>
             </select>{" "}<br /><br /><br />
-            <button class="button-deco" id="user-submit" type="button" onClick={() => setPage(page+1)}>
+            <button className="button-deco" id="user-submit" type="button" onClick={() => setPage(page+1)}>
               次へ
             </button>
           </div>
         ) : (
           <div>
-            <div class="hello-comment">
-              <div class="text">次にあなたの興味について教えてください！</div>
-              <span class="ornament"></span>
+            <div className="hello-comment">
+              <div className="text">次にあなたの興味について教えてください！</div>
+              <span className="ornament"></span>
             </div><br />
             <label className="slide-bar" htmlFor="inout">
               <pre>
@@ -287,18 +280,18 @@ export function UserInput({ handleLogin, sendFormData }) {
               </pre>
             </label><br />
             <center><table>
-              <tr>
-                <td>
-                <button class="button-deco" id="user-submit" type="button" onClick={() => setPage(page-1)}>
+              <tbody><tr>
+              <td>
+                <button className="button-deco" id="user-submit" type="button" onClick={() => setPage(page-1)}>
                   戻る
                 </button>
-                </td>
-                <td>
-                <button class="button-deco" id="user-submit" type="submit">
+              </td>
+              <td>
+                <button className="button-deco" id="user-submit" type="submit">
                   確定
                 </button>
-                </td>
-              </tr>
+              </td>
+              </tr></tbody>
             </table></center>
           </div>
         )}
