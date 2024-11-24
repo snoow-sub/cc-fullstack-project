@@ -144,19 +144,21 @@ export function UserInput({ handleLogin, sendFormData }) {
               <option value="1">女性</option>
               <option value="2">その他</option>
             </select><br /><br />
-            <label htmlFor="birthday">
+            <label htmlFor="birthday" >
               <pre>生年月日</pre>
             </label>
-            <input
-              type="date"
-              id="brithday"
-              name="birthday"
-              placeholder="生年月日を入力してください"
-              value={formData.birthday}
-              onChange={handleChange}
-              className="input-text"
-              // required
-            /><br /><br />
+            <label className="input-text">
+              <input
+                type="date"
+                id="brithday"
+                name="birthday"
+                placeholder="生年月日を入力してください"
+                value={formData.birthday}
+                onChange={handleChange}
+                // required
+              />
+              </label>
+              <br /><br />
             <label htmlFor="address">
               <pre>住所</pre>
             </label>

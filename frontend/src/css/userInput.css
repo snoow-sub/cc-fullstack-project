@@ -64,6 +64,7 @@
 .input-text{
   flex-direction: column;
   align-items: flex-start;
+  background-color: white;
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -103,4 +104,25 @@
   flex: none;
   order: 1;
   flex-grow: 1;
+}
+
+.calendar-design {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  height: 36px;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+}
+
+input[type="date"] {
+  position: relative;
+  padding: 0 10px;
+  width: 200px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #999;
 }
