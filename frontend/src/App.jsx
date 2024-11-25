@@ -14,6 +14,7 @@ export default function App() {
   const [lesson, setLesson] = useState([]);
   const [start, setStart] = useState(false);
   const [lessonNumber, setlessonNumber] = useState(0);
+  const [popularLesson, setPopularLesson] = useState([]);
   const port = process.env.PORT || 3000;
   const hostname = process.env.HOSTNAME || "localhost";
 
@@ -29,7 +30,143 @@ export default function App() {
       const responseData = await response.json();
       return responseData;
     } catch (error) {
+      const mockData = [
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description: "テニスを一緒にしませんか？",
+          end_time: "20:00:00",
+          id: 1,
+          imagePath: "/image/tennis_1.gif",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        },
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description: "ヨガや瞑想の基本から学びましょう！",
+          end_time: "20:00:00",
+          id: 2,
+          imagePath: "./image/yoga_1.gif",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        },
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description:
+            "一緒に生け花で遊びませんか?簡単なキットをお送りしますので、当日はオンラインでご参加いただけます！",
+          end_time: "20:00:00",
+          id: 3,
+          imagePath: "./image/hana_1.gif",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        },
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description: "テニスを一緒にしませんか？",
+          end_time: "20:00:00",
+          id: 4,
+          imagePath: "/image/tennis.png",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        },
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description: "ヨガや瞑想の基本から学びましょう！",
+          end_time: "20:00:00",
+          id: 5,
+          imagePath: "./image/yoga.png",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        },
+      ];
       console.error("An error occurred:", error);
+      return mockData;
+    }
+  }
+
+  async function getPopularLesson() {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/lesson/popular`
+      );
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      const mockData = [
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description: "テニスを一緒にしませんか？",
+          end_time: "20:00:00",
+          id: 1,
+          imagePath: "/image/tennis_1.gif",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        },
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description: "ヨガや瞑想の基本から学びましょう！",
+          end_time: "20:00:00",
+          id: 2,
+          imagePath: "./image/yoga_1.gif",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        },
+        {
+          date: "2024-12-02T15:00:00.000Z",
+          description:
+            "一緒に生け花で遊びませんか?簡単なキットをお送りしますので、当日はオンラインでご参加いただけます！",
+          end_time: "20:00:00",
+          id: 3,
+          imagePath: "./image/hana_1.gif",
+          indicator: 92.1,
+          location: "関東",
+          momentum: null,
+          moviePath: "./movie/lesson3.mp4",
+          review: 4,
+          start_time: "18:00:00",
+          store_id: 1,
+        }
+      ];
+      console.error("An error occurred:", error);
+      return mockData;
     }
   }
 
@@ -64,15 +201,23 @@ export default function App() {
     setlessonNumber(lessonNumber);
   }
 
+  async function fetchPlans() {
+    const responseData = await getPlans(1);
+    // const userData = await getUser();
+    // setLesson((prevLessons) => [...prevLessons, responseData]);
+    setLesson(responseData);
+    console.log("取得したデータ:", responseData);
+  }
+
+  async function fetchPopularLesson() {
+    const responseData = await getPopularLesson();
+    setPopularLesson(responseData);
+    console.log("取得したデータ:", responseData);
+  }
+
   useEffect(() => {
-    async function fetchPlans() {
-      const responseData = await getPlans(1);
-      // const userData = await getUser();
-      // setLesson((prevLessons) => [...prevLessons, responseData]);
-      setLesson(responseData);
-      console.log("取得したデータ:", responseData);
-    }
     fetchPlans();
+    fetchPopularLesson();
   }, [profile]);
 
   return (
@@ -93,6 +238,7 @@ export default function App() {
         <SwipeLessons
           profile={profile}
           lesson={lesson}
+          popularLesson={popularLesson}
           setFlick={setFlick}
           reserveLesson={reserveLesson}
           handleSwipeType={handleSwipeType}
