@@ -13,14 +13,15 @@ export default function App() {
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
   const [start, setStart] = useState(false);
+  const [lessonNumber, setlessonNumber] = useState(0);
   const port = process.env.PORT || 3000;
+  const hostname = process.env.HOSTNAME || "localhost";
 
   async function getPlans(userId) {
     try {
       const response = await fetch(
         `http://localhost:3000/api/user/${userId}/lesson`
       );
-      console.log("レスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -59,11 +60,16 @@ export default function App() {
     setProfile(data);
   }
 
+  function reserveLesson(lessonNumber){
+    setlessonNumber(lessonNumber);
+  }
+
   useEffect(() => {
     async function fetchPlans() {
       const responseData = await getPlans(1);
       // const userData = await getUser();
-      setLesson((prevLessons) => [...prevLessons, responseData]);
+      // setLesson((prevLessons) => [...prevLessons, responseData]);
+      setLesson(responseData);
       console.log("取得したデータ:", responseData);
     }
     fetchPlans();
@@ -79,12 +85,16 @@ export default function App() {
           </div>
         </div>
       ) : !flick ? ( // flickがfalseならReservationを表示
-        <Reservation lesson={lesson} />
+        <Reservation 
+          lesson={lesson}
+          lessonNumber={lessonNumber}
+        />
       ) : login ? (
         <SwipeLessons
           profile={profile}
           lesson={lesson}
           setFlick={setFlick}
+          reserveLesson={reserveLesson}
           handleSwipeType={handleSwipeType}
         />
       ) : (
