@@ -43,7 +43,7 @@ export function UserInput({ handleLogin, sendFormData }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:${port}/api/user`, {
+      const response = await fetch("http://localhost:3000/api/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export function UserInput({ handleLogin, sendFormData }) {
       setAnswer(updatedAnswer);
 
       const responseAnswer = await fetch(
-        `http://localhost:${port}/api/user_answer`,
+        "http://localhost:3000/api/user_answer",
         {
           method: "POST",
           headers: {
@@ -97,7 +97,8 @@ export function UserInput({ handleLogin, sendFormData }) {
   };
 
   const handleRangeChange = (questionId, value) => {
-    console.log("handleRangeChange", questionId, value);
+    console.log("読んでいるか");
+    console.log(answer);
     setAnswer((prevAnswer) => ({
       ...prevAnswer,
       user_answer: prevAnswer.user_answer.map((item) =>
