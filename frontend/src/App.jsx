@@ -13,11 +13,12 @@ export default function App() {
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
   const [start, setStart] = useState(false);
+  const port = process.env.PORT || 3000;
 
   async function getPlans(userId) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/user/${userId}/lesson`
+        `http://localhost:${port}/api/user/${userId}/lesson`
       );
       console.log("レスポンス取れるか確認");
       console.log(response);
@@ -33,7 +34,7 @@ export default function App() {
 
   async function getUser() {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/`);
+      const response = await fetch(`http://localhost:${port}/api/user/`);
       console.log("userレスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
@@ -72,10 +73,10 @@ export default function App() {
     <>
       {!start ? (
         <div className="start-screen">
-          <h1>-- Tap to Start --</h1>
-          <button onClick={() => setStart(true)}>
-            ボタンを押して新たな旅に出かけよう
-          </button>
+          <div>
+            <img src="./image/logo.png" alt="logo" width={300} /><br />
+            <a href="javascript:void(0);" onClick={() => setStart(true)}>Tap to Start</a>
+          </div>
         </div>
       ) : !flick ? ( // flickがfalseならReservationを表示
         <Reservation lesson={lesson} />
