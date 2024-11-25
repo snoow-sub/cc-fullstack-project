@@ -23,6 +23,7 @@ app.use("/api/user/:id/lesson", userRoutes); //【大西メモ】要らないよ
 //app.use("/api/user/:id/user_answer", userRoutes); //【大西メモ】要らないような気もしてきたかも（/api/userの記載で必要十分？）
 app.use("/api/reservation", reservationRoutes);
 app.use("/api/lesson", lessonRoutes);
+app.use("/api/lesson/popular", lessonRoutes);
 app.use("/api/lesson/:id/reservations", lessonRoutes); //【大西メモ】要らないような気もしてきたかも（/api/lessonの記載で必要十分？）
 
 //【大西メモ】question, recommendのルーティングの追加
