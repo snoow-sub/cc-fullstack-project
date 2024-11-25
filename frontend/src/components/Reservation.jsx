@@ -25,7 +25,7 @@ export function Reservation({ lesson }) {
   }
   return (
     <>
-      <h1>予約しますね？良いでしょうか？</h1>
+      <h1>予約を確定しますが、よろしいでしょうか？</h1>
       <div>
         {/* <img className="activity-image" src="image/ike.png" alt="生け花" /> */}
         <div>
@@ -35,9 +35,16 @@ export function Reservation({ lesson }) {
           <p>講義形態：オンライン(お家でできます)</p>
         </div>
         <div>
-          <button onClick={() => handleResponse("はい")}>はい</button>
-          <br></br>
-          <button onClick={() => handleResponse("だめ")}>だめ</button>
+          <center><table>
+              <tbody><tr>
+              <td>
+                <button className="button-deco" onClick={() => handleResponse("はい")}>確定</button>
+              </td>
+              <td>
+                <button className="button-deco" onClick={() => handleResponse("だめ")}>キャンセル</button>
+              </td>
+              </tr></tbody>
+            </table></center>
         </div>
       </div>
     </>
