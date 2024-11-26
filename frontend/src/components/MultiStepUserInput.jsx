@@ -6,117 +6,14 @@ import React, { useState } from "react";
  * @param {function} onComplete - フォーム入力完了時のコールバック関数
  */
 
-const questions3 = [
-  {
-    id: 1,
-    label: "名前",
-    type: "text",
-    name: "name",
-    characterMainMessage: "早速だけど、あなたのお名前を教えて！",
-    characterSubMessage: "フルネームでね、僕はディコ！",
-  },
-  {
-    id: 2,
-    label: "性別",
-    type: "select",
-    name: "sex",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-    options: ["男性", "女性", "その他"],
-  },
-  {
-    id: 3,
-    label: "生年月日",
-    type: "date",
-    name: "birthdate",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 4,
-    label: "住所",
-    type: "text",
-    name: "address",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 5,
-    label: "趣味",
-    type: "select",
-    name: "hobby",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 6,
-    label: "受講場所",
-    type: "select",
-    name: "location",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-];
-
-const questions = [
-  {
-    id: 1,
-    label: ["インドア派", "アウトドア派"],
-    type: "text",
-    name: "inoutdoor",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 2,
-    label: ["少人数でやりたい", "大人数でやりたい"],
-    type: "text",
-    name: "scale",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 3,
-    label: ["近くでやりたい", "遠くてもよい"],
-    type: "text",
-    name: "distance",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 4,
-    label: ["黙々とやりたい", "和気藹々とやりたい"],
-    type: "text",
-    name: "silent",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 5,
-    label: ["運動量少なめ", "運動量多め"],
-    type: "text",
-    name: "momentum",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-];
-
-export function MultiStepUserInput({ handleLogin }) {
+export function MultiStepUserInput({
+  handleLogin,
+  questions,
+  formData,
+  setFormData,
+  finalCallback,
+}) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    name: "",
-    sex: "",
-    birthdate: "",
-    address: "",
-    hobby: "",
-    location: "",
-    inoutdoor: 0.5,
-    scale: 0.5,
-    distance: 0.5,
-    silent: 0.5,
-    momentum: 0.5,
-  });
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -129,7 +26,8 @@ export function MultiStepUserInput({ handleLogin }) {
       setCurrentStep(currentStep + 1);
     } else {
       alert("送る処理が入る: " + JSON.stringify(formData, null, 2));
-      handleLogin(true); // ログイン状態にする
+      setCurrentStep(0);
+      finalCallback();
     }
   };
 
@@ -139,17 +37,25 @@ export function MultiStepUserInput({ handleLogin }) {
     }
   };
 
+  const sharedInputStyle = {
+    padding: "10px",
+    width: "100%",
+    fontSize: "16px",
+    boxSizing: "border-box",
+  };
+
   const renderInput = (step) => {
     const inputId = `input-${step.name}`;
+    const isDate = step.type === "date";
+
     if (step.type === "select") {
       return (
         <>
           <label
-            for={inputId}
+            htmlFor={inputId}
             style={{
               display: "block",
               marginBottom: "5px",
-              pointerEvents: "none",
               textAlign: "left",
             }}
           >
@@ -160,11 +66,23 @@ export function MultiStepUserInput({ handleLogin }) {
             name={step.name}
             value={formData[step.name]}
             onChange={handleChange}
-            style={{ padding: "10px", width: "80%", fontSize: "16px" }}
+            style={{
+              ...sharedInputStyle,
+              ...(isDate && {
+                appearance: "none",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+              }),
+            }}
           >
             <option value="">選択してください</option>
-            {step.options.map((option, index) => (
-              <option key={index} value={option}>
+            {step.options.keys.map((option, index) => (
+              <option
+                key={index}
+                value={
+                  !step.options.values ? option : step.options.values[index]
+                }
+              >
                 {option}
               </option>
             ))}
@@ -174,33 +92,45 @@ export function MultiStepUserInput({ handleLogin }) {
     }
     if (typeof step.label === "object") {
       return (
-        <label className="slide-bar" htmlFor="scale">
-          <pre>
-            {step.label[0] + " "}
-            <input
-              type="range"
-              name={step.name}
-              min="0"
-              max="1"
-              step="0.1"
-              value={Number(formData[step.name])}
-              onChange={handleChange}
-            />
-            {" " + step.label[1]}
-          </pre>
-        </label>
+        <>
+          <label
+            className="slide-bar"
+            htmlFor="scale"
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              textAlign: "left",
+            }}
+          >
+            <div style={{ fontSize: "10px" }}>
+              {step.label[0] + " "}
+              <input
+                type="range"
+                name={step.name}
+                min="0"
+                max="1"
+                step="0.1"
+                value={Number(formData[step.name])}
+                onChange={handleChange}
+                style={{
+                  height: "20px",
+                  backgroundColor: "blue",
+                }}
+              />
+              {" " + step.label[1]}
+            </div>
+          </label>
+        </>
       );
     }
     return (
       <>
         <label
-          for={inputId}
+          htmlFor={inputId}
           style={{
             display: "block",
             marginBottom: "5px",
-            pointerEvents: "none",
             textAlign: "left",
-            paddingLeft: "20px",
           }}
         >
           {step.label}
@@ -210,17 +140,59 @@ export function MultiStepUserInput({ handleLogin }) {
           name={step.name}
           value={formData[step.name]}
           onChange={handleChange}
-          style={{ padding: "10px", width: "80%", fontSize: "16px" }}
+          style={{
+            ...sharedInputStyle,
+          }}
         />
       </>
     );
   };
-
   const progress = ((currentStep + 1) / questions.length) * 100;
   return (
-    <div style={{ margin: "50px", textAlign: "center" }}>
+    <div
+      style={{
+        textAlign: "center",
+        width: "100%",
+        overflowX: "hidden",
+        minWidth: "300px",
+        display: "flex",
+        justifyContent: "center", // 横方向の中央揃え
+        alignItems: "center", // 縦方向の中央揃え
+        height: "100dvh", // ビューポート全体の高さ
+        position: "relative", // 子要素を絶対位置で配置可能
+      }}
+    >
+      {/* 戻るボタン（左上に固定） */}
+      <button
+        onClick={handleBack}
+        disabled={currentStep === 0}
+        style={{
+          position: "absolute",
+          top: "2.5%",
+          left: "1%",
+          padding: "10px",
+          backgroundColor: "#6AAADE",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          fontSize: "16px",
+          cursor: currentStep === 0 ? "not-allowed" : "pointer",
+        }}
+      >
+        戻る
+      </button>
+
       {/* プログレスバー */}
-      <div style={{ marginBottom: "20px", width: "80%", margin: "0 auto" }}>
+      <div
+        style={{
+          marginBottom: "20px",
+          width: "80%",
+          position: "absolute",
+          top: "5%",
+          left: "20%",
+          height: "15px",
+        }}
+      >
         <div
           style={{
             height: "10px",
@@ -239,33 +211,102 @@ export function MultiStepUserInput({ handleLogin }) {
           />
         </div>
       </div>
-      <div>{questions[currentStep].characterMainMessage}</div>
-      <div>{questions[currentStep].characterSubMessage}</div>
-      <img
-        src={"./image/dico.png"}
-        style={{ width: "100px", height: "100px" }}
-      />
-      {renderInput(questions[currentStep])}
-      <div style={{ marginTop: "20px" }}>
-        <button
-          onClick={handleBack}
-          disabled={currentStep === 0}
+
+      {/* 質問と説明 */}
+
+      <div
+        style={{
+          position: "absolute",
+          top: "12%",
+          width: "100%",
+          maxWidth: "500px",
+          minWidth: "200px",
+          minHeight: "100px",
+          padding: "20px",
+          textAlign: "center",
+          backgroundColor: "#fff",
+          borderRadius: "8px",
+          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+        }}
+      >
+        <p
           style={{
-            marginRight: "10px",
             fontSize: "16px",
+            fontWeight: "bold",
+            textAlign: "center",
+            margin: "0 auto", // 中央揃え
+            width: "100%", // 親幅に合わせる
+            wordWrap: "break-word", // 長い単語を折り返し
+            whiteSpace: "normal", // 折り返し有効化
+            overflow: "hidden", // オーバーフロー防止
+            //textOverflow: "ellipsis", // 長すぎる場合に省略
+            //backgroundColor: "blue",
           }}
         >
-          戻る
-        </button>
-        <button
-          onClick={handleNext}
+          {`${questions[currentStep].characterMainMessage}`}
+        </p>
+        <p
           style={{
-            fontSize: "16px",
+            fontSize: "14px",
+            color: "#555",
+            textAlign: "center",
+            margin: "10px auto 0", // 上に余白を追加
+            width: "100%", // 親幅に合わせる
+            wordWrap: "break-word",
+            whiteSpace: "normal",
           }}
         >
-          {currentStep === questions.length - 1 ? "完了" : "次へ"}
-        </button>
+          {questions[currentStep].characterSubMessage}
+        </p>
       </div>
+
+      {/* イラスト */}
+      <img
+        src={"./images/dico.png"}
+        alt="キャラクター"
+        style={{
+          width: "180px",
+          height: "180px",
+          marginBottom: "20px",
+          position: "absolute",
+          top: "25%",
+        }}
+      />
+
+      {/* 入力 */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: "40%",
+          width: "90%",
+          maxWidth: "500px",
+          padding: "0px",
+          textAlign: "center",
+          overflowY: "visible",
+        }}
+      >
+        {/* 質問の入力欄 */}
+        {renderInput(questions[currentStep])}
+      </div>
+      {/* 次へボタン */}
+      <button
+        onClick={handleNext}
+        style={{
+          position: "absolute",
+          bottom: "8%",
+          left: "5%",
+          width: "90%",
+          padding: "10px",
+          backgroundColor: "#6AAADE",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          fontSize: "16px",
+          cursor: "pointer",
+        }}
+      >
+        {currentStep === questions.length - 1 ? "完了" : "次へ"}
+      </button>
     </div>
   );
 }

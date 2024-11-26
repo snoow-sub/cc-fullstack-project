@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { Login, UserInput } from "./components/UserInput";
+import { UserInputForMultiStep } from "./components/UserInputForMultiStep";
 import { ShowActivity, SwipeLessons } from "./components/SwipeLessons";
 import { MultiStepUserInput } from "./components/MultiStepUserInput";
 import { Reservation } from "./components/Reservation";
+import { SelectDate } from "./components/SelectDate";
 
 import "./css/App.css";
 
@@ -15,177 +17,57 @@ export default function App() {
   const [start, setStart] = useState(false);
   const [lessonNumber, setlessonNumber] = useState(0);
   const [popularLesson, setPopularLesson] = useState([]);
-  const host = process.env.ENDPOINT || "98.82.11.196";
+  const [userInput, setUserInput] = useState(false);
+  const [startDate, setStartDate] = useState(new Date("2024-11-29"));
+  const [endDate, setEndDate] = useState(new Date("2024-12-31"));
+  const port = process.env.PORT || 5000;
+  const hostname = process.env.HOSTNAME || "localhost";
 
   async function getPlans(userId) {
     try {
-      const startDate = new Date("2024-12-01");
-      const endDate = new Date("2024-12-31");
       const queryString = new URLSearchParams({
         location: "特になし",
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
       const response = await fetch(
-        `http://${host}:3000/api/user/${userId}/lesson?${queryString}`
+        `http://localhost:3000/api/user/${userId}/lesson?${queryString}`
       );
-      console.log(response);
+      // console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const responseData = await response.json();
       return responseData;
     } catch (error) {
-      const mockData = [
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description: "テニスを一緒にしませんか？",
-          end_time: "20:00:00",
-          id: 1,
-          imagePath: "/image/tennis_1.gif",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description: "ヨガや瞑想の基本から学びましょう！",
-          end_time: "20:00:00",
-          id: 2,
-          imagePath: "./image/yoga_1.gif",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description:
-            "一緒に生け花で遊びませんか?簡単なキットをお送りしますので、当日はオンラインでご参加いただけます！",
-          end_time: "20:00:00",
-          id: 3,
-          imagePath: "./image/hana_1.gif",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description: "テニスを一緒にしませんか？",
-          end_time: "20:00:00",
-          id: 4,
-          imagePath: "/image/tennis.png",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description: "ヨガや瞑想の基本から学びましょう！",
-          end_time: "20:00:00",
-          id: 5,
-          imagePath: "./image/yoga.png",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-      ];
       console.error("An error occurred:", error);
-      return mockData;
     }
   }
 
   async function getPopularLesson() {
     try {
-      const startDate = new Date("2024-12-01");
-      const endDate = new Date("2024-12-31");
       const queryString = new URLSearchParams({
         location: "特になし",
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
       const response = await fetch(
-        `http://${host}:3000/api/lesson/popular?${queryString}`
+        `http://localhost:3000/api/lesson/popular?${queryString}`
       );
-      console.log(response);
+      // console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const responseData = await response.json();
       return responseData;
     } catch (error) {
-      const mockData = [
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description: "テニスを一緒にしませんか？",
-          end_time: "20:00:00",
-          id: 1,
-          imagePath: "/image/tennis_1.gif",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description: "ヨガや瞑想の基本から学びましょう！",
-          end_time: "20:00:00",
-          id: 2,
-          imagePath: "./image/yoga_1.gif",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-        {
-          date: "2024-12-02T15:00:00.000Z",
-          description:
-            "一緒に生け花で遊びませんか?簡単なキットをお送りしますので、当日はオンラインでご参加いただけます！",
-          end_time: "20:00:00",
-          id: 3,
-          imagePath: "./image/hana_1.gif",
-          indicator: 92.1,
-          location: "関東",
-          momentum: null,
-          moviePath: "./movie/lesson3.mp4",
-          review: 4,
-          start_time: "18:00:00",
-          store_id: 1,
-        },
-      ];
       console.error("An error occurred:", error);
-      return mockData;
     }
   }
 
   async function getUser() {
     try {
-      const response = await fetch(`http://${host}:3000/api/user/`);
+      const response = await fetch(`http://localhost:3000/api/user/`);
       console.log("userレスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
@@ -214,6 +96,18 @@ export default function App() {
     setlessonNumber(lessonNumber);
   }
 
+  function selectDate(state, start, end) {
+    setStartDate(start);
+    setEndDate(end);
+    setUserInput(state);
+    fetchPlans();
+  }
+
+  const [formData, setFormData] = useState({
+    startDate: "2024-11-29",
+    endDate: "2024-12-01",
+  });
+
   async function fetchPlans() {
     const responseData = await getPlans(1);
     // const userData = await getUser();
@@ -238,9 +132,15 @@ export default function App() {
       {!start ? (
         <div className="start-screen">
           <div>
-            <img src="./image/logo.png" alt="logo" width={300} />
+            <img src="./images/logo.png" alt="logo" width={300} />
             <br />
-            <a href="javascript:void(0);" onClick={() => setStart(true)}>
+            <a
+              href="javascript:void(0);"
+              onClick={() => {
+                setStart(true);
+                setUserInput(true);
+              }}
+            >
               Tap to Start
             </a>
           </div>
@@ -256,11 +156,19 @@ export default function App() {
           reserveLesson={reserveLesson}
           handleSwipeType={handleSwipeType}
         />
-      ) : (
-        <MultiStepUserInput
+      ) : userInput ? (
+        <UserInputForMultiStep
           profile={profile}
           handleLogin={handleLogin}
           sendFormData={receiveFormData}
+        />
+      ) : (
+        <SelectDate
+          selectDate={(e) => {
+            e.preventDefault();
+            selectDate(true, formData.startDate, formData.endDate);
+          }}
+          formData={formData}
         />
       )}
     </>

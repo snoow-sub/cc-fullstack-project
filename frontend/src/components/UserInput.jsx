@@ -3,7 +3,7 @@ import React from "react";
 import "../css/userInput.css";
 
 export function UserInput({ handleLogin, sendFormData }) {
-  const host = process.env.ENDPOINT || "98.82.11.196";
+  const host = process.env.ENDPOINT || "lo";
   const [formData, setFormData] = useState({
     id: 13,
     name: "test",
@@ -111,12 +111,13 @@ export function UserInput({ handleLogin, sendFormData }) {
   return (
     <div className="form-group">
       <form onSubmit={handleSubmit}>
-        { page === 1 ? (
+        {page === 1 ? (
           <div>
             <div className="hello-comment">
               <div className="text">最初にあなたのことを教えてください！</div>
               <span className="ornament"></span>
-            </div><br />
+            </div>
+            <br />
             <label htmlFor="name">
               <pre>名前</pre>
             </label>
@@ -129,7 +130,9 @@ export function UserInput({ handleLogin, sendFormData }) {
               onChange={handleChange}
               className="input-text"
               // required
-            /><br /><br />
+            />
+            <br />
+            <br />
             <label htmlFor="sex">
               <pre>性別</pre>
             </label>
@@ -145,8 +148,10 @@ export function UserInput({ handleLogin, sendFormData }) {
               <option value="0">男性</option>
               <option value="1">女性</option>
               <option value="2">その他</option>
-            </select><br /><br />
-            <label htmlFor="birthday" >
+            </select>
+            <br />
+            <br />
+            <label htmlFor="birthday">
               <pre>生年月日</pre>
             </label>
             <label className="input-text">
@@ -159,8 +164,9 @@ export function UserInput({ handleLogin, sendFormData }) {
                 onChange={handleChange}
                 // required
               />
-              </label>
-              <br /><br />
+            </label>
+            <br />
+            <br />
             <label htmlFor="address">
               <pre>住所</pre>
             </label>
@@ -173,7 +179,9 @@ export function UserInput({ handleLogin, sendFormData }) {
               value={formData.address}
               className="input-text"
               // required
-            /><br /><br />
+            />
+            <br />
+            <br />
             <label>
               <pre>趣味</pre>
             </label>
@@ -192,7 +200,9 @@ export function UserInput({ handleLogin, sendFormData }) {
               <option value="game">ゲーム</option>
               <option value="cook">料理</option>
               <option value="none">特になし</option>
-            </select><br /><br />
+            </select>
+            <br />
+            <br />
             <label htmlFor="location">
               <pre>受講場所</pre>
             </label>
@@ -212,17 +222,28 @@ export function UserInput({ handleLogin, sendFormData }) {
               <option value="kanagawa">神奈川県</option>
               <option value="ibaraki">茨城県</option>
               <option value="none">住所近くであればどこでも可</option>
-            </select>{" "}<br /><br /><br />
-            <button className="button-deco" id="user-submit" type="button" onClick={() => setPage(page+1)}>
+            </select>{" "}
+            <br />
+            <br />
+            <br />
+            <button
+              className="button-deco"
+              id="user-submit"
+              type="button"
+              onClick={() => setPage(page + 1)}
+            >
               次へ
             </button>
           </div>
         ) : (
           <div>
             <div className="hello-comment">
-              <div className="text">次にあなたの興味について教えてください！</div>
+              <div className="text">
+                次にあなたの興味について教えてください！
+              </div>
               <span className="ornament"></span>
-            </div><br />
+            </div>
+            <br />
             <label className="slide-bar" htmlFor="inout">
               <pre>
                 　　インドア派　　　
@@ -237,7 +258,8 @@ export function UserInput({ handleLogin, sendFormData }) {
                 />
                 　アウトドア派　　　
               </pre>
-            </label><br />
+            </label>
+            <br />
             <label className="slide-bar" htmlFor="scale">
               <pre>
                 　　少人数　　　　　
@@ -252,7 +274,8 @@ export function UserInput({ handleLogin, sendFormData }) {
                 />
                 　大人数　　　　　　
               </pre>
-            </label><br />
+            </label>
+            <br />
             <label className="slide-bar" htmlFor="distance">
               <pre>
                 　　近い方が良い　　
@@ -267,7 +290,8 @@ export function UserInput({ handleLogin, sendFormData }) {
                 />
                 　遠くても良い　　　
               </pre>
-            </label><br />
+            </label>
+            <br />
             <label className="slide-bar" htmlFor="silent">
               <pre>
                 　　黙々とやりたい　
@@ -282,21 +306,35 @@ export function UserInput({ handleLogin, sendFormData }) {
                 />
                 　和気藹々とやりたい
               </pre>
-            </label><br />
-            <center><table>
-              <tbody><tr>
-              <td>
-                <button className="button-deco" id="user-submit" type="button" onClick={() => setPage(page-1)}>
-                  戻る
-                </button>
-              </td>
-              <td>
-                <button className="button-deco" id="user-submit" type="submit">
-                  確定
-                </button>
-              </td>
-              </tr></tbody>
-            </table></center>
+            </label>
+            <br />
+            <center>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <button
+                        className="button-deco"
+                        id="user-submit"
+                        type="button"
+                        onClick={() => setPage(page - 1)}
+                      >
+                        戻る
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="button-deco"
+                        id="user-submit"
+                        type="submit"
+                      >
+                        確定
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </center>
           </div>
         )}
       </form>
