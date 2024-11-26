@@ -9,11 +9,37 @@ const lessonRoutes = require("./routes/lessonRoutes");
 const questionRoutes = require("./routes/questionRoutes");
 const recommendRoutes = require("./routes/recommendRoutes");
 const userAnswerRoutes = require("./routes/userAnswerRoutes");
-
 const logger = require("./middleware/logger");
 
 // ミドルウェアの設定
-app.use(cors());
+const allowedOrigins = [
+    'http://ec2-98-82-11-196.compute-1.amazonaws.com:5000',
+    'http://ec2-98-82-11-196.compute-1.amazonaws.com:4000',
+    'http://ec2-98-82-11-196.compute-1.amazonaws.com:3000',
+    'http://ec2-34-207-90-107.compute-1.amazonaws.com:5000',
+    'http://ec2-34-207-90-107.compute-1.amazonaws.com:4000',
+    'http://ec2-34-207-90-107.compute-1.amazonaws.com:3000',
+    'http://98.82.11.196:5000',
+    'http://98.82.11.196:4000',
+    'http://98.82.11.196:3000',
+    'http://34.207.90.107:5000',
+    'http://34.207.90.107:4000',
+    'http://34.207.90.107:3000',
+    'http://localhost:3000',
+    'http://localhost:4000',
+    'http://localhost:5000'
+];
+app.use(cors({
+    origin: function(origin, callback) {
+        // originがundefinedの場合はCORSを許可
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, origin);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(logger);
