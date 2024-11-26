@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
+// import "./Login.css";
+// import { useSwipeable } from "react-swipeable";
 
 export function Reservation({ lesson }) {
   const [responseMessage, setResponseMessage] = useState("");
@@ -33,30 +35,16 @@ export function Reservation({ lesson }) {
           <p>講義形態：オンライン(お家でできます)</p>
         </div>
         <div>
-          <center>
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <button
-                      className="button-deco"
-                      onClick={() => handleResponse("はい")}
-                    >
-                      確定
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="button-deco"
-                      onClick={() => handleResponse("だめ")}
-                    >
-                      キャンセル
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </center>
+          <center><table>
+              <tbody><tr>
+              <td>
+                <button className="button-deco" onClick={() => handleResponse("はい")}>確定</button>
+              </td>
+              <td>
+                <button className="button-deco" onClick={() => handleResponse("だめ")}>キャンセル</button>
+              </td>
+              </tr></tbody>
+            </table></center>
         </div>
       </div>
     </>
