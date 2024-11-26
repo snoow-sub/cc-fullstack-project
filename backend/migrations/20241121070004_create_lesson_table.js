@@ -6,16 +6,16 @@ exports.up = function (knex) {
   return knex.schema.createTable("lesson", function (table) {
     table.increments("id").primary();
     table.integer("store_id").unsigned().notNullable().references("id").inTable("store").onDelete("CASCADE");
+    table.varchar("title", 255).notNullable();
     table.date("date").notNullable();
     table.time("start_time").notNullable();
     table.time("end_time").notNullable();
     table.string("location", 255).notNullable();
     table.string("description", 255).notNullable();
-    table.string("imagePath", 255).notNullable();
-    table.string("moviePath", 255).notNullable();
-    table.integer("review").nullable();
-    table.float("indicator").notNullable();
-    table.integer("momentum").nullable();
+    table.specificType("imagePath", "text[]").nullable();
+    table.specificType("movie_id", "text[]").nullable();
+    table.float("review").nullable();
+    table.float("indicator").nullable();
   });
 };
 
