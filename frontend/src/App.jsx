@@ -15,7 +15,7 @@ export default function App() {
   const [start, setStart] = useState(false);
   const [lessonNumber, setlessonNumber] = useState(0);
   const [popularLesson, setPopularLesson] = useState([]);
-  const host = process.env.HOST || "localhost";
+  const host = process.env.ENDPOINT || "98.82.11.196";
 
   async function getPlans(userId) {
     try {
