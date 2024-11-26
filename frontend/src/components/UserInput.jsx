@@ -3,6 +3,7 @@ import React from "react";
 import "../css/userInput.css";
 
 export function UserInput({ handleLogin, sendFormData }) {
+  const host = process.env.ENDPOINT || "98.82.11.196";
   const [formData, setFormData] = useState({
     id: 13,
     name: "test",
@@ -43,7 +44,7 @@ export function UserInput({ handleLogin, sendFormData }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch("http://98.82.11.196:3000/api/user", {
+      const response = await fetch(`http://${host}:3000/api/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +67,7 @@ export function UserInput({ handleLogin, sendFormData }) {
       setAnswer(updatedAnswer);
 
       const responseAnswer = await fetch(
-        "http://98.82.11.196:3000/api/user_answer",
+        `http://${host}:3000/api/user_answer`,
         {
           method: "POST",
           headers: {
