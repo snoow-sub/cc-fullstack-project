@@ -5,7 +5,8 @@
 exports.seed = async function (knex) {
   // 既存のデータを削除
   await knex("store").del();
-
+  //インクリメントリセット
+  await knex.raw("select setval(pg_get_serial_sequence('store', 'id'), MAX(id)) FROM store");
   // 初期データを挿入
   await knex("store").insert([
     {

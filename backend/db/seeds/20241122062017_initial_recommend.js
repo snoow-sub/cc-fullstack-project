@@ -5,7 +5,8 @@
 exports.seed = async function (knex) {
   // 既存のデータを削除
   await knex("recommend").del();
-
+  //インクリメントリセット
+  await knex.raw("select setval(pg_get_serial_sequence('recommend', 'id'), MAX(id)) FROM recommend");
   // 初期データを挿入
   await knex("recommend").insert([
     {
@@ -34,7 +35,6 @@ exports.seed = async function (knex) {
       like: 1.0,
     },
   ]);
-  await knex.raw(
-    "select setval(pg_get_serial_sequence('recommend', 'id'), MAX(id)) FROM recommend"
-  );
+  //インクリメントリセット
+  await knex.raw("select setval(pg_get_serial_sequence('recommend', 'id'), MAX(id)) FROM recommend");
 };

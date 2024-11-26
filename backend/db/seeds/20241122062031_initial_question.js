@@ -5,7 +5,8 @@
 exports.seed = async function (knex) {
   // 既存のデータを削除
   await knex("question").del();
-
+  //インクリメントリセット
+  await knex.raw("select setval(pg_get_serial_sequence('question', 'id'), MAX(id)) FROM question");
   // 初期データを挿入
   await knex("question").insert([
     {
@@ -20,6 +21,10 @@ exports.seed = async function (knex) {
     {
       content: "silent", // 黙々和気・あいあい
     },
+    {
+      content: "momentum", // 運動量
+    },
   ]);
+  //インクリメントリセット
   await knex.raw("select setval(pg_get_serial_sequence('question', 'id'), MAX(id)) FROM question");
 };

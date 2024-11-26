@@ -3,10 +3,10 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("reservation", function (table) {
+  return knex.schema.createTable("user_location", function (table) {
     table.increments("id").primary();
     table.integer("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
-    table.integer("lesson_id").notNullable().references("id").inTable("lesson").onDelete("CASCADE");
+    table.integer("location_id").notNullable().references("id").inTable("location").onDelete("CASCADE");
   });
 };
 
@@ -15,5 +15,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable("reservation");
+  return knex.schema.dropTable("user_location");
 };
