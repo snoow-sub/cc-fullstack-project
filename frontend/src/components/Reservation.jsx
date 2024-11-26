@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import React from "react";
-// import "./Login.css";
-// import { useSwipeable } from "react-swipeable";
 
 export function Reservation({ lesson, lessonNumber }) {
   const [responseMessage, setResponseMessage] = useState("");
