@@ -16,12 +16,12 @@ export default function App() {
   const [lessonNumber, setlessonNumber] = useState(0);
   const [popularLesson, setPopularLesson] = useState([]);
   const port = process.env.PORT || 3000;
-  const hostname = process.env.HOSTNAME || "localhost";
+  const host = process.env.HOST || "localhost";
 
   async function getPlans(userId) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/user/${userId}/lesson`
+        `http://${port}:${host}/api/user/${userId}/lesson`
       );
       console.log(response);
       if (!response.ok) {
@@ -111,7 +111,7 @@ export default function App() {
   async function getPopularLesson() {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/lesson/popular`
+        `http://${port}:${host}/api/lesson/popular`
       );
       console.log(response);
       if (!response.ok) {
@@ -172,7 +172,7 @@ export default function App() {
 
   async function getUser() {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/`);
+      const response = await fetch(`http://${port}:${host}/api/user/`);
       console.log("userレスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
