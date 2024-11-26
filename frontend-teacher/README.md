@@ -14,9 +14,8 @@ DiscoverU のフロントエンド部分の概要です。
 ├── /public/index.html    # 接続先のHTML
 ├── /src                  # フロントエンドのソースコード
 │   ├── /components       # 子コンポーネント
-│   │   ├── SwipeLessons  # スワイプ機能のコンポーネント
-│   │   |── UserInput     # ユーザーの入力画面コンポーネント
-|   |   └── Reservation   # 予約確認コンポーネント
+│   │   |── TeacherInput  # 講師の入力画面コンポーネント
+|   |   └── VideoUpload   # 画像・動画アップロードコンポーネント
 │   ├── /css              # CSSファイル
 │   │   └── *.css         # 各コンポーネントに対するスタイルシート
 │   ├── App.jsx           # アプリケーションの親コンポーネント
@@ -31,6 +30,14 @@ Local: `http://localhost:3000` <br />
 Global: `http://ec2-23-22-12-178.compute-1.amazonaws.com:3000`
 
 ### セットアップ手順
+
+0. .env.local の作成
+
+frontend-teacher 配下に作成し以下を入力
+
+```
+PORT=4000
+```
 
 1. アプリケーションの起動
 
