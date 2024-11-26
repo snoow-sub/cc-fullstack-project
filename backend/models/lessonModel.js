@@ -18,6 +18,11 @@ module.exports = {
     return lessons;
   },
 
+  async getLessonById(lessonId) {
+    const [lesson] = await knex("lesson").select("*").where("id", lessonId);
+    return lesson;
+  },
+
   async getPopularLessons(location, startDate, endDate) {
     if (location === "特になし") {
       const lessons = await knex("lesson")
@@ -42,7 +47,13 @@ module.exports = {
   },
 
   async addLesson(lesson) {
-    const result = await knex("lesson").insert(lesson);
-    return result;
+    try {
+      console.log(lesson);
+      const lessonId = await knex("lesson").insert(lesson).returning("id");
+      console.log(lessonId);
+      return lessonId[0].id;
+    } catch (error) {
+      throw error;
+    }
   },
 };

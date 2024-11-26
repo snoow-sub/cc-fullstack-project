@@ -16,4 +16,20 @@ module.exports = {
       throw error;
     }
   },
+  async getUserAnswer(userId) {
+    try {
+      const answers = await knex("user_answer")
+        .select("*")
+        //複数同じquestion_idに対して回答している場合は最新の回答を優先
+        .whereIn("id", function () {
+          this.select(knex.raw("MAX(id)"))
+            .from("user_answer")
+            .where("user_id", userId) // user_idを絞り込む
+            .groupBy("question_id");
+        });
+      return answers;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
