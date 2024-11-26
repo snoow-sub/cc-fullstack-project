@@ -15,8 +15,7 @@ export default function App() {
   const [start, setStart] = useState(false);
   const [lessonNumber, setlessonNumber] = useState(0);
   const [popularLesson, setPopularLesson] = useState([]);
-  const port = process.env.PORT || 3000;
-  const hostname = process.env.HOSTNAME || "localhost";
+  const host = process.env.ENDPOINT || "98.82.11.196";
 
   async function getPlans(userId) {
     try {
@@ -28,7 +27,7 @@ export default function App() {
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
       const response = await fetch(
-        `http://localhost:3000/api/user/${userId}/lesson?${queryString}`
+        `http://${host}:3000/api/user/${userId}/lesson?${queryString}`
       );
       console.log(response);
       if (!response.ok) {
@@ -125,7 +124,7 @@ export default function App() {
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
       const response = await fetch(
-        `http://localhost:3000/api/lesson/popular?${queryString}`
+        `http://${host}:3000/api/lesson/popular?${queryString}`
       );
       console.log(response);
       if (!response.ok) {
@@ -186,7 +185,7 @@ export default function App() {
 
   async function getUser() {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/`);
+      const response = await fetch(`http://${host}:3000/api/user/`);
       console.log("userレスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
