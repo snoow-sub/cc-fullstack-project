@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import React from "react";
 
-export function Reservation({ lesson }) {
+export function Reservation({ lesson, lessonNumber }) {
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
-    if (response === "はい") {
+    if (response === "OK") {
       setResponseMessage("予約できました！");
       console.log(response);
-    } else if (response === "だめ") {
+    } else if (response === "NG") {
       setResponseMessage("予約がキャンセルされました");
     }
   };
@@ -28,35 +28,23 @@ export function Reservation({ lesson }) {
         {/* <img className="activity-image" src="image/ike.png" alt="生け花" /> */}
         <div>
           {/* <p>講座番号：{lesson[0][0].store_id}</p> */}
-          <p>講座内容：一緒に生け花で遊びませんか</p>
-          <p>講義時間：30分</p>
-          <p>講義形態：オンライン(お家でできます)</p>
+          <p>レッスン内容：{lesson[lessonNumber].description}</p>
+          <p>日時：{lesson[lessonNumber].date}</p>
+          <p>開始予定時刻：{lesson[lessonNumber].start_time}</p>
+          <p>終了予定時刻：{lesson[lessonNumber].location}</p>
+          <p>場所：{lesson[lessonNumber].location}</p>
         </div>
         <div>
-          <center>
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <button
-                      className="button-deco"
-                      onClick={() => handleResponse("はい")}
-                    >
-                      確定
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="button-deco"
-                      onClick={() => handleResponse("だめ")}
-                    >
-                      キャンセル
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </center>
+          <center><table>
+              <tbody><tr>
+              <td>
+                <button className="button-deco" onClick={() => handleResponse("OK")}>予約確定</button>
+              </td>
+              <td>
+                <button className="button-deco" onClick={() => handleResponse("NG")}>キャンセル</button>
+              </td>
+              </tr></tbody>
+            </table></center>
         </div>
       </div>
     </>
