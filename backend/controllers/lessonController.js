@@ -1,10 +1,13 @@
 const lessonModel = require("../models/lessonModel");
-const userModel = require("../models/userModel");
+const storeModel = require("../models/storeModel");
+const userAnswerModel = require("../models/userAnswerModel");
+const lessonAnswerModel = require("../models/lessonAnswerModel");
 const { getRecommendedLessons } = require("../controllers/recommend");
 
 // レコメンドする講習(lesson)を取得
-exports.getLessons = async (req, res) => {
+exports.getUserLessons = async (req, res) => {
   try {
+    //console.log(req.query);
     const location = req.query.location;
     const startDate = new Date(req.query.startDate);
     const endDate = new Date(req.query.endDate);
@@ -12,11 +15,23 @@ exports.getLessons = async (req, res) => {
     // const location = "関東";
     // const startDate = "2024-12-01";
     // const endDate = "2024-12-31";
-    const userData = await userModel.getUser(req.params.id);
-    const indicator = userData[0].indicator;
+    const userAnswer = await userAnswerModel.getUserAnswer(req.params.id);
     const lessons = await lessonModel.getLessons(location, startDate, endDate);
-
-    const recommendedLessons = getRecommendedLessons(lessons, indicator); //indicatorをもとにしたレコメンドのロジックはDemoDayまでに実装
+    // lessonsの各lessonについてlesson answerを取得してリスト化
+    let lessonAnswers = [];
+    for (let lesson of lessons) {
+      const lessonId = lesson.id; // lesson_idを取得
+      const answer = await lessonAnswerModel.getLessonAnswer(lessonId); // getLessonAnswerで回答を取得
+      lessonAnswers.push({
+        lessonId,
+        answer, // 取得した回答をlessonAnswersに追加
+      });
+    }
+    //console.log(lessonAnswers);
+    const recommendedLessons = await getRecommendedLessons(
+      userAnswer,
+      lessonAnswers
+    );
 
     res.status(200).json(recommendedLessons);
   } catch (err) {
@@ -31,7 +46,11 @@ exports.getPopularLessons = async (req, res) => {
     const location = req.query.location;
     const startDate = new Date(req.query.startDate);
     const endDate = new Date(req.query.endDate);
-    const popularLessons = await lessonModel.getPopularLessons(location, startDate, endDate);
+    const popularLessons = await lessonModel.getPopularLessons(
+      location,
+      startDate,
+      endDate
+    );
 
     res.status(200).json(popularLessons);
   } catch (err) {
@@ -43,8 +62,28 @@ exports.getPopularLessons = async (req, res) => {
 // 講習(lesson)を追加
 exports.addLesson = async (req, res) => {
   try {
-    const result = await lessonModel.addLesson(req.body);
-    res.status(200).json(result);
+    //各情報の取得
+    const storeInfo = req.body.store;
+    const lessonInfo = req.body.lesson;
+    const lessonAnswerInfo = req.body.lesson_answer;
+    //storeへの挿入、idの採番
+    const storeId = await storeModel.addStore(storeInfo);
+    console.log(storeInfo);
+    //lessonへの挿入、idの採番
+    lessonInfo.store_id = storeId;
+    const lessonId = await lessonModel.addLesson(lessonInfo);
+
+    //lessonAnswerへの挿入
+    const lessonAnswerData = lessonAnswerInfo.map((answer) => ({
+      ...answer,
+      lesson_id: lessonId,
+    }));
+
+    const insertedAnswers = await lessonAnswerModel.addLessonAnswer(
+      lessonAnswerData
+    );
+
+    res.status(201).json({ id: lessonId });
   } catch (err) {
     res.status(500).json({ error: "Failed to add lesson" });
     console.error(err);

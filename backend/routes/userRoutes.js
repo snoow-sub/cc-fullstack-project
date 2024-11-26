@@ -6,6 +6,6 @@ const lessonController = require("../controllers/lessonController");
 // const userAnswerController = require("../controllers/userAnswerController");
 
 router.post("/", userController.addUser);
-router.get("/:id/lesson", lessonController.getLessons);
+router.get("/:id/lesson", lessonController.getUserLessons);
 
 module.exports = router;

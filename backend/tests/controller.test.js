@@ -24,12 +24,18 @@ describe("APIテスト", () => {
         location: "関東",
       };
       it("ステータスコード201を返す", async () => {
-        const res = await chai.request(app).post("/api/user").send(postDataTemplate);
+        const res = await chai
+          .request(app)
+          .post("/api/user")
+          .send(postDataTemplate);
         res.should.have.status(201);
       });
       it("userテーブルにデータを登録し、DBで発行されたユーザIDを返す", async () => {
         // const expectedOutput = { id: DBで発行されたuserid };
-        const res = await chai.request(app).post("/api/user").send(postDataTemplate);
+        const res = await chai
+          .request(app)
+          .post("/api/user")
+          .send(postDataTemplate);
         res.should.have.status(201);
         const jsonParseRes = JSON.parse(res.text);
         jsonParseRes.should.have.property("id");
@@ -48,7 +54,9 @@ describe("APIテスト", () => {
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
-      const res = await chai.request(app).get(`/api/user/1/lesson?${queryString}`);
+      const res = await chai
+        .request(app)
+        .get(`/api/user/1/lesson?${queryString}`);
       const expectedOutput = [
         {
           id: 1,
@@ -134,7 +142,9 @@ describe("APIテスト", () => {
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
-      const res = await chai.request(app).get(`/api/user/1/lesson?${queryString}`);
+      const res = await chai
+        .request(app)
+        .get(`/api/user/1/lesson?${queryString}`);
       const expectedOutput = [
         {
           id: 1,
@@ -223,7 +233,9 @@ describe("APIテスト", () => {
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
-      const res = await chai.request(app).get(`/api/lesson/popular?${queryString}`);
+      const res = await chai
+        .request(app)
+        .get(`/api/lesson/popular?${queryString}`);
       const expectedOutput = [
         {
           id: 1,
@@ -281,7 +293,9 @@ describe("APIテスト", () => {
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
-      const res = await chai.request(app).get(`/api/lesson/popular?${queryString}`);
+      const res = await chai
+        .request(app)
+        .get(`/api/lesson/popular?${queryString}`);
       const expectedOutput = [
         {
           id: 1,
@@ -361,7 +375,10 @@ describe("APIテスト", () => {
         like: 1.0,
       };
       it("ステータスコード201を返す", async () => {
-        const res = await chai.request(app).post("/api/recommend").send(postDataTemplate);
+        const res = await chai
+          .request(app)
+          .post("/api/recommend")
+          .send(postDataTemplate);
         res.should.have.status(201);
       });
     });
@@ -398,8 +415,112 @@ describe("APIテスト", () => {
         ],
       };
       it("ステータスコード201を返す", async () => {
-        const res = await chai.request(app).post("/api/user_answer").send(postDataTemplate);
+        const res = await chai
+          .request(app)
+          .post("/api/user_answer")
+          .send(postDataTemplate);
         res.should.have.status(201);
+      });
+    });
+  });
+
+  describe("POSTで/api/reservationにアクセスされたとき", () => {
+    describe("リクエストが不正な場合", () => {
+      it("ステータスコード500を返す", async () => {
+        const res = await chai.request(app).post("/api/reservation");
+        res.should.have.status(500);
+      });
+    });
+    describe("リクエストが正しい場合", () => {
+      const postDataTemplate = {
+        date: "2024-12-01",
+        start_time: "10:00:00",
+        end_time: "12:00:00",
+        user_id: "2",
+        store_id: "1",
+        lesson_id: "1",
+      };
+      it("ステータスコード201を返す", async () => {
+        const res = await chai
+          .request(app)
+          .post("/api/reservation")
+          .send(postDataTemplate);
+        res.should.have.status(201);
+      });
+      it("reservationテーブルにデータを登録し、DBで発行された予約IDを返す", async () => {
+        // const expectedOutput = { id: DBで発行されたuserid };
+        const res = await chai
+          .request(app)
+          .post("/api/reservation")
+          .send(postDataTemplate);
+        res.should.have.status(201);
+        const jsonParseRes = JSON.parse(res.text);
+        jsonParseRes.should.have.property("id");
+        jsonParseRes["id"].should.be.a("number");
+      });
+    });
+  });
+
+  describe("POSTで/api/lessonにアクセスされたとき", () => {
+    describe("リクエストが不正な場合", () => {
+      it("ステータスコード500を返す", async () => {
+        const res = await chai.request(app).post("/api/lesson");
+        res.should.have.status(500);
+      });
+    });
+    describe("リクエストが正しい場合", () => {
+      const postDataTemplate = {
+        store: {
+          address: "東京都千代田区丸の内1-1",
+          info: "家族経営の小さな本屋。温かい雰囲気が特徴。",
+          certification: true,
+          name: "丸の内書店",
+        },
+        lesson: {
+          date: "2024-12-01",
+          start_time: "10:00:00",
+          end_time: "12:00:00",
+          location: "関東",
+          description: "初心者向けヨガレッスン",
+          imagePath: "/images/lesson1.jpg",
+          moviePath: "/movies/lesson1.mp4",
+          review: 5,
+          indicator: 85.0,
+          momentum: 100,
+        },
+        lesson_answer: [
+          {
+            question_id: 2,
+            answer: 0.9,
+          },
+          {
+            question_id: 1,
+            answer: 0.8,
+          },
+
+          {
+            question_id: 3,
+            answer: 0.2,
+          },
+        ],
+      };
+      it("ステータスコード201を返す", async () => {
+        const res = await chai
+          .request(app)
+          .post("/api/lesson")
+          .send(postDataTemplate);
+        res.should.have.status(201);
+      });
+      it("lessonテーブルにデータを登録し、DBで発行されたレッスンIDを返す", async () => {
+        // const expectedOutput = { id: DBで発行されたuserid };
+        const res = await chai
+          .request(app)
+          .post("/api/lesson")
+          .send(postDataTemplate);
+        res.should.have.status(201);
+        const jsonParseRes = JSON.parse(res.text);
+        jsonParseRes.should.have.property("id");
+        jsonParseRes["id"].should.be.a("number");
       });
     });
   });
