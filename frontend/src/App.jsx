@@ -25,7 +25,6 @@ export default function App() {
   const [endDate, setEndDate] = useState(new Date("2024-12-31"));
   const port = process.env.REACT_APP_PORT || 5000;
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
-  console.log(host);
 
   async function getPlans(userId) {
     try {
