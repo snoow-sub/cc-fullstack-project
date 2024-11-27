@@ -3,7 +3,7 @@ import React from "react";
 import "../css/userInput.css";
 
 export function UserInput({ handleLogin, sendFormData }) {
-  const host = process.env.ENDPOINT || "lo";
+  const host = process.env.ENDPOINT || "98.82.11.196";
   const [formData, setFormData] = useState({
     id: 13,
     name: "test",
