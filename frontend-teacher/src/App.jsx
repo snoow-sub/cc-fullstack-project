@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Login, TeacherInput } from "./components/TeacherInput";
 import { VideoUpload } from "./components/VideoUpload";
+import axios from "axios";
 
 import "./css/App.css";
 
@@ -9,16 +10,16 @@ export default function App() {
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
   const [start, setStart] = useState(false);
-  const [studentSum, setStudentSum] = useState(null);
   const [showStudentPage, setShowStudentPage] = useState(false);
   const [showVideoPage, setShowVideoPage] = useState(false);
   const [lessonNumber, setLessonNumber] = useState("");
+  const [lessonStudent, setLessonStudent] = useState([]);
 
   const port = process.env.PORT || 3000;
 
-  async function getPlans(userId) {
+  async function insert(userId) {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `http://localhost:3000/api/user/${userId}/lesson`
       );
       console.log("レスポンス取れるか確認");
@@ -33,23 +34,25 @@ export default function App() {
     }
   }
 
-  async function getUser() {
+  async function getLessonStudent(lesson_id) {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/`);
-      console.log("userレスポンス取れるか確認");
-      console.log(response);
-      if (!response.ok) {
+      console.log(lesson_id);
+      const response = await axios.get(
+        `http://localhost:3000/api/lesson/${lesson_id}/reservations`
+      );
+      console.log("予約確認");
+      console.log(response.data);
+      if (response.status === 200) {
+        // 正常なレスポンスの場合
+        console.log("レスポンス受信:", response.data);
+      } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const responseData = await response.json();
-      return responseData;
+      return response.data;
     } catch (error) {
       console.error("An error occurred:", error);
     }
   }
-
-  // todo 番号に対して受講生人数を返却
-  const student = 3;
 
   function handleLogin(state) {
     setLogin(state);
@@ -59,19 +62,33 @@ export default function App() {
     setProfile(data);
   }
 
+  const fetchLessonStudent = async (lessonNumber) => {
+    try {
+      const lessonStudentData = await getLessonStudent(lessonNumber);
+      console.log(lessonStudentData.participantList);
+      setLessonStudent((prevLessons) => [
+        ...prevLessons,
+        lessonStudentData.participantList,
+      ]);
+    } catch (error) {
+      console.error("Failed to fetch lesson student:", error);
+    }
+  };
+
   function handleSend() {
-    alert(`受講生人数: ${student}\n入力されたレッスン番号: ${lessonNumber}`);
+    fetchLessonStudent(lessonNumber);
+    console.log(lessonStudent);
+    setLessonStudent([]);
   }
 
-  useEffect(() => {
-    async function fetchPlans() {
-      const responseData = await getPlans(1);
-      // const userData = await getUser();
-      setLesson((prevLessons) => [...prevLessons, responseData]);
-      console.log("取得したデータ:", responseData);
-    }
-    fetchPlans();
-  }, [profile]);
+  // useEffect(() => {
+  //   async function fetchPlans() {
+  //     const responseData = await getPlans(1);
+  //     setLesson((prevLessons) => [...prevLessons, responseData]);
+  //     console.log("取得したデータ:", responseData);
+  //   }
+  //   fetchPlans();
+  // }, [profile]);
 
   if (showStudentPage) {
     return (
@@ -92,6 +109,21 @@ export default function App() {
         <br />
         <button onClick={handleSend}>送信</button>
         <button onClick={() => setShowStudentPage(false)}>戻る</button>
+        {lessonStudent.length > 0 && (
+          <div>
+            <h2>レッスンの受講生情報</h2>
+            <ul>
+              {lessonStudent[0].map((student, index) => (
+                <li key={index}>
+                  <div>
+                    参加者{index + 1}: {student.userName}
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {/* <pre>{JSON.stringify(lessonStudent, null, 2)}</pre>{" "} */}
+          </div>
+        )}
       </div>
     );
   }
@@ -144,3 +176,46 @@ export default function App() {
     </>
   );
 }
+
+// {
+//   store: {
+//     address: "東京都千代田区丸の内1-1",
+//     info: "家族経営の小さな本屋。温かい雰囲気が特徴。",
+//     certification: true,
+//     name: "丸の内書店",
+//   },
+//   lesson: {
+//     title: "ポーカー体験クラス",
+//     date: "2024-12-10",
+//     start_time: "10:00:00",
+//     end_time: "12:00:00",
+//     location: "千葉県",
+//     description: "ポーカーをやってみたい方はぜひ。",
+//     imagePath: ["/images/lesson21.jpg"],
+//     moviePath: ["2Ubyv9FbphM"],
+//     review: null,
+//     indicator: 85.0,
+//   },
+//   lesson_answer: [
+//     {
+//       question_id: 1,
+//       answer: 0.3,
+//     },
+//     {
+//       question_id: 2,
+//       answer: 0.5,
+//     },
+//     {
+//       question_id: 3,
+//       answer: 0.7,
+//     },
+//     {
+//       question_id: 4,
+//       answer: 0.4,
+//     },
+//     {
+//       question_id: 5,
+//       answer: 0.1,
+//     },
+//   ],
+// };
