@@ -1,0 +1,13 @@
+.buttonNext {
+  position: "absolute";
+  bottom: "8%";
+  left: "5%";
+  width: "90%";
+  padding: "10px";
+  background-color: "#f39867";
+  color: "white";
+  border: "none";
+  border-radius: "5px";
+  font-size: "16px";
+  cursor: "pointer";
+}

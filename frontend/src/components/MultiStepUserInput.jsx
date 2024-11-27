@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../css/multiStepUserInput.css";
 
 /**
  * MultiStepUserInput Component
@@ -166,6 +167,7 @@ export function MultiStepUserInput({
       <button
         onClick={handleBack}
         disabled={currentStep === 0}
+        className="buttonReturn"
         style={{
           position: "absolute",
           top: "2.5%",
@@ -174,8 +176,8 @@ export function MultiStepUserInput({
           backgroundColor: "#6AAADE",
           color: "white",
           border: "none",
-          borderRadius: "5px",
-          fontSize: "16px",
+          borderradius: "5px",
+          fontsize: "16px",
           cursor: currentStep === 0 ? "not-allowed" : "pointer",
         }}
       >
@@ -297,11 +299,11 @@ export function MultiStepUserInput({
           left: "5%",
           width: "90%",
           padding: "10px",
-          backgroundColor: "#6AAADE",
+          backgroundColor: "#f39867",
           color: "white",
           border: "none",
-          borderRadius: "5px",
-          fontSize: "16px",
+          borderradius: "5px",
+          fontsize: "16px",
           cursor: "pointer",
         }}
       >
