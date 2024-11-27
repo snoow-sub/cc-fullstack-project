@@ -25,10 +25,11 @@ module.exports = {
 
     //ユーザとレッスンのコサイン類似度を比較
     const lessonUserSimilarities = lessonAnswers.map((lessonAnswer) => {
-      //console.log(lessonAnswer);
       const lessonVector = answertToVector(lessonAnswer.answer);
       const similarity = cosineSimilarity(userVector, lessonVector);
+      // console.log(lessonAnswer.lessonId);
       // console.log(lessonVector);
+      // console.log(userVector);
       // console.log(similarity);
       return {
         lessonId: lessonAnswer.lessonId,
