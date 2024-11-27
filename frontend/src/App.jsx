@@ -99,6 +99,7 @@ export default function App() {
   function selectDate(state, start, end) {
     setStartDate(start);
     setEndDate(end);
+    console.log(start, end);
     setUserInput(state);
     fetchPlans();
   }
@@ -155,6 +156,8 @@ export default function App() {
           setFlick={setFlick}
           reserveLesson={reserveLesson}
           handleSwipeType={handleSwipeType}
+          startDate={startDate}
+          endDate={endDate}
         />
       ) : userInput ? (
         <UserInputForMultiStep
@@ -163,13 +166,7 @@ export default function App() {
           sendFormData={receiveFormData}
         />
       ) : (
-        <SelectDate
-          selectDate={(e) => {
-            e.preventDefault();
-            selectDate(true, formData.startDate, formData.endDate);
-          }}
-          formData={formData}
-        />
+        <SelectDate selectDate={() => selectDate()} />
       )}
     </>
   );

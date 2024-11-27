@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "../css/userInput.css";
+import "../css/multiStepUserInput.css";
 import { MultiStepUserInput } from "./MultiStepUserInput";
 
 const baseQuestions = [
@@ -187,10 +188,10 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
           sex: formData.sex,
           birthday: formData.birthday,
           address: formData.address,
-          hobby: formData.hobby,
-          location: formData.location,
         }),
       });
+      // hobby: formData.hobby,
+      //location: formData.location,
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

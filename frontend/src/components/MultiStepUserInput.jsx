@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../css/multiStepUserInput.css";
 
 /**
  * MultiStepUserInput Component
@@ -163,34 +164,25 @@ export function MultiStepUserInput({
       }}
     >
       {/* 戻るボタン（左上に固定） */}
-      <button
+      <a
+        href="javascript:void(0)"
         onClick={handleBack}
         disabled={currentStep === 0}
+        className="buttonReturn"
         style={{
-          position: "absolute",
-          top: "2.5%",
-          left: "1%",
-          padding: "10px",
-          backgroundColor: "#6AAADE",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          fontSize: "16px",
-          cursor: currentStep === 0 ? "not-allowed" : "pointer",
+          display: currentStep === 0 ? "none" : "inline-block",
         }}
-      >
-        戻る
-      </button>
+      ></a>
 
       {/* プログレスバー */}
       <div
         style={{
           marginBottom: "20px",
-          width: "80%",
           position: "absolute",
           top: "5%",
-          left: "20%",
           height: "15px",
+          left: "0%",
+          width: "100%",
         }}
       >
         <div
@@ -297,11 +289,11 @@ export function MultiStepUserInput({
           left: "5%",
           width: "90%",
           padding: "10px",
-          backgroundColor: "#6AAADE",
+          backgroundColor: "#f39867",
           color: "white",
           border: "none",
-          borderRadius: "5px",
-          fontSize: "16px",
+          borderradius: "5px",
+          fontsize: "16px",
           cursor: "pointer",
         }}
       >

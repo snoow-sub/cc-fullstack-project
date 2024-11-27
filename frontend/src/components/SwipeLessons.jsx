@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 import "../css/swipe.css";
+import { ImageGallery } from "./ImageGallery";
 
 export function SwipeLessons({
   profile,
@@ -9,6 +10,8 @@ export function SwipeLessons({
   handleSwipeType,
   lesson,
   popularLesson,
+  startDate,
+  endDate,
 }) {
   const currentPath = process.env.REACT_APP_BASE_DIR || "../../";
   const [number, setNumber] = useState(0);
@@ -112,7 +115,11 @@ export function SwipeLessons({
             <center>
               <form className="set-calendar">
                 <label className="calendar-design">
-                  <input type="date" />
+                  <input type="date" value={startDate} />
+                </label>
+                <br />
+                <label className="calendar-design">
+                  <input type="date" value={endDate} />
                 </label>
               </form>
             </center>
@@ -120,12 +127,15 @@ export function SwipeLessons({
           </div>
           <br />
           <div className="lesson-box" {...handlers}>
+            /*{" "}
             <img
               className="lesson-image"
               src={lesson[number].imagePath}
               alt="生け花"
               {...handlers}
-            />
+            />{" "}
+            */
+            {/* <ImageGallery /> */}
             <div className="lesson-details">
               {/* <p>{profile.calendar}</p> */}
               <p>レッスン内容：{lesson[number].description}</p>
