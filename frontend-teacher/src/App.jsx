@@ -13,13 +13,13 @@ export default function App() {
   const [showStudentPage, setShowStudentPage] = useState(false);
   const [showVideoPage, setShowVideoPage] = useState(false);
   const [lessonNumber, setLessonNumber] = useState("");
-
+  const host = process.env.HOST || "98.82.11.196";
   const port = process.env.PORT || 3000;
 
   async function getPlans(userId) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/user/${userId}/lesson`
+        `http://${host}:3000/api/user/${userId}/lesson`
       );
       console.log("レスポンス取れるか確認");
       console.log(response);
@@ -35,7 +35,7 @@ export default function App() {
 
   async function getUser() {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/`);
+      const response = await fetch(`http://${host}:3000/api/user/`);
       console.log("userレスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
