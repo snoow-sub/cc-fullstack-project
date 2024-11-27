@@ -137,7 +137,7 @@ const addisionalQuestions = [
 ];
 
 export function UserInputForMultiStep({ handleLogin, sendFormData }) {
-  const host = process.env.ENDPOINT || "localhost";
+  const host = process.env.ENDPOINT || "98.82.11.196";
 
   const mock = {
     name: "テスト太郎",
