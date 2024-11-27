@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Login, TeacherInput } from "./components/TeacherInput";
 import { VideoUpload } from "./components/VideoUpload";
+import { ShowS3Images } from "./components/ShowS3Images"; //S3画像表示テスト用
 
 import "./css/App.css";
 
@@ -12,15 +13,14 @@ export default function App() {
   const [studentSum, setStudentSum] = useState(null);
   const [showStudentPage, setShowStudentPage] = useState(false);
   const [showVideoPage, setShowVideoPage] = useState(false);
+  const [showImagesPage, setShowImagesPage] = useState(false); //S3画像表示テスト用
   const [lessonNumber, setLessonNumber] = useState("");
 
   const port = process.env.PORT || 3000;
 
   async function getPlans(userId) {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/user/${userId}/lesson`
-      );
+      const response = await fetch(`http://localhost:3000/api/user/${userId}/lesson`);
       console.log("レスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
@@ -100,6 +100,11 @@ export default function App() {
     return <VideoUpload />;
   }
 
+  if (showImagesPage) {
+    //S3画像表示テスト用
+    return <ShowS3Images />;
+  }
+
   return (
     <>
       {!start ? (
@@ -116,30 +121,26 @@ export default function App() {
           <br />
           <br />
           <div className="footer">
-            <button
-              className="student-button"
-              onClick={() => setShowStudentPage(true)}
-            >
+            <button className="student-button" onClick={() => setShowStudentPage(true)}>
               受講生確認画面へ
             </button>
             <br></br>
             <br></br>
-            <button
-              className="video-button"
-              onClick={() => setShowVideoPage(true)}
-            >
-              動画アップロード
+            <button className="video-button" onClick={() => setShowVideoPage(true)}>
+              画像アップロード
+            </button>
+            <br></br>
+            <br></br>
+            {/* S3画像表示テスト用 */}
+            <button className="video-button" onClick={() => setShowImagesPage(true)}>
+              画像表示
             </button>
           </div>
           <br />
           <br />
         </div>
       ) : (
-        <TeacherInput
-          profile={profile}
-          handleLogin={handleLogin}
-          sendFormData={receiveFormData}
-        />
+        <TeacherInput profile={profile} handleLogin={handleLogin} sendFormData={receiveFormData} />
       )}
     </>
   );
