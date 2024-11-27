@@ -20,8 +20,8 @@ module.exports = {
         .whereIn("id", function () {
           this.select(knex.raw("MAX(id)"))
             .from("lesson_answer")
-            .where("lesson_id", lessonId) // user_idを絞り込む
-            .groupBy("lesson_id");
+            .where("lesson_id", lessonId) // lesson_idを絞り込む
+            .groupBy("question_id");
         });
       return answers;
     } catch (error) {

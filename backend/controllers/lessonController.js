@@ -22,16 +22,19 @@ exports.getUserLessons = async (req, res) => {
     for (let lesson of lessons) {
       const lessonId = lesson.id; // lesson_idを取得
       const answer = await lessonAnswerModel.getLessonAnswer(lessonId); // getLessonAnswerで回答を取得
+      // console.log(answer);
       lessonAnswers.push({
         lessonId,
         answer, // 取得した回答をlessonAnswersに追加
       });
     }
-    //console.log(lessonAnswers);
+
     const recommendedLessons = await getRecommendedLessons(
       userAnswer,
       lessonAnswers
     );
+
+    console.log(recommendedLessons);
 
     res.status(200).json(recommendedLessons);
   } catch (err) {
