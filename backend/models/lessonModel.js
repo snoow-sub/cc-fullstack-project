@@ -48,9 +48,9 @@ module.exports = {
 
   async addLesson(lesson) {
     try {
-      console.log(lesson);
+      // console.log(lesson);
       const lessonId = await knex("lesson").insert(lesson).returning("id");
-      console.log(lessonId);
+      // console.log(lessonId);
       return lessonId[0].id;
     } catch (error) {
       throw error;
