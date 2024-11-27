@@ -29,12 +29,9 @@ exports.getUserLessons = async (req, res) => {
       });
     }
 
-    const recommendedLessons = await getRecommendedLessons(
-      userAnswer,
-      lessonAnswers
-    );
+    const recommendedLessons = await getRecommendedLessons(userAnswer, lessonAnswers);
 
-    console.log(recommendedLessons);
+    // console.log(recommendedLessons);
 
     res.status(200).json(recommendedLessons);
   } catch (err) {
@@ -49,11 +46,7 @@ exports.getPopularLessons = async (req, res) => {
     const location = req.query.location;
     const startDate = new Date(req.query.startDate);
     const endDate = new Date(req.query.endDate);
-    const popularLessons = await lessonModel.getPopularLessons(
-      location,
-      startDate,
-      endDate
-    );
+    const popularLessons = await lessonModel.getPopularLessons(location, startDate, endDate);
 
     res.status(200).json(popularLessons);
   } catch (err) {
@@ -65,13 +58,17 @@ exports.getPopularLessons = async (req, res) => {
 // 講習(lesson)を追加
 exports.addLesson = async (req, res) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(500).json({ error: "Body is required" });
+    }
+
     //各情報の取得
     const storeInfo = req.body.store;
     const lessonInfo = req.body.lesson;
     const lessonAnswerInfo = req.body.lesson_answer;
     //storeへの挿入、idの採番
     const storeId = await storeModel.addStore(storeInfo);
-    console.log(storeInfo);
+    // console.log(storeInfo);
     //lessonへの挿入、idの採番
     lessonInfo.store_id = storeId;
     const lessonId = await lessonModel.addLesson(lessonInfo);
@@ -82,9 +79,7 @@ exports.addLesson = async (req, res) => {
       lesson_id: lessonId,
     }));
 
-    const insertedAnswers = await lessonAnswerModel.addLessonAnswer(
-      lessonAnswerData
-    );
+    const insertedAnswers = await lessonAnswerModel.addLessonAnswer(lessonAnswerData);
 
     res.status(201).json({ id: lessonId });
   } catch (err) {

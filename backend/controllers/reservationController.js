@@ -5,6 +5,9 @@ const userModel = require("../models/userModel");
 // 利用者(reservation)を追加
 exports.addReservation = async (req, res) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(500).json({ error: "Body is required" });
+    }
     const reservation = await reservationModel.addReservation(req.body);
     res.status(201).json(reservation);
   } catch (err) {
