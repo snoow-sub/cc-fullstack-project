@@ -25,7 +25,7 @@ export function MultiStepUserInput({
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      alert("送る処理が入る: " + JSON.stringify(formData, null, 2));
+      //alert("送る処理が入る: " + JSON.stringify(formData, null, 2));
       setCurrentStep(0);
       finalCallback();
     }

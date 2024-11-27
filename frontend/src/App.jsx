@@ -21,7 +21,7 @@ export default function App() {
   const [startDate, setStartDate] = useState(new Date("2024-11-29"));
   const [endDate, setEndDate] = useState(new Date("2024-12-31"));
   const port = process.env.PORT || 5000;
-  const hostname = process.env.HOSTNAME || "98.82.11.196";
+  const host = process.env.HOSTNAME || "98.82.11.196";
 
   async function getPlans(userId) {
     try {

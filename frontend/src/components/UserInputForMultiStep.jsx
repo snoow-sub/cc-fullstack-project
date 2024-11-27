@@ -57,7 +57,7 @@ const baseQuestions = [
   },
 ];
 
-const addisionalQuestions = [
+const addisionalQuestions_ = [
   {
     id: 1,
     label: ["インドア派", "アウトドア派"],
@@ -100,13 +100,59 @@ const addisionalQuestions = [
   },
 ];
 
+const addisionalQuestions = [
+  {
+    id: 1,
+    label: ["インドア派", "アウトドア派"],
+    type: "text",
+    name: "inoutdoor",
+    characterMainMessage: "メインメッセージ",
+    characterSubMessage: "サブメッセージ",
+  },
+  {
+    id: 2,
+    label: ["少人数でやりたい", "大人数でやりたい"],
+    type: "text",
+    name: "scale",
+    characterMainMessage: "メインメッセージ",
+    characterSubMessage: "サブメッセージ",
+  },
+  {
+    id: 3,
+    label: ["近くでやりたい", "遠くてもよい"],
+    type: "text",
+    name: "distance",
+    characterMainMessage: "メインメッセージ",
+    characterSubMessage: "サブメッセージ",
+  },
+  {
+    id: 4,
+    label: ["黙々とやりたい", "和気藹々とやりたい"],
+    type: "text",
+    name: "silent",
+    characterMainMessage: "メインメッセージ",
+    characterSubMessage: "サブメッセージ",
+  },
+];
+
 export function UserInputForMultiStep({ handleLogin, sendFormData }) {
   const host = process.env.ENDPOINT || "98.82.11.196";
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [currentPage, setCurrentPage] = useState("userBaseQuestions");
-  const [userId, setUserId] = useState(null);
-  const [formData, setFormData] = useState({
+  const mock = {
+    name: "テスト太郎",
+    sex: 1,
+    birthday: "2024-12-01",
+    address: "名古屋",
+    hobby: "スポーツ",
+    location: "東京都",
+    inoutdoor: 0.5,
+    scale: 0.5,
+    distance: 0.5,
+    silent: 0.5,
+    momentum: 0.5,
+  };
+
+  const honban = {
     name: "",
     sex: "",
     birthday: "",
@@ -118,7 +164,12 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
     distance: 0.5,
     silent: 0.5,
     momentum: 0.5,
-  });
+  };
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState("userBaseQuestions");
+  const [userId, setUserId] = useState(null);
+  const [formData, setFormData] = useState(mock);
 
   function navigateToUserAddisionalQuestions() {
     setCurrentPage("userAddisionalQuestions");
