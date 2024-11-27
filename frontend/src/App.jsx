@@ -5,6 +5,7 @@ import { ShowActivity, SwipeLessons } from "./components/SwipeLessons";
 import { MultiStepUserInput } from "./components/MultiStepUserInput";
 import { Reservation } from "./components/Reservation";
 import { SelectDate } from "./components/SelectDate";
+import { ProgressToSwipe } from "./components/ProgressToSwipe";
 import { ReservationPopular } from "./components/ReservationPopular";
 
 import "./css/App.css";
@@ -14,6 +15,7 @@ export default function App() {
   const [clickPopular, setClickPopular] = useState(false);
   const [swipeType, setSwipeType] = useState("");
   const [login, setLogin] = useState(false);
+  const [p2Swipe, setP2Swipe] = useState(false);
   const [inputDate, setInputDate] = useState(false);
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
@@ -24,7 +26,7 @@ export default function App() {
   const [startDate, setStartDate] = useState(new Date("2024-11-29"));
   const [endDate, setEndDate] = useState(new Date("2024-12-31"));
   const port = process.env.PORT || 5000;
-  const host = process.env.HOSTNAME || "98.82.11.196";
+  const host = process.env.HOSTNAME || "98.82.11.196"; //これをlocalhostにしないとローカルで動かない
 
   async function getPlans(userId) {
     try {
@@ -33,9 +35,7 @@ export default function App() {
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
-      const response = await fetch(
-        `http://${host}:3000/api/user/${userId}/lesson?${queryString}`
-      );
+      const response = await fetch(`http://${host}:3000/api/user/${userId}/lesson?${queryString}`);
       // console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -54,9 +54,7 @@ export default function App() {
         startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
         endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
       }).toString();
-      const response = await fetch(
-        `http://${host}:3000/api/lesson/popular?${queryString}`
-      );
+      const response = await fetch(`http://${host}:3000/api/lesson/popular?${queryString}`);
       // console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -87,8 +85,19 @@ export default function App() {
     setLogin(state);
   }
 
-  function handleInputCheck(state) {
-    setInputDate(true);
+  // function handleInputCheck(state) {
+  //   setInputDate(true);
+  // }
+
+  function handleInputDate(state) {
+    if (state === true) {
+      setP2Swipe(true); // ProgressToSwipeに進むフラグ
+    }
+  }
+
+  function handleProgressToSwipeComplete() {
+    setP2Swipe(false);
+    setInputDate(true); // SwipeLessonsに進むフラグ
   }
 
   function handleInputStartDate(date) {
@@ -168,18 +177,23 @@ export default function App() {
           startDate={startDate}
           endDate={endDate}
         />
+      ) : p2Swipe ? (
+        <ProgressToSwipe
+          profile={profile}
+          lesson={lesson}
+          startDate={startDate}
+          endDate={endDate}
+          onComplete={handleProgressToSwipeComplete}
+        />
       ) : login ? (
         <SelectDate
           handleInputStartDate={handleInputStartDate}
           handleInputEndDate={handleInputEndDate}
-          handleInputDate={handleInputCheck}
+          //handleInputDate={handleInputCheck}
+          handleInputDate={handleInputDate}
         />
       ) : userInput ? (
-        <UserInputForMultiStep
-          profile={profile}
-          handleLogin={handleLogin}
-          sendFormData={receiveFormData}
-        />
+        <UserInputForMultiStep profile={profile} handleLogin={handleLogin} sendFormData={receiveFormData} />
       ) : (
         console.log("error")
       )}
