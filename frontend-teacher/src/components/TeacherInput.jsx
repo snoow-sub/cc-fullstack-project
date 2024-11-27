@@ -24,6 +24,7 @@ export function TeacherInput({ handleLogin, sendFormData }) {
   const [page, setPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   const port = process.env.PORT || 3000;
+  const host = process.env.HOST || "98.82.11.196";
 
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
@@ -38,7 +39,7 @@ export function TeacherInput({ handleLogin, sendFormData }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/user", {
+      const response = await fetch(`http://${host}:3000/api/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +62,7 @@ export function TeacherInput({ handleLogin, sendFormData }) {
       setAnswer(updatedAnswer);
 
       const responseAnswer = await fetch(
-        "http://localhost:3000/api/user_answer",
+        `http://${host}:3000/api/user_answer`,
         {
           method: "POST",
           headers: {

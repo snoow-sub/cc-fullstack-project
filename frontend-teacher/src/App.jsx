@@ -15,12 +15,14 @@ export default function App() {
   const [showVideoPage, setShowVideoPage] = useState(false);
   const [showImagesPage, setShowImagesPage] = useState(false); //S3画像表示テスト用
   const [lessonNumber, setLessonNumber] = useState("");
-
+  const host = process.env.HOST || "98.82.11.196";
   const port = process.env.PORT || 3000;
 
   async function getPlans(userId) {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/${userId}/lesson`);
+      const response = await fetch(
+        `http://${host}:3000/api/user/${userId}/lesson`
+      );
       console.log("レスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {
@@ -35,7 +37,7 @@ export default function App() {
 
   async function getUser() {
     try {
-      const response = await fetch(`http://localhost:3000/api/user/`);
+      const response = await fetch(`http://${host}:3000/api/user/`);
       console.log("userレスポンス取れるか確認");
       console.log(response);
       if (!response.ok) {

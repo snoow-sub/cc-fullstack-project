@@ -6,6 +6,7 @@ import { ImageGallery } from "./ImageGallery";
 export function SwipeLessons({
   profile,
   setFlick,
+  setClickPopular,
   reserveLesson,
   handleSwipeType,
   lesson,
@@ -99,11 +100,28 @@ export function SwipeLessons({
       //   handleSwipeType("なし");
       // }, 1000);
     },
+    // onSwipedUp: () => {
+    //   handleSwipeType("up");
+    //   console.log("上スワイプされました");
+    //   setTimeout(() => {
+    //     handleSwipeType("なし");
+    //   }, 10);
+    // },
+    // onSwipedDown: () => {
+    //   handleSwipeType("down");
+    //   console.log("下スワイプされました");
+    //   setTimeout(() => {
+    //     handleSwipeType("なし");
+    //   }, 10);
+    // },
+    // preventDefaultTouchmoveEvent: true, // スクロールと競合しないよう設定
+    // trackTouch: true,
   });
 
   function clickPopularLesson(popularNumber) {
     setNumber(popularNumber);
     reserveLesson(popularNumber);
+    setClickPopular(true);
     setFlick(false);
   }
 
@@ -114,10 +132,12 @@ export function SwipeLessons({
           <div className="profile-info">
             <center>
               <form className="set-calendar">
+                開始日：
                 <label className="calendar-design">
                   <input type="date" value={startDate} />
                 </label>
                 <br />
+                終了日：
                 <label className="calendar-design">
                   <input type="date" value={endDate} />
                 </label>
@@ -127,15 +147,17 @@ export function SwipeLessons({
           </div>
           <br />
           <div className="lesson-box" {...handlers}>
-            /*{" "}
+            {/*{" "}
             <img
               className="lesson-image"
               src={lesson[number].imagePath}
               alt="生け花"
               {...handlers}
             />{" "}
-            */
-            {/* <ImageGallery /> */}
+            */}
+            <ImageGallery
+              imgPathList={["./images/logo.png", "./images/tennis.png"]}
+            />
             <div className="lesson-details">
               {/* <p>{profile.calendar}</p> */}
               <p>レッスン内容：{lesson[number].description}</p>
