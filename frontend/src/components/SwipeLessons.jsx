@@ -5,11 +5,11 @@ import { ImageGallery } from "./ImageGallery";
 
 export function SwipeLessons({
   profile,
+  lesson,
   setFlick,
   setClickPopular,
   reserveLesson,
   handleSwipeType,
-  lesson,
   popularLesson,
   startDate,
   endDate,

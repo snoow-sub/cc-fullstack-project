@@ -154,17 +154,21 @@ export default function App() {
           </div>
         </div>
       ) : clickPopular ? (
-        <ReservationPopular popularLesson={popularLesson} />
+        <ReservationPopular popularLesson={popularLesson} lessonNumber={lessonNumber} />
       ) : !flick ? ( // flickがfalseならReservationを表示
-        <Reservation lesson={lesson} lessonNumber={lessonNumber} />
+        <Reservation
+          lesson={lesson}
+          lessonNumber={lessonNumber}
+        />
       ) : inputDate ? (
         <SwipeLessons
           profile={profile}
           lesson={lesson}
-          popularLesson={popularLesson}
           setFlick={setFlick}
+          setClickPopular={setClickPopular}
           reserveLesson={reserveLesson}
           handleSwipeType={handleSwipeType}
+          popularLesson={popularLesson}
           startDate={startDate}
           endDate={endDate}
         />
