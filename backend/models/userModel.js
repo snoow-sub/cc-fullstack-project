@@ -3,11 +3,9 @@ const knex = require("../knexConfig");
 module.exports = {
   async addUser(user) {
     try {
-      const { name, sex, birthday, address, hobby, location } = user;
+      const { name, sex, birthday, address } = user;
       const indicator = 50;
-      const result = await knex("users")
-        .insert({ name, sex, birthday, address, hobby, location, indicator })
-        .returning("id");
+      const result = await knex("users").insert({ name, sex, birthday, address, indicator }).returning("id");
       return result[0].id;
     } catch (error) {
       throw error;

@@ -18,9 +18,12 @@ exports.seed = async function (knex) {
       end_time: "12:00:00",
       location: "東京都", // 修正
       description: "リラクゼーションを中心とした初心者向けヨガクラスです。",
-      imagePath: ["/images/yoga1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/001_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/001_2.png",
+      ],
       movie_id: ["EzN2a2HZkHs"],
-      review: 4.5,
+      review: 4.9,
       indicator: 85.0,
     },
     {
@@ -32,7 +35,10 @@ exports.seed = async function (knex) {
       end_time: "15:30:00",
       location: "東京都", // 修正
       description: "生け花の基本を学び、美しいアレンジメントを作ります。",
-      imagePath: ["/images/ikebana1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/002_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/002_2.png",
+      ],
       movie_id: ["wTlgbB4tmyk"],
       review: 3.8,
       indicator: 70.5,
@@ -46,7 +52,10 @@ exports.seed = async function (knex) {
       end_time: "18:00:00",
       location: "東京都", // 修正
       description: "初心者向け料理教室で簡単な家庭料理を学びます。",
-      imagePath: ["/images/cooking1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/003_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/003_2.png",
+      ],
       movie_id: ["eWPKGjPvY24"],
       review: 3.5,
       indicator: 78.0,
@@ -60,7 +69,10 @@ exports.seed = async function (knex) {
       end_time: "12:00:00",
       location: "東京都", // 修正
       description: "初心者向け刺繍レッスンで可愛いデザインを作ります。",
-      imagePath: ["/images/embroidery1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/004_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/004_2.png",
+      ],
       movie_id: ["qwVl8JczTu0"],
       review: 4.0,
       indicator: 72.0,
@@ -74,7 +86,10 @@ exports.seed = async function (knex) {
       end_time: "10:30:00",
       location: "東京都", // 修正
       description: "初心者向けテニスレッスンで基本的なスキルを学びます。",
-      imagePath: ["/images/tennis1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/005_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/005_2.png",
+      ],
       movie_id: ["ZNVbmXq0Jfo"],
       review: 3.7,
       indicator: 75.0,
@@ -88,7 +103,10 @@ exports.seed = async function (knex) {
       end_time: "14:00:00",
       location: "東京都", // 修正
       description: "初心者向けのハイキングで自然を楽しみながら運動しましょう。",
-      imagePath: ["/images/hiking1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/006_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/006_2.png",
+      ],
       movie_id: ["VeTm3nDB7iU"],
       review: 3.6,
       indicator: 85.0,
@@ -102,7 +120,10 @@ exports.seed = async function (knex) {
       end_time: "18:00:00",
       location: "東京都", // 修正
       description: "心身をリフレッシュさせるヨガセッションです。",
-      imagePath: ["/images/yoga2.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/007_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/007_2.png",
+      ],
       movie_id: ["yPX0p3qtGg4"],
       review: 4.8,
       indicator: 88.5,
@@ -116,7 +137,10 @@ exports.seed = async function (knex) {
       end_time: "20:30:00",
       location: "東京都", // 修正
       description: "リラックスした夜のヨガで一日の疲れを癒します。",
-      imagePath: ["/images/yoga3.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/008_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/008_2.png",
+      ],
       movie_id: ["Z5uaxJBUGeM"],
       review: 4.9,
       indicator: 92.5,
@@ -130,7 +154,10 @@ exports.seed = async function (knex) {
       end_time: "16:30:00",
       location: "東京都", // 修正
       description: "初心者向け英会話教室で日常会話を学びます。",
-      imagePath: ["/images/english1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/009_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/009_2.png",
+      ],
       movie_id: ["GSTjkeEXdsA"],
       review: 4.7,
       indicator: 80.0,
@@ -144,7 +171,10 @@ exports.seed = async function (knex) {
       end_time: "12:00:00",
       location: "千葉県", // サンプル別地域
       description: "初心者向けのプログラミング講座で基本的なスキルを習得。",
-      imagePath: ["/images/programming1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0010_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0010_2.png",
+      ],
       movie_id: ["d4UMUHVpbCI"],
       review: 4.5,
       indicator: 85.0,

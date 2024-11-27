@@ -10,8 +10,8 @@ exports.seed = async function (knex) {
   // データを格納する配列
   const data = [];
 
-  // user_id: 1～10, question_id: 1～4 の組み合わせを生成
-  for (let user_id = 1; user_id <= 10; user_id++) {
+  // user_id: 1～10, question_id: 1～5 の組み合わせを生成
+  for (let user_id = 1; user_id <= 9; user_id++) {
     for (let question_id = 1; question_id <= 5; question_id++) {
       data.push({
         user_id,
