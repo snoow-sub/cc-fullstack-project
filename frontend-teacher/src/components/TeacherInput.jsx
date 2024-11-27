@@ -23,8 +23,8 @@ export function TeacherInput({ handleLogin, sendFormData }) {
   });
   const [page, setPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
-  const port = process.env.PORT || 3000;
-  const host = process.env.HOST || "98.82.11.196";
+  const port = process.env.REACT_APP_PORT || 3000;
+  const host = process.env.REACT_APP_HOST || "98.82.11.196";
 
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {

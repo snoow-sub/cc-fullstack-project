@@ -15,8 +15,8 @@ export default function App() {
   const [showVideoPage, setShowVideoPage] = useState(false);
   const [showImagesPage, setShowImagesPage] = useState(false); //S3画像表示テスト用
   const [lessonNumber, setLessonNumber] = useState("");
-  const host = process.env.HOST || "98.82.11.196";
-  const port = process.env.PORT || 3000;
+  const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
+  const port = process.env.REACT_APP_PORT || 3000;
 
   async function getPlans(userId) {
     try {
@@ -123,18 +123,27 @@ export default function App() {
           <br />
           <br />
           <div className="footer">
-            <button className="student-button" onClick={() => setShowStudentPage(true)}>
+            <button
+              className="student-button"
+              onClick={() => setShowStudentPage(true)}
+            >
               受講生確認画面へ
             </button>
             <br></br>
             <br></br>
-            <button className="video-button" onClick={() => setShowVideoPage(true)}>
+            <button
+              className="video-button"
+              onClick={() => setShowVideoPage(true)}
+            >
               画像アップロード
             </button>
             <br></br>
             <br></br>
             {/* S3画像表示テスト用 */}
-            <button className="video-button" onClick={() => setShowImagesPage(true)}>
+            <button
+              className="video-button"
+              onClick={() => setShowImagesPage(true)}
+            >
               画像表示
             </button>
           </div>
@@ -142,7 +151,11 @@ export default function App() {
           <br />
         </div>
       ) : (
-        <TeacherInput profile={profile} handleLogin={handleLogin} sendFormData={receiveFormData} />
+        <TeacherInput
+          profile={profile}
+          handleLogin={handleLogin}
+          sendFormData={receiveFormData}
+        />
       )}
     </>
   );
