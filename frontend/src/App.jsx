@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { Login, UserInput } from "./components/UserInput";
 import { UserInputForMultiStep } from "./components/UserInputForMultiStep";
 import { ShowActivity, SwipeLessons } from "./components/SwipeLessons";
 import { MultiStepUserInput } from "./components/MultiStepUserInput";
@@ -29,7 +28,7 @@ export default function App() {
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
   const [userId, setUserId] = useState(null);
 
-  async function postReservation(userId, lessonId) {
+  async function postReservation(userSelectedLessonId) {
     try {
       const response = await fetch(`http://${host}:3000/api/reservation`, {
         method: "POST",
@@ -38,7 +37,7 @@ export default function App() {
         },
         body: JSON.stringify({
           user_id: userId,
-          lesson_id: lessonId,
+          lesson_id: userSelectedLessonId,
         }),
       });
 
@@ -50,7 +49,7 @@ export default function App() {
     }
   }
 
-  async function getPlans(userId) {
+  async function getPlans() {
     try {
       let startDatePlus1 = new Date(startDate);
       startDatePlus1.setDate(startDatePlus1.getDate() + 1);
@@ -136,9 +135,7 @@ export default function App() {
   });
 
   async function fetchPlans() {
-    const responseData = await getPlans(1);
-    // const userData = await getUser();
-    // setLesson((prevLessons) => [...prevLessons, responseData]);
+    const responseData = await getPlans(userId);
     setLesson(responseData);
     // console.log("取得したレッスン:", responseData);
   }
@@ -148,12 +145,6 @@ export default function App() {
     setPopularLesson(responseData);
     // console.log("取得した人気レッスン:", responseData);
   }
-
-  useEffect(() => {
-    // console.log(startDate, endDate);
-    fetchPlans();
-    fetchPopularLesson();
-  }, [startDate, endDate]);
 
   return (
     <>
@@ -211,7 +202,6 @@ export default function App() {
         />
       ) : inputDate ? (
         <SwipeLessons
-          profile={profile}
           lesson={lesson}
           setFlick={setFlick}
           setClickPopular={setClickPopular}
@@ -220,6 +210,7 @@ export default function App() {
           popularLesson={popularLesson}
           startDate={startDate}
           endDate={endDate}
+          fetchPopularLesson={fetchPopularLesson}
         />
       ) : login ? (
         <SelectDate
@@ -227,6 +218,7 @@ export default function App() {
           setStartDate={setStartDate}
           setEndDate={setEndDate}
           setP2Swipe={setP2Swipe}
+          fetchPlans={fetchPlans}
         />
       ) : userInput ? (
         <UserInputForMultiStep

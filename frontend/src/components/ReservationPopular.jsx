@@ -18,7 +18,7 @@ export function ReservationPopular({
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
     if (response === "OK") {
-      postReservation(userId, popularLesson[lessonNumber].id);
+      postReservation(popularLesson[lessonNumber].id);
       setResponseMessage("予約できました！");
       setTimeout(() => {
         setStart(false);

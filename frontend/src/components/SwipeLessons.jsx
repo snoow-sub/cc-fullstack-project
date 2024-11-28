@@ -5,7 +5,6 @@ import { ImageGallery } from "./ImageGallery";
 import { convertFormatDatetimeForLesson } from "../utils/datetimeFormatter";
 
 export function SwipeLessons({
-  profile,
   lesson,
   setFlick,
   setClickPopular,
@@ -14,6 +13,7 @@ export function SwipeLessons({
   popularLesson,
   startDate,
   endDate,
+  fetchPopularLesson,
 }) {
   const currentPath = process.env.REACT_APP_BASE_DIR || "../../";
   const [number, setNumber] = useState(0);
@@ -118,7 +118,8 @@ export function SwipeLessons({
     setIsTutorial(true);
   }
 
-  function nextPopularCard() {
+  async function nextPopularCard() {
+    await fetchPopularLesson(); // 人気のレッスンを取得
     setPopularFlag(true); // 人気のフラグを立てる
     startAnimation(); // アニメーションを開始
   }

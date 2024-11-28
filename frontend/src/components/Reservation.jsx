@@ -13,12 +13,11 @@ export function Reservation({
   setLogin,
   setUserInput,
   postReservation,
-  userId,
 }) {
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
     if (response === "OK") {
-      postReservation(userId, lesson[lessonNumber].id);
+      postReservation(lesson[lessonNumber].id);
       setResponseMessage("予約できました！");
       setTimeout(() => {
         setStart(false);
