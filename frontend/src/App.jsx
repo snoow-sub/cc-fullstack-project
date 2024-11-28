@@ -30,9 +30,12 @@ export default function App() {
 
   async function getPlans(userId) {
     try {
+      let startDatePlus1 = new Date(startDate);
+      startDatePlus1.setDate(startDatePlus1.getDate() + 1);
+      startDatePlus1 = startDatePlus1.toISOString().slice(0,10);
       const queryString = new URLSearchParams({
         location: "特になし",
-        startDate: startDate,
+        startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
       const response = await fetch(`http://${host}:3000/api/user/${userId}/lesson?${queryString}`);
@@ -48,9 +51,12 @@ export default function App() {
 
   async function getPopularLesson() {
     try {
+      let startDatePlus1 = new Date(startDate);
+      startDatePlus1.setDate(startDatePlus1.getDate() + 1);
+      startDatePlus1 = startDatePlus1.toISOString().slice(0,10);
       const queryString = new URLSearchParams({
         location: "特になし",
-        startDate: startDate,
+        startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
       const response = await fetch(`http://${host}:3000/api/lesson/popular?${queryString}`);
@@ -108,17 +114,17 @@ export default function App() {
     // const userData = await getUser();
     // setLesson((prevLessons) => [...prevLessons, responseData]);
     setLesson(responseData);
-    console.log("取得したレッスン:", responseData);
+    // console.log("取得したレッスン:", responseData);
   }
 
   async function fetchPopularLesson() {
     const responseData = await getPopularLesson();
     setPopularLesson(responseData);
-    console.log("取得した人気レッスン:", responseData);
+    // console.log("取得した人気レッスン:", responseData);
   }
 
   useEffect(() => {
-    console.log(startDate, endDate);
+    // console.log(startDate, endDate);
     fetchPlans();
     fetchPopularLesson();
   }, [startDate, endDate]);
@@ -142,7 +148,17 @@ export default function App() {
           </div>
         </div>
       ) : clickPopular ? ( //clickPopularがtrueなら表示
-        <ReservationPopular popularLesson={popularLesson} lessonNumber={lessonNumber} />
+        <ReservationPopular
+          popularLesson={popularLesson}
+          lessonNumber={lessonNumber}
+          setStart={setStart}
+          setClickPopular={setClickPopular}
+          setFlick={setFlick}
+          setInputDate={setInputDate}
+          setP2Swipe={setP2Swipe}
+          setLogin={setLogin}
+          setUserInput={setUserInput}
+        />
       ) : !flick ? ( // flickがfalseならReservationを表示
         <Reservation
           lesson={lesson}

@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import React from "react";
 
-export function ReservationPopular({ popularLesson, lessonNumber }) {
+export function ReservationPopular({ popularLesson, lessonNumber, setStart, setClickPopular, setFlick, setInputDate, setP2Swipe, setLogin, setUserInput }) {
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
     if (response === "OK") {
       setResponseMessage("予約できました！");
-      console.log(response);
+      setTimeout(() => {
+        setStart(false);
+        setClickPopular(false);
+        setFlick(true);
+        setInputDate(false);
+        setP2Swipe(false);
+        setLogin(false);
+        setUserInput(true);
+      }, 1000)
     } else {
       setResponseMessage("予約エラー");
     }
