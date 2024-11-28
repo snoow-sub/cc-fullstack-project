@@ -51,6 +51,7 @@ export function MultiStepUserInput({
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      setCurrentTouch(0);
     }
   };
 
@@ -119,6 +120,13 @@ export function MultiStepUserInput({
         })}
       </div>
     );
+  };
+
+  const renderCharacterSubMessage = () => {
+    const subMessage = questions[currentStep].characterSubMessage;
+    const userName = formData.name || "ゲスト";
+
+    return subMessage.replace("**userName**", userName);
   };
 
   const renderInput = (step) => {
@@ -247,6 +255,8 @@ export function MultiStepUserInput({
             {currentStep === questions.length
               ? "質問はもう少しだけ続くよ！"
               : currentTouch === 10
+              ? "そんなに構ってほしいの？ちょっとだけだよっ（パチッ）"
+              : currentTouch >= 5
               ? "そんなにつんつんしないでよ～くすぐったい！"
               : currentTouch >= 1
               ? "ぼくのこと触っても先には進まないよ～"
@@ -256,14 +266,15 @@ export function MultiStepUserInput({
                 : Number(currentAnswer) >= 0.8
                 ? `${questions[currentStep].characterRightMessage}`
                 : `${questions[currentStep].characterMediumMessage}`
-              : `${questions[currentStep].characterSubMessage}`}
+              : `${renderCharacterSubMessage()}`}
           </span>
         </p>
       </div>
 
       {/* イラスト */}
+
       <img
-        src={"./images/dico.png"}
+        src={`./images/${currentTouch === 10 ? "dico_wink.png" : "dico.png"}`} // currentTouchに応じて画像を切り替え
         onClick={handleTouch}
         alt="キャラクター"
         className="character-image"
