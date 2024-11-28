@@ -22,6 +22,8 @@ export function SwipeLessons({
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
 
+  const [isTutorial, setIsTutorial] = useState(true);
+
   const startAnimation = () => {
     if (card1Ref.current) {
       card1Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
@@ -72,19 +74,22 @@ export function SwipeLessons({
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       handleSwipeType("left");
-      if (number < limit) {
+      if (isTutorial === true) {
+        setIsTutorial(false);
+      } else if (number < limit) {
         reserveLesson(number + 1);
         setNumber(number + 1);
       }
       console.log("呼ばれてますよ左");
-      setTimeout(() => {
-        handleSwipeType("なし");
-      }, 10);
     },
     onSwipedRight: () => {
       handleSwipeType("right");
-      reserveLesson(number);
-      setFlick(false);
+      if (isTutorial === true) {
+        setIsTutorial(false);
+      } else {
+        reserveLesson(number);
+        setFlick(false);
+      }
       console.log("呼ばれてますよ右");
       console.log(lesson[number]);
     },
@@ -107,48 +112,101 @@ export function SwipeLessons({
     startAnimation(); // アニメーションを開始
   }
 
+  function convertFormatDatetime(lesson) {
+    console.log(lesson.date);
+    console.log(typeof lesson.date);
+    const formatDate = lesson.date.split("T")[0];
+    const formatStarttimeHour = lesson.start_time.split(":")[0];
+    const formatStarttimeMinite = lesson.start_time.split(":")[1];
+    const formatEndtimeHour = lesson.end_time.split(":")[0];
+    const formatEndtimeMinite = lesson.end_time.split(":")[1];
+
+    return `${formatDate} ${formatStarttimeHour}:${formatStarttimeMinite}-${formatEndtimeHour}:${formatEndtimeMinite}`;
+  }
+
   return (
     <>
       {number < limit ? (
         <div>
-          <div className="profile-info">
-            <center>
-              <form className="set-calendar">
-                開始日：
-                <label className="calendar-design">
-                  <input type="date" value={startDate} />
-                </label>
+          {isTutorial ? (
+            <>
+              <div className="profile-info">
+                <center>
+                  <form className="set-calendar">
+                    開始日：
+                    <label className="calendar-design">
+                      <input type="date" value={startDate} readOnly />
+                    </label>
+                    <br />
+                    終了日：
+                    <label className="calendar-design">
+                      <input type="date" value={endDate} readOnly />
+                    </label>
+                  </form>
+                </center>
                 <br />
-                終了日：
-                <label className="calendar-design">
-                  <input type="date" value={endDate} />
-                </label>
-              </form>
-            </center>
-            <br />
-          </div>
-          <br />
-          <div className="lesson-box" {...handlers}>
-            {/*{" "}
-            <img
-              className="lesson-image"
-              src={lesson[number].imagePath}
-              alt="生け花"
-              {...handlers}
-            />{" "}
-            */}
-            <ImageGallery
-              imgPathList={["./images/logo.png", "./images/tennis.png"]}
-            />
-            <div className="lesson-details">
-              {/* <p>{profile.calendar}</p> */}
-              <p>レッスン内容：{lesson[number].description}</p>
-              <p>日時：{lesson[number].date}</p>
-              <p>開始予定時刻：{lesson[number].start_time}</p>
-              <p>終了予定時刻：{lesson[number].location}</p>
-              <p>場所：{lesson[number].location}</p>
-            </div>
-          </div>
+              </div>
+              <br />
+              <div className="lesson-box" {...handlers}>
+                <ImageGallery
+                  imgPaths={["./images/dico.png"]}
+                  youtubeIds={[]}
+                  disableButtons={true}
+                />
+                <div className="lesson-details">
+                  {/* <p>{profile.calendar}</p> */}
+                  <div>
+                    今からあなたにピッタリな5つのレッスンカードが表示されるよ！
+                    <br />
+                    少しでも気になったらカードを右へスワイプして予約してみよう！
+                    <br />
+                    気に入らなかったら左へスワイプすると次のレッスンが表示されるよ
+                    <br />
+                    じゃあ、さっそく左にスワイプしてレッスンカードを表示させよう！
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="profile-info">
+                <center>
+                  <form className="set-calendar">
+                    開始日：
+                    <label className="calendar-design">
+                      <input type="date" value={startDate} />
+                    </label>
+                    <br />
+                    終了日：
+                    <label className="calendar-design">
+                      <input type="date" value={endDate} />
+                    </label>
+                  </form>
+                </center>
+                <br />
+              </div>
+              <br />
+              <div className="lesson-box" {...handlers}>
+                <ImageGallery
+                  imgPaths={["./images/logo.png", "./images/tennis.png"]}
+                  youtubeIds={["Pj_DUmneOE8"]}
+                  disableButtons={false}
+                />
+                <div className="lesson-details">
+                  {/* <p>{profile.calendar}</p> */}
+                  <p className="lesson-box-title">{lesson[number].title}</p>
+                  <p className="lesson-box-description">
+                    {lesson[number].description}
+                  </p>
+                  <p className="lesson-box-description">
+                    開催日時： {convertFormatDatetime(lesson[number])}
+                    <br />
+                    開催場所：{lesson[number].location}
+                  </p>
+                </div>
+              </div>
+            </>
+          )}{" "}
         </div>
       ) : popularFlag === true ? (
         <div id="container">
