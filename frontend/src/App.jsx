@@ -23,8 +23,8 @@ export default function App() {
   const [lessonNumber, setlessonNumber] = useState(0);
   const [popularLesson, setPopularLesson] = useState([]);
   const [userInput, setUserInput] = useState(false);
-  const [startDate, setStartDate] = useState(new Date("2024-11-29"));
-  const [endDate, setEndDate] = useState(new Date("2024-12-31"));
+  const [startDate, setStartDate] = useState("2024-11-29");
+  const [endDate, setEndDate] = useState("2024-12-31");
   const port = process.env.REACT_APP_PORT || 5000;
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
 
@@ -32,11 +32,10 @@ export default function App() {
     try {
       const queryString = new URLSearchParams({
         location: "特になし",
-        startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
-        endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
+        startDate: startDate,
+        endDate: endDate,
       }).toString();
       const response = await fetch(`http://${host}:3000/api/user/${userId}/lesson?${queryString}`);
-      // console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -51,11 +50,10 @@ export default function App() {
     try {
       const queryString = new URLSearchParams({
         location: "特になし",
-        startDate: startDate.toISOString().split("T")[0], //"2024-12-01",
-        endDate: endDate.toISOString().split("T")[0], //"2024-12-31",
+        startDate: startDate,
+        endDate: endDate,
       }).toString();
       const response = await fetch(`http://${host}:3000/api/lesson/popular?${queryString}`);
-      // console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -69,8 +67,6 @@ export default function App() {
   async function getUser() {
     try {
       const response = await fetch(`http://${host}:3000/api/user/`);
-      console.log("userレスポンス取れるか確認");
-      console.log(response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -85,27 +81,9 @@ export default function App() {
     setLogin(state);
   }
 
-  // function handleInputCheck(state) {
-  //   setInputDate(true);
-  // }
-
-  function handleInputDate(state) {
-    if (state === true) {
-      setP2Swipe(true); // ProgressToSwipeに進むフラグ
-    }
-  }
-
   function handleProgressToSwipeComplete() {
     setP2Swipe(false);
     setInputDate(true); // SwipeLessonsに進むフラグ
-  }
-
-  function handleInputStartDate(date) {
-    setStartDate(date);
-  }
-
-  function handleInputEndDate(date) {
-    setEndDate(date);
   }
 
   function handleSwipeType(direction) {
@@ -130,19 +108,20 @@ export default function App() {
     // const userData = await getUser();
     // setLesson((prevLessons) => [...prevLessons, responseData]);
     setLesson(responseData);
-    console.log("取得したデータ:", responseData);
+    console.log("取得したレッスン:", responseData);
   }
 
   async function fetchPopularLesson() {
     const responseData = await getPopularLesson();
     setPopularLesson(responseData);
-    console.log("取得したデータ:", responseData);
+    console.log("取得した人気レッスン:", responseData);
   }
 
   useEffect(() => {
+    console.log(startDate, endDate);
     fetchPlans();
     fetchPopularLesson();
-  }, [profile]);
+  }, [startDate, endDate]);
 
   return (
     <>
@@ -168,10 +147,21 @@ export default function App() {
         <Reservation
           lesson={lesson}
           lessonNumber={lessonNumber}
+          setStart={setStart}
           setClickPopular={setClickPopular}
           setFlick={setFlick}
           setInputDate={setInputDate}
           setP2Swipe={setP2Swipe}
+          setLogin={setLogin}
+          setUserInput={setUserInput}
+        />
+      ) : p2Swipe ? (
+        <ProgressToSwipe
+          profile={profile}
+          lesson={lesson}
+          startDate={startDate}
+          endDate={endDate}
+          onComplete={handleProgressToSwipeComplete}
         />
       ) : inputDate ? (
         <SwipeLessons
@@ -185,20 +175,12 @@ export default function App() {
           startDate={startDate}
           endDate={endDate}
         />
-      ) : p2Swipe ? (
-        <ProgressToSwipe
-          profile={profile}
-          lesson={lesson}
-          startDate={startDate}
-          endDate={endDate}
-          onComplete={handleProgressToSwipeComplete}
-        />
       ) : login ? (
         <SelectDate
-          handleInputStartDate={handleInputStartDate}
-          handleInputEndDate={handleInputEndDate}
-          //handleInputDate={handleInputCheck}
-          handleInputDate={handleInputDate}
+          setInputDate={setInputDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+          setP2Swipe={setP2Swipe}
         />
       ) : userInput ? (
         <UserInputForMultiStep profile={profile} handleLogin={handleLogin} sendFormData={receiveFormData} />

@@ -2,7 +2,7 @@ import React from "react";
 import "../css/multiStepUserInput.css"; // 必要に応じてCSSファイルを調整してください
 
 export function ProgressToSwipe({ profile, lesson, startDate, endDate, onComplete }) {
-  console.log("ProgressToSwipeが表示されました", { profile, lesson, startDate, endDate }); // デバッグ用
+  // console.log("ProgressToSwipeが表示されました", { profile, lesson, startDate, endDate }); // デバッグ用
 
   const handleNext = () => {
     // 次の画面に進むため、`inputDate`を`true`に設定

@@ -26,7 +26,7 @@ export function MultiStepUserInput({
     });
 
     setCurrentAnswer(e.target.value);
-    console.log(typeof currentAnswer, currentAnswer);
+    // console.log(typeof currentAnswer, currentAnswer);
   };
 
   const handleNext = () => {
@@ -56,8 +56,8 @@ export function MultiStepUserInput({
   };
 
   const renderConfirmation = () => {
-    console.log(questions);
-    console.log(formData);
+    // console.log(questions);
+    // console.log(formData);
 
     return (
       <div className="confirmation-container">
