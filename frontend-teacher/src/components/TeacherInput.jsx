@@ -6,6 +6,7 @@ import axios from "axios";
 export function TeacherInput({ handleLogin, sendFormData }) {
   const [page, setPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
+
   const [lessonId, setLessonId] = useState();
   const [lesson, setLesson] = useState({
     title: "ポーカー体験クラス",
@@ -33,7 +34,10 @@ export function TeacherInput({ handleLogin, sendFormData }) {
     { question_id: 4, answer: 0.5 },
     { question_id: 5, answer: 0.5 },
   ]);
-  const port = process.env.PORT || 3000;
+
+  const port = process.env.REACT_APP_PORT || 3000;
+  const host = process.env.REACT_APP_HOST || "98.82.11.196";
+
 
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
@@ -53,6 +57,7 @@ export function TeacherInput({ handleLogin, sendFormData }) {
       )
     );
   };
+
 
   const handleChange = (dataType, key, value, index = null) => {
     if (dataType === "store") {
@@ -78,9 +83,11 @@ export function TeacherInput({ handleLogin, sendFormData }) {
         lesson_answer: [...lessonAnswer],
       };
 
+
       const response = await axios.post(
-        "http://localhost:3000/api/lesson",
+        `http://${host}:3000/api/lesson`,
         combinedData
+
       );
 
       if (response.status === 201) {

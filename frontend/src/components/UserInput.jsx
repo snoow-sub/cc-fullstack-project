@@ -3,7 +3,7 @@ import React from "react";
 import "../css/userInput.css";
 
 export function UserInput({ handleLogin, sendFormData }) {
-  const host = process.env.ENDPOINT || "98.82.11.196";
+  const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
   const [formData, setFormData] = useState({
     id: 13,
     name: "test",
@@ -39,7 +39,7 @@ export function UserInput({ handleLogin, sendFormData }) {
   const [page, setPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   // const [responseData, setResponseData] = useState();
-  const port = process.env.PORT || 3000;
+  const port = process.env.REACT_APP_PORT || 3000;
 
   async function handleSubmit(e) {
     e.preventDefault();

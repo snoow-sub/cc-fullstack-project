@@ -5,13 +5,16 @@ import { ShowActivity, SwipeLessons } from "./components/SwipeLessons";
 import { MultiStepUserInput } from "./components/MultiStepUserInput";
 import { Reservation } from "./components/Reservation";
 import { SelectDate } from "./components/SelectDate";
+import { ReservationPopular } from "./components/ReservationPopular";
 
 import "./css/App.css";
 
 export default function App() {
   const [flick, setFlick] = useState(true);
+  const [clickPopular, setClickPopular] = useState(false);
   const [swipeType, setSwipeType] = useState("");
   const [login, setLogin] = useState(false);
+  const [inputDate, setInputDate] = useState(false);
   const [profile, setProfile] = useState(null);
   const [lesson, setLesson] = useState([]);
   const [start, setStart] = useState(false);
@@ -20,8 +23,8 @@ export default function App() {
   const [userInput, setUserInput] = useState(false);
   const [startDate, setStartDate] = useState(new Date("2024-11-29"));
   const [endDate, setEndDate] = useState(new Date("2024-12-31"));
-  const port = process.env.PORT || 5000;
-  const host = process.env.HOSTNAME || "98.82.11.196";
+  const port = process.env.REACT_APP_PORT || 5000;
+  const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
 
   async function getPlans(userId) {
     try {
@@ -84,6 +87,18 @@ export default function App() {
     setLogin(state);
   }
 
+  function handleInputCheck(state) {
+    setInputDate(true);
+  }
+
+  function handleInputStartDate(date) {
+    setStartDate(date);
+  }
+
+  function handleInputEndDate(date) {
+    setEndDate(date);
+  }
+
   function handleSwipeType(direction) {
     setSwipeType(direction);
   }
@@ -94,13 +109,6 @@ export default function App() {
 
   function reserveLesson(lessonNumber) {
     setlessonNumber(lessonNumber);
-  }
-
-  function selectDate(state, start, end) {
-    setStartDate(start);
-    setEndDate(end);
-    setUserInput(state);
-    fetchPlans();
   }
 
   const [formData, setFormData] = useState({
@@ -145,16 +153,30 @@ export default function App() {
             </a>
           </div>
         </div>
+      ) : clickPopular ? (
+        <ReservationPopular popularLesson={popularLesson} lessonNumber={lessonNumber} />
       ) : !flick ? ( // flickがfalseならReservationを表示
-        <Reservation lesson={lesson} lessonNumber={lessonNumber} />
-      ) : login ? (
+        <Reservation
+          lesson={lesson}
+          lessonNumber={lessonNumber}
+        />
+      ) : inputDate ? (
         <SwipeLessons
           profile={profile}
           lesson={lesson}
-          popularLesson={popularLesson}
           setFlick={setFlick}
+          setClickPopular={setClickPopular}
           reserveLesson={reserveLesson}
           handleSwipeType={handleSwipeType}
+          popularLesson={popularLesson}
+          startDate={startDate}
+          endDate={endDate}
+        />
+      ) : login ? (
+        <SelectDate
+          handleInputStartDate={handleInputStartDate}
+          handleInputEndDate={handleInputEndDate}
+          handleInputDate={handleInputCheck}
         />
       ) : userInput ? (
         <UserInputForMultiStep
@@ -163,13 +185,7 @@ export default function App() {
           sendFormData={receiveFormData}
         />
       ) : (
-        <SelectDate
-          selectDate={(e) => {
-            e.preventDefault();
-            selectDate(true, formData.startDate, formData.endDate);
-          }}
-          formData={formData}
-        />
+        console.log("error")
       )}
     </>
   );

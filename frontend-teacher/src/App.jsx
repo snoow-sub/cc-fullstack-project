@@ -3,6 +3,7 @@ import { Login, TeacherInput } from "./components/TeacherInput";
 import { VideoUpload } from "./components/VideoUpload";
 import axios from "axios";
 
+
 import "./css/App.css";
 
 export default function App() {
@@ -15,12 +16,17 @@ export default function App() {
   const [lessonNumber, setLessonNumber] = useState("");
   const [lessonStudent, setLessonStudent] = useState([]);
 
-  const port = process.env.PORT || 3000;
+
+  const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
+  const port = process.env.REACT_APP_PORT || 3000;
+
 
   async function insert(userId) {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/user/${userId}/lesson`
+
+      const response = await fetch(
+        `http://${host}:3000/api/user/${userId}/lesson`
+
       );
       console.log("レスポンス取れるか確認");
       console.log(response);
@@ -38,7 +44,7 @@ export default function App() {
     try {
       console.log(lesson_id);
       const response = await axios.get(
-        `http://localhost:3000/api/lesson/${lesson_id}/reservations`
+        `http://${host}:3000/api/lesson/${lesson_id}/reservations`
       );
       console.log("予約確認");
       console.log(response.data);
@@ -46,6 +52,7 @@ export default function App() {
         // 正常なレスポンスの場合
         console.log("レスポンス受信:", response.data);
       } else {
+
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.data;
@@ -132,6 +139,7 @@ export default function App() {
     return <VideoUpload />;
   }
 
+
   return (
     <>
       {!start ? (
@@ -160,8 +168,10 @@ export default function App() {
               className="video-button"
               onClick={() => setShowVideoPage(true)}
             >
-              動画アップロード
+              画像アップロード
             </button>
+            <br></br>
+            <br></br>
           </div>
           <br />
           <br />

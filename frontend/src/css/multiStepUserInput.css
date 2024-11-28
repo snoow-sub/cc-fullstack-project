@@ -1,0 +1,26 @@
+.buttonNext {
+  position: "absolute";
+  bottom: "8%";
+  left: "5%";
+  width: "90%";
+  padding: "10px";
+  background-color: "#f39867";
+  color: "white";
+  border: "none";
+  border-radius: "5px";
+  font-size: "16px";
+  cursor: "pointer";
+}
+
+.buttonReturn {
+  width: 11px;
+  height: 11px;
+  border: 0;
+  border-top: solid 2px #6aaade;
+  border-left: solid 2px #6aaade;
+  transform: rotate(-45deg);
+  position: absolute;
+  top: 8%;
+  left: 2%;
+  margin: auto;
+}
