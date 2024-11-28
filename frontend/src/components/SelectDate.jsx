@@ -2,15 +2,12 @@ import { useState } from "react";
 import React from "react";
 import "../css/selectDate.css";
 
-export function SelectDate({
-  handleInputStartDate,
-  handleInputEndDate,
-  handleInputDate,
-}) {
+export function SelectDate({ handleInputStartDate, handleInputEndDate, handleInputDate }) {
   const [inputStartDate, setInputStartDate] = useState("2024-11-29");
   const [inputEndDate, setInputEndDate] = useState("2024-12-01");
 
   function setDate() {
+    console.log("開始日:", inputStartDate, "終了日:", inputEndDate); // デバッグ用
     handleInputStartDate(inputStartDate);
     handleInputEndDate(inputEndDate);
     handleInputDate(true);
@@ -95,8 +92,10 @@ export function SelectDate({
             top: "25%",
           }}
         />
+        <br />
+        {/* 中沢変更 */}
         <button
-        onClick={setDate}
+          onClick={setDate}
           style={{
             position: "absolute",
             bottom: "8%",
@@ -110,7 +109,9 @@ export function SelectDate({
             fontsize: "16px",
             cursor: "pointer",
           }}
-        >検索</button>
+        >
+          次へ
+        </button>
       </center>
     </>
   );

@@ -220,19 +220,16 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
 
       console.log(formatedAnswer);
 
-      const responseAnswer = await fetch(
-        `http://${host}:3000/api/user_answer`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: userId,
-            user_answer: formatedAnswer,
-          }),
-        }
-      );
+      const responseAnswer = await fetch(`http://${host}:3000/api/user_answer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          user_answer: formatedAnswer,
+        }),
+      });
       if (!responseAnswer.ok) {
         throw new Error(`HTTP error! Status: ${responseAnswer.status}`);
       }
