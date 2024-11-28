@@ -162,12 +162,16 @@ export default function App() {
             </a>
           </div>
         </div>
-      ) : clickPopular ? (
+      ) : clickPopular ? ( //clickPopularがtrueなら表示
         <ReservationPopular popularLesson={popularLesson} lessonNumber={lessonNumber} />
       ) : !flick ? ( // flickがfalseならReservationを表示
         <Reservation
           lesson={lesson}
           lessonNumber={lessonNumber}
+          setClickPopular={setClickPopular}
+          setFlick={setFlick}
+          setInputDate={setInputDate}
+          setP2Swipe={setP2Swipe}
         />
       ) : inputDate ? (
         <SwipeLessons

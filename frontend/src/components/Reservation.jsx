@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 
-export function Reservation({ lesson, lessonNumber }) {
+export function Reservation({ lesson, lessonNumber, setClickPopular, setFlick, setInputDate, setP2Swipe }) {
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
     if (response === "OK") {
@@ -9,6 +9,10 @@ export function Reservation({ lesson, lessonNumber }) {
       console.log(response);
     } else if (response === "NG") {
       setResponseMessage("予約がキャンセルされました");
+      setClickPopular(false);
+      setFlick(true);
+      setInputDate(false);
+      setP2Swipe(true);
     }
   };
   if (responseMessage) {
