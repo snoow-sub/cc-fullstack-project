@@ -118,7 +118,7 @@ exports.seed = async function (knex) {
       date: "2024-12-01",
       start_time: "16:00:00",
       end_time: "18:00:00",
-      location: "東京都", // 修正
+      location: "自宅", // 修正
       description: "心身をリフレッシュさせるヨガセッションです。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/007_1.png",
@@ -135,7 +135,7 @@ exports.seed = async function (knex) {
       date: "2024-12-01",
       start_time: "19:00:00",
       end_time: "20:30:00",
-      location: "東京都", // 修正
+      location: "自宅", // 修正
       description: "リラックスした夜のヨガで一日の疲れを癒します。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/008_1.png",
@@ -152,7 +152,7 @@ exports.seed = async function (knex) {
       date: "2024-12-01",
       start_time: "15:00:00",
       end_time: "16:30:00",
-      location: "東京都", // 修正
+      location: "自宅", // 修正
       description: "初心者向け英会話教室で日常会話を学びます。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/009_1.png",
@@ -169,7 +169,7 @@ exports.seed = async function (knex) {
       date: "2024-12-03",
       start_time: "10:00:00",
       end_time: "12:00:00",
-      location: "千葉県", // サンプル別地域
+      location: "自宅", // サンプル別地域
       description: "初心者向けのプログラミング講座で基本的なスキルを習得。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0010_1.png",
@@ -186,7 +186,7 @@ exports.seed = async function (knex) {
       date: "2024-12-03",
       start_time: "13:00:00",
       end_time: "15:00:00",
-      location: "埼玉県",
+      location: "東京都",
       description: "初心者向けのカラオケレッスンで歌唱力を向上させます。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0011_1.png",
@@ -203,7 +203,7 @@ exports.seed = async function (knex) {
       date: "2024-12-04",
       start_time: "10:00:00",
       end_time: "12:00:00",
-      location: "神奈川県",
+      location: "東京都",
       description: "初心者向けの写真撮影クラスで構図や基本操作を学びます。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0012_1.png",
@@ -220,7 +220,7 @@ exports.seed = async function (knex) {
       date: "2024-12-05",
       start_time: "15:00:00",
       end_time: "16:30:00",
-      location: "茨城県",
+      location: "東京都",
       description: "初心者向けスイミングクラスで基本を習得します。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0013_1.png",
@@ -237,7 +237,7 @@ exports.seed = async function (knex) {
       date: "2024-12-06",
       start_time: "10:00:00",
       end_time: "12:30:00",
-      location: "千葉県",
+      location: "東京都",
       description: "初心者向けのボルダリングクラスで体を動かし、楽しみます。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0014_1.png",
@@ -271,7 +271,7 @@ exports.seed = async function (knex) {
       date: "2024-12-07",
       start_time: "17:00:00",
       end_time: "18:30:00",
-      location: "神奈川県",
+      location: "自宅",
       description: "初心者向けの瞑想レッスンで心をリフレッシュ。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0016_1.png",
@@ -288,7 +288,7 @@ exports.seed = async function (knex) {
       date: "2024-12-08",
       start_time: "11:00:00",
       end_time: "12:30:00",
-      location: "茨城県",
+      location: "東京都",
       description: "初心者向けの日本茶教室で茶道の基本を学びます。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0017_1.png",
@@ -322,7 +322,7 @@ exports.seed = async function (knex) {
       date: "2024-12-09",
       start_time: "07:00:00",
       end_time: "08:30:00",
-      location: "埼玉県",
+      location: "東京都",
       description: "初心者向けランニングで基本のフォームを習得。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0019_1.png",
@@ -339,7 +339,7 @@ exports.seed = async function (knex) {
       date: "2024-12-09",
       start_time: "09:00:00",
       end_time: "11:30:00",
-      location: "自宅",
+      location: "東京都",
       description: "初心者向けスキークラスで雪山を楽しみます。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0020_1.png",
