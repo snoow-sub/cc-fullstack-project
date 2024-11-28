@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 import "../css/swipe.css";
 import { ImageGallery } from "./ImageGallery";
+import { convertFormatDatetimeForLesson } from "../utils/datetimeFormatter";
 
 export function SwipeLessons({
-  profile,
   lesson,
   setFlick,
   setClickPopular,
@@ -13,6 +13,7 @@ export function SwipeLessons({
   popularLesson,
   startDate,
   endDate,
+  fetchPopularLesson,
 }) {
   const currentPath = process.env.REACT_APP_BASE_DIR || "../../";
   const [number, setNumber] = useState(0);
@@ -117,21 +118,10 @@ export function SwipeLessons({
     setIsTutorial(true);
   }
 
-  function nextPopularCard() {
+  async function nextPopularCard() {
+    await fetchPopularLesson(); // 人気のレッスンを取得
     setPopularFlag(true); // 人気のフラグを立てる
     startAnimation(); // アニメーションを開始
-  }
-
-  function convertFormatDatetime(lesson) {
-    // console.log(lesson.date);
-    // console.log(typeof lesson.date);
-    const formatDate = lesson.date.split("T")[0];
-    const formatStarttimeHour = lesson.start_time.split(":")[0];
-    const formatStarttimeMinite = lesson.start_time.split(":")[1];
-    const formatEndtimeHour = lesson.end_time.split(":")[0];
-    const formatEndtimeMinite = lesson.end_time.split(":")[1];
-
-    return `${formatDate} ${formatStarttimeHour}:${formatStarttimeMinite}-${formatEndtimeHour}:${formatEndtimeMinite}`;
   }
 
   return (
@@ -209,7 +199,7 @@ export function SwipeLessons({
                     {lesson[number].description}
                   </p>
                   <p className="lesson-box-description">
-                    開催日時： {convertFormatDatetime(lesson[number])}
+                    開催日時： {convertFormatDatetimeForLesson(lesson[number])}
                     <br />
                     開催場所：{lesson[number].location}
                   </p>

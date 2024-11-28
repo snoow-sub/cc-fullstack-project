@@ -1,10 +1,24 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import { convertFormatDatetimeForLesson } from "../utils/datetimeFormatter";
 
-export function ReservationPopular({ popularLesson, lessonNumber, setStart, setClickPopular, setFlick, setInputDate, setP2Swipe, setLogin, setUserInput }) {
+export function ReservationPopular({
+  popularLesson,
+  lessonNumber,
+  setStart,
+  setClickPopular,
+  setFlick,
+  setInputDate,
+  setP2Swipe,
+  setLogin,
+  setUserInput,
+  postReservation,
+  userId,
+}) {
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
     if (response === "OK") {
+      postReservation(popularLesson[lessonNumber].id);
       setResponseMessage("予約できました！");
       setTimeout(() => {
         setStart(false);
@@ -14,7 +28,7 @@ export function ReservationPopular({ popularLesson, lessonNumber, setStart, setC
         setP2Swipe(false);
         setLogin(false);
         setUserInput(true);
-      }, 1000)
+      }, 1000);
     } else {
       setResponseMessage("予約エラー");
     }
@@ -36,15 +50,22 @@ export function ReservationPopular({ popularLesson, lessonNumber, setStart, setC
         {/* <img className="activity-image" src="image/ike.png" alt="生け花" /> */}
         <div>
           {/* <p>講座番号：{lesson[0][0].store_id}</p> */}
-          <p>レッスン内容：{popularLesson[lessonNumber].description}</p>
-          <p>日時：{popularLesson[lessonNumber].date}</p>
-          <p>開始予定時刻：{popularLesson[lessonNumber].start_time}</p>
-          <p>終了予定時刻：{popularLesson[lessonNumber].location}</p>
-          <p>場所：{popularLesson[lessonNumber].location}</p>
+          <p>{popularLesson[lessonNumber].title}</p>
+          <p>{popularLesson[lessonNumber].description}</p>
+          <div>
+            開催日時：
+            {convertFormatDatetimeForLesson(popularLesson[lessonNumber])}
+            場所：{popularLesson[lessonNumber].location}
+          </div>
         </div>
         <div>
           <center>
-            <button className="button-deco" onClick={() => handleResponse("OK")}>閉じる</button>
+            <button
+              className="button-deco"
+              onClick={() => handleResponse("OK")}
+            >
+              閉じる
+            </button>
           </center>
         </div>
       </div>
