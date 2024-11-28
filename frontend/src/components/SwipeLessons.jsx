@@ -80,7 +80,7 @@ export function SwipeLessons({
         reserveLesson(number + 1);
         setNumber(number + 1);
       }
-      console.log("呼ばれてますよ左");
+      // console.log("呼ばれてますよ左");
     },
     onSwipedRight: () => {
       handleSwipeType("right");
@@ -90,8 +90,8 @@ export function SwipeLessons({
         reserveLesson(number);
         setFlick(false);
       }
-      console.log("呼ばれてますよ右");
-      console.log(lesson[number]);
+      // console.log("呼ばれてますよ右");
+      // console.log(lesson[number]);
     },
   });
 
@@ -114,8 +114,8 @@ export function SwipeLessons({
   }
 
   function convertFormatDatetime(lesson) {
-    console.log(lesson.date);
-    console.log(typeof lesson.date);
+    // console.log(lesson.date);
+    // console.log(typeof lesson.date);
     const formatDate = lesson.date.split("T")[0];
     const formatStarttimeHour = lesson.start_time.split(":")[0];
     const formatStarttimeMinite = lesson.start_time.split(":")[1];
