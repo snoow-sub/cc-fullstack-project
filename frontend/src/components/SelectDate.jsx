@@ -4,7 +4,7 @@ import "../css/selectDate.css";
 
 export function SelectDate({ setInputDate, setStartDate, setEndDate, setP2Swipe }) {
   const today = new Date();
-  const formatted = today
+  const defaultStartDate = today
     .toLocaleDateString("ja-JP", {
       year: "numeric",
       month: "2-digit",
@@ -12,15 +12,30 @@ export function SelectDate({ setInputDate, setStartDate, setEndDate, setP2Swipe 
     })
     .split("/")
     .join("-");
-
-  const [inputStartDate, setInputStartDate] = useState(formatted);
-  const [inputEndDate, setInputEndDate] = useState(formatted);
+  let tommorow = new Date();
+  tommorow.setDate(tommorow.getDate() + 1);
+  const defaultEndDate = tommorow.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  })
+  .split("/")
+  .join("-");
+  
+  const [inputStartDate, setInputStartDate] = useState(defaultStartDate);
+  const [inputEndDate, setInputEndDate] = useState(defaultEndDate);
 
   function setDate() {
-    setStartDate(inputStartDate);
-    setEndDate(inputEndDate);
-    setInputDate(true);
-    setP2Swipe(true);
+    const dateStartDate = new Date(inputStartDate);
+    const dateEndDate = new Date(inputEndDate);
+    if (dateStartDate <= dateEndDate) {
+      setStartDate(inputStartDate);
+      setEndDate(inputEndDate);
+      setInputDate(true);
+      setP2Swipe(true);
+    } else {
+      alert('終了日は開始日より後にしてね！');
+    }
   }
   return (
     <>
