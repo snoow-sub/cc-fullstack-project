@@ -22,25 +22,25 @@ export function SwipeLessons({
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
 
+  const startAnimation = () => {
+    if (card1Ref.current) {
+      card1Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
+    }
+    if (card2Ref.current) {
+      card2Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
+    }
+    if (card3Ref.current) {
+      card3Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
+    }
+  };
+
+  const handleAnimationEnd = (event) => {
+    const cardElement = event.currentTarget; // どのカードがアニメーションを終えたかを取得
+    cardElement.style.animation = "none"; // アニメーションを無効化
+    cardElement.style.transform = "rotateY(0deg)"; // 表面を向かせる
+  };
+
   useEffect(() => {
-    const startAnimation = () => {
-      if (card1Ref.current) {
-        card1Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
-      }
-      if (card2Ref.current) {
-        card2Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
-      }
-      if (card3Ref.current) {
-        card3Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
-      }
-    };
-
-    const handleAnimationEnd = (event) => {
-      const cardElement = event.currentTarget; // どのカードがアニメーションを終えたかを取得
-      cardElement.style.animation = "none"; // アニメーションを無効化
-      cardElement.style.transform = "rotateY(0deg)"; // 表面を向かせる
-    };
-
     // アニメーションを開始
     startAnimation();
 
@@ -58,25 +58,16 @@ export function SwipeLessons({
     // クリーンアップ
     return () => {
       if (card1Ref.current) {
-        card1Ref.current.removeEventListener(
-          "animationend",
-          handleAnimationEnd
-        );
+        card1Ref.current.removeEventListener("animationend", handleAnimationEnd);
       }
       if (card2Ref.current) {
-        card2Ref.current.removeEventListener(
-          "animationend",
-          handleAnimationEnd
-        );
+        card2Ref.current.removeEventListener("animationend", handleAnimationEnd);
       }
       if (card3Ref.current) {
-        card3Ref.current.removeEventListener(
-          "animationend",
-          handleAnimationEnd
-        );
+        card3Ref.current.removeEventListener("animationend", handleAnimationEnd);
       }
     };
-  }, []);
+  }, [number, popularFlag]); // numberとpopularFlagが変わるたびにアニメーションを実行
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
@@ -96,27 +87,7 @@ export function SwipeLessons({
       setFlick(false);
       console.log("呼ばれてますよ右");
       console.log(lesson[number]);
-      // setTimeout(() => {
-      //   setFlick(true); // 元に戻す
-      //   handleSwipeType("なし");
-      // }, 1000);
     },
-    // onSwipedUp: () => {
-    //   handleSwipeType("up");
-    //   console.log("上スワイプされました");
-    //   setTimeout(() => {
-    //     handleSwipeType("なし");
-    //   }, 10);
-    // },
-    // onSwipedDown: () => {
-    //   handleSwipeType("down");
-    //   console.log("下スワイプされました");
-    //   setTimeout(() => {
-    //     handleSwipeType("なし");
-    //   }, 10);
-    // },
-    // preventDefaultTouchmoveEvent: true, // スクロールと競合しないよう設定
-    // trackTouch: true,
   });
 
   function clickPopularLesson(popularNumber) {
@@ -125,12 +96,15 @@ export function SwipeLessons({
     setClickPopular(true);
     setFlick(false);
   }
+
   function returnFirstCard() {
     reserveLesson(0);
     setNumber(0);
   }
+
   function nextPopularCard() {
-    setPopularFlag(true);
+    setPopularFlag(true); // 人気のフラグを立てる
+    startAnimation(); // アニメーションを開始
   }
 
   return (
