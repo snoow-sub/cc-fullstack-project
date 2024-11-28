@@ -105,6 +105,7 @@ export function SwipeLessons({
   function returnFirstCard() {
     reserveLesson(0);
     setNumber(0);
+    setIsTutorial(true);
   }
 
   function nextPopularCard() {
