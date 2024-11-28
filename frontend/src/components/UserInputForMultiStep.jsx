@@ -11,7 +11,7 @@ const baseQuestions = [
     type: "text",
     name: "name",
     characterMainMessage: "早速、あなたのお名前を教えて！",
-    characterSubMessage: "フルネームでね、僕はディコ！",
+    characterSubMessage: "僕はディコ！フルネームで教えてね！",
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const baseQuestions = [
     type: "select",
     name: "sex",
     characterMainMessage: "つぎに、あなたの性別を教えて！",
-    characterSubMessage: "よろしくね！",
+    characterSubMessage: "よろしくね、**userName**さん！",
     options: { keys: ["男性", "女性", "その他"], values: [0, 1, 9] },
   },
   {
@@ -28,15 +28,15 @@ const baseQuestions = [
     type: "date",
     name: "birthday",
     characterMainMessage: "生年月日も教えてほしいな！",
-    characterSubMessage: "よろしくね！",
+    characterSubMessage: "誕生日ってなんだかワクワクするよね",
   },
   {
     id: 4,
     label: "住所",
     type: "text",
     name: "address",
-    characterMainMessage: "住所も教えてほしい",
-    characterSubMessage: "え、僕がどこに住んでるかって…？南",
+    characterMainMessage: "そしたら、次は住所を教えて！",
+    characterSubMessage: "え、僕がどこに住んでるかって…？気になる？",
   },
   {
     id: 5,
@@ -44,7 +44,7 @@ const baseQuestions = [
     type: "select",
     name: "hobby",
     characterMainMessage: "今やってる趣味があれば、教えてほしいな！",
-    characterSubMessage: "僕とご近所さんなんだねぇ",
+    characterSubMessage: "僕は南麻布に住んでるんだ～。",
     options: { keys: ["スポーツ", "読書", "その他"] },
   },
   {
@@ -53,53 +53,54 @@ const baseQuestions = [
     type: "select",
     name: "location",
     characterMainMessage: "了解！そしたら希望の受講場所はある？",
-    characterSubMessage: "え、僕がどこに住んでるかって…？南麻布。",
+    characterSubMessage: "月で受講できる講座があったらいいな",
     options: { keys: ["自宅", "東京都", "千葉県"] },
   },
 ];
 
-const addisionalQuestions_ = [
-  {
-    id: 1,
-    label: ["インドア派", "アウトドア派"],
-    type: "text",
-    name: "inoutdoor",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 2,
-    label: ["少人数でやりたい", "大人数でやりたい"],
-    type: "text",
-    name: "scale",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 3,
-    label: ["近くでやりたい", "遠くてもよい"],
-    type: "text",
-    name: "distance",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 4,
-    label: ["黙々とやりたい", "和気藹々とやりたい"],
-    type: "text",
-    name: "silent",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-  {
-    id: 5,
-    label: ["運動量少なめ", "運動量多め"],
-    type: "text",
-    name: "momentum",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
-  },
-];
+// const addisionalQuestions_ = [
+//   {
+//     id: 1,
+//     label: ["インドア派", "アウトドア派"],
+//     type: "text",
+//     name: "inoutdoor",
+//     characterMainMessage: "インドア派かアウトドア派かでいったら、どっち？",
+//     characterSubMessage: "**indooroutdoor**",
+//   },
+//   {
+//     id: 2,
+//     label: ["少人数でやりたい", "大人数でやりたい"],
+//     type: "text",
+//     name: "scale",
+//     characterMainMessage: "どのくらいの人数でやるのがいいかな",
+//     characterSubMessage: "**scale**",
+//   },
+//   {
+//     id: 3,
+//     label: ["近くでやりたい", "遠出が好き"],
+//     type: "text",
+//     name: "distance",
+//     characterMainMessage: "遠出は好き？それとも近場で済ませるタイプ？",
+//     characterSubMessage: "**distance**",
+//   },
+//   {
+//     id: 4,
+//     label: ["黙々とやりたい", "和気藹々とやりたい"],
+//     type: "text",
+//     name: "silent",
+//     characterMainMessage:
+//       "静かに集中したいタイプ？それともにぎやかなのが好き？",
+//     characterSubMessage: "**silence**",
+//   },
+//   {
+//     id: 5,
+//     label: ["運動量少なめ", "運動量多め"],
+//     type: "text",
+//     name: "momentum",
+//     characterMainMessage: "メインメッセージ",
+//     characterSubMessage: "**momentum**",
+//   },
+// ];
 
 const addisionalQuestions = [
   {
@@ -107,32 +108,44 @@ const addisionalQuestions = [
     label: ["インドア派", "アウトドア派"],
     type: "text",
     name: "inoutdoor",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
+    characterMainMessage: "インドア派かアウトドア派だと、どっち？",
+    characterSubMessage: "",
+    characterLeftMessage: "おうちの中でできる趣味っていいよね～",
+    characterMediumMessage: "甲乙つけがたい……",
+    characterRightMessage: "やっぱり外に出るのが楽しいかな～",
   },
   {
     id: 2,
     label: ["少人数でやりたい", "大人数でやりたい"],
     type: "text",
     name: "scale",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
+    characterMainMessage: "どのくらいの人数でやるのがいいかな",
+    characterSubMessage: "**scale**",
+    characterLeftMessage: "少ない人数だと集中できるよね",
+    characterMediumMessage: "何事もちょうどいいくらいが大事",
+    characterRightMessage: "大人数だと楽しみが共有できる人がたくさん",
   },
   {
     id: 3,
     label: ["近くでやりたい", "遠くてもよい"],
     type: "text",
     name: "distance",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
+    characterMainMessage: "遠出は好き？それとも近場で済ませるタイプ？",
+    characterSubMessage: "**distance**",
+    characterLeftMessage: "近所にも意外と知らないこと多いよね～",
+    characterMediumMessage: "どっちにも魅力があって困っちゃう",
+    characterRightMessage: "遠出はワクワク感があって楽しい",
   },
   {
     id: 4,
     label: ["黙々とやりたい", "和気藹々とやりたい"],
     type: "text",
     name: "silent",
-    characterMainMessage: "メインメッセージ",
-    characterSubMessage: "サブメッセージ",
+    characterMainMessage: "静かに集中したい？にぎやかな方が好き？",
+    characterSubMessage: "**silence**",
+    characterLeftMessage: "……………………ぷはっ！静かにするの得意なんだ！",
+    characterMediumMessage: "実はこのスライドバーは僕の念力で動かしてるんだ！",
+    characterRightMessage: "にぎやかしなら任せて！どんちゃん♪どんちゃん♪",
   },
 ];
 
@@ -171,6 +184,7 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
   const [currentPage, setCurrentPage] = useState("userBaseQuestions");
   const [userId, setUserId] = useState(null);
   const [formData, setFormData] = useState(mock);
+  const [currentStep, setCurrentStep] = useState(0);
 
   function navigateToUserAddisionalQuestions() {
     setCurrentPage("userAddisionalQuestions");
@@ -202,6 +216,7 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
       setUserId(responseData.id);
 
       sendFormData(formData);
+      setCurrentStep(0);
       navigateToUserAddisionalQuestions();
     } catch (error) {
       console.error("エラーが発生しました:", error);
@@ -239,6 +254,7 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
       console.log("回答登録成功:", await responseAnswer.json());
 
       sendFormData(formData);
+      setCurrentStep(0);
       handleLogin(true); // ログイン状態にする
     } catch (error) {
       console.error("エラーが発生しました:", error);
@@ -263,6 +279,8 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
           formData={formData}
           setFormData={setFormData}
           finalCallback={handleSubmitUser}
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
         />
       ) : (
         <MultiStepUserInput
@@ -271,6 +289,8 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
           formData={formData}
           setFormData={setFormData}
           finalCallback={handleSubmitUserAnswer}
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
         />
       )}
     </>
