@@ -1,10 +1,23 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import { convertFormatDatetimeForLesson } from "../utils/datetimeFormatter";
 
-export function Reservation({ lesson, lessonNumber, setStart, setClickPopular, setFlick, setInputDate, setP2Swipe, setLogin, setUserInput }) {
+export function Reservation({
+  lesson,
+  lessonNumber,
+  setStart,
+  setClickPopular,
+  setFlick,
+  setInputDate,
+  setP2Swipe,
+  setLogin,
+  setUserInput,
+  postReservation,
+}) {
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
     if (response === "OK") {
+      postReservation(lesson[lessonNumber].id);
       setResponseMessage("予約できました！");
       setTimeout(() => {
         setStart(false);
@@ -14,7 +27,7 @@ export function Reservation({ lesson, lessonNumber, setStart, setClickPopular, s
         setP2Swipe(false);
         setLogin(false);
         setUserInput(true);
-      }, 1000)
+      }, 1000);
     } else if (response === "NG") {
       setResponseMessage("予約がキャンセルされました");
       setTimeout(() => {
@@ -22,7 +35,7 @@ export function Reservation({ lesson, lessonNumber, setStart, setClickPopular, s
         setFlick(true);
         setInputDate(false);
         setP2Swipe(true);
-      }, 1000)
+      }, 1000);
     }
   };
   if (responseMessage) {
@@ -42,23 +55,38 @@ export function Reservation({ lesson, lessonNumber, setStart, setClickPopular, s
         {/* <img className="activity-image" src="image/ike.png" alt="生け花" /> */}
         <div>
           {/* <p>講座番号：{lesson[0][0].store_id}</p> */}
-          <p>レッスン内容：{lesson[lessonNumber].description}</p>
-          <p>日時：{lesson[lessonNumber].date}</p>
-          <p>開始予定時刻：{lesson[lessonNumber].start_time}</p>
-          <p>終了予定時刻：{lesson[lessonNumber].location}</p>
+          <p>{lesson[lessonNumber].title}</p>
+          <p>{lesson[lessonNumber].description}</p>
+          <p>
+            開催日時：{convertFormatDatetimeForLesson(lesson[lessonNumber])}
+          </p>
           <p>場所：{lesson[lessonNumber].location}</p>
         </div>
         <div>
-          <center><table>
-              <tbody><tr>
-              <td>
-                <button className="button-deco" onClick={() => handleResponse("OK")}>予約確定</button>
-              </td>
-              <td>
-                <button className="button-deco" onClick={() => handleResponse("NG")}>キャンセル</button>
-              </td>
-              </tr></tbody>
-            </table></center>
+          <center>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <button
+                      className="button-deco"
+                      onClick={() => handleResponse("NG")}
+                    >
+                      キャンセル
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="button-deco"
+                      onClick={() => handleResponse("OK")}
+                    >
+                      予約確定
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </center>
         </div>
       </div>
     </>

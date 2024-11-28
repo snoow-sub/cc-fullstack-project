@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { Login, UserInput } from "./components/UserInput";
 import { UserInputForMultiStep } from "./components/UserInputForMultiStep";
 import { ShowActivity, SwipeLessons } from "./components/SwipeLessons";
 import { MultiStepUserInput } from "./components/MultiStepUserInput";
@@ -27,18 +26,42 @@ export default function App() {
   const [endDate, setEndDate] = useState("2024-12-31");
   const port = process.env.REACT_APP_PORT || 5000;
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
+  const [userId, setUserId] = useState(null);
 
-  async function getPlans(userId) {
+  async function postReservation(userSelectedLessonId) {
+    try {
+      const response = await fetch(`http://${host}:3000/api/reservation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          lesson_id: userSelectedLessonId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("エラーが発生しました:", error);
+    }
+  }
+
+  async function getPlans() {
     try {
       let startDatePlus1 = new Date(startDate);
       startDatePlus1.setDate(startDatePlus1.getDate() + 1);
-      startDatePlus1 = startDatePlus1.toISOString().slice(0,10);
+      startDatePlus1 = startDatePlus1.toISOString().slice(0, 10);
       const queryString = new URLSearchParams({
         location: "特になし",
         startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
-      const response = await fetch(`http://${host}:3000/api/user/${userId}/lesson?${queryString}`);
+      const response = await fetch(
+        `http://${host}:3000/api/user/${userId}/lesson?${queryString}`
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -53,13 +76,15 @@ export default function App() {
     try {
       let startDatePlus1 = new Date(startDate);
       startDatePlus1.setDate(startDatePlus1.getDate() + 1);
-      startDatePlus1 = startDatePlus1.toISOString().slice(0,10);
+      startDatePlus1 = startDatePlus1.toISOString().slice(0, 10);
       const queryString = new URLSearchParams({
         location: "特になし",
         startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
-      const response = await fetch(`http://${host}:3000/api/lesson/popular?${queryString}`);
+      const response = await fetch(
+        `http://${host}:3000/api/lesson/popular?${queryString}`
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -110,9 +135,7 @@ export default function App() {
   });
 
   async function fetchPlans() {
-    const responseData = await getPlans(1);
-    // const userData = await getUser();
-    // setLesson((prevLessons) => [...prevLessons, responseData]);
+    const responseData = await getPlans(userId);
     setLesson(responseData);
     // console.log("取得したレッスン:", responseData);
   }
@@ -122,12 +145,6 @@ export default function App() {
     setPopularLesson(responseData);
     // console.log("取得した人気レッスン:", responseData);
   }
-
-  useEffect(() => {
-    // console.log(startDate, endDate);
-    fetchPlans();
-    fetchPopularLesson();
-  }, [startDate, endDate]);
 
   return (
     <>
@@ -158,6 +175,8 @@ export default function App() {
           setP2Swipe={setP2Swipe}
           setLogin={setLogin}
           setUserInput={setUserInput}
+          postReservation={postReservation}
+          userId={userId}
         />
       ) : !flick ? ( // flickがfalseならReservationを表示
         <Reservation
@@ -170,6 +189,8 @@ export default function App() {
           setP2Swipe={setP2Swipe}
           setLogin={setLogin}
           setUserInput={setUserInput}
+          postReservation={postReservation}
+          userId={userId}
         />
       ) : p2Swipe ? (
         <ProgressToSwipe
@@ -181,7 +202,6 @@ export default function App() {
         />
       ) : inputDate ? (
         <SwipeLessons
-          profile={profile}
           lesson={lesson}
           setFlick={setFlick}
           setClickPopular={setClickPopular}
@@ -190,6 +210,7 @@ export default function App() {
           popularLesson={popularLesson}
           startDate={startDate}
           endDate={endDate}
+          fetchPopularLesson={fetchPopularLesson}
         />
       ) : login ? (
         <SelectDate
@@ -197,9 +218,16 @@ export default function App() {
           setStartDate={setStartDate}
           setEndDate={setEndDate}
           setP2Swipe={setP2Swipe}
+          fetchPlans={fetchPlans}
         />
       ) : userInput ? (
-        <UserInputForMultiStep profile={profile} handleLogin={handleLogin} sendFormData={receiveFormData} />
+        <UserInputForMultiStep
+          profile={profile}
+          handleLogin={handleLogin}
+          sendFormData={receiveFormData}
+          setUserId={setUserId}
+          userId={userId}
+        />
       ) : (
         console.log("error")
       )}
