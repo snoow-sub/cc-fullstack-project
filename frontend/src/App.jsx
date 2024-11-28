@@ -24,6 +24,7 @@ export default function App() {
   const [userInput, setUserInput] = useState(false);
   const [startDate, setStartDate] = useState("2024-11-29");
   const [endDate, setEndDate] = useState("2024-12-31");
+  const [lessonLength, setLessonLength] = useState(5);
   const port = process.env.REACT_APP_PORT || 5000;
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
   const [userId, setUserId] = useState(null);
@@ -137,6 +138,7 @@ export default function App() {
   async function fetchPlans() {
     const responseData = await getPlans(userId);
     setLesson(responseData);
+    return Object.keys(responseData).length;
     // console.log("取得したレッスン:", responseData);
   }
 
@@ -219,6 +221,7 @@ export default function App() {
           setEndDate={setEndDate}
           setP2Swipe={setP2Swipe}
           fetchPlans={fetchPlans}
+          setLessonLength={setLessonLength}
         />
       ) : userInput ? (
         <UserInputForMultiStep
