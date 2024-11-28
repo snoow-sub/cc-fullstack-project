@@ -14,9 +14,48 @@ export function SelectDate({ handleInputStartDate, handleInputEndDate, handleInp
   }
   return (
     <>
-      <h2>レッスンを受講したい日付を入力してください！</h2>
+      <div
+          style={{
+            position: "absolute",
+            top: "12%",
+            left: "0%",
+            width: "100%",
+            maxWidth: "500px",
+            minWidth: "200px",
+            minHeight: "100px",
+            padding: "20px",
+            textAlign: "center",
+            backgroundColor: "#fff",
+            borderRadius: "8px",
+            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+          }}
+        >
+        <p style={{
+              fontSize: "16px",
+              fontWeight: "bold",
+              textAlign: "center",
+              margin: "0 auto", // 中央揃え
+              width: "100%", // 親幅に合わせる
+              wordWrap: "break-word", // 長い単語を折り返し
+              whiteSpace: "normal", // 折り返し有効化
+              overflow: "hidden", // オーバーフロー防止
+              //textOverflow: "ellipsis", // 長すぎる場合に省略
+              //backgroundColor: "blue",
+            }}
+        >レッスンを受講したい日付を入力してください！</p>
+        <p style={{
+            fontSize: "14px",
+            color: "#555",
+            textAlign: "center",
+            margin: "10px auto 0", // 上に余白を追加
+            width: "100%", // 親幅に合わせる
+            wordWrap: "break-word",
+            whiteSpace: "normal",
+          }}
+        >開始日と終了日を入力してね！</p>
+      </div>
       <center>
-        <form className="set-calendar">
+        <form className="set-calendar1">
           開始日：
           <label className="calendar-design">
             <input
@@ -40,9 +79,19 @@ export function SelectDate({ handleInputStartDate, handleInputEndDate, handleInp
               // required
             />
           </label>
-          <br />
         </form>
-        <img src={"./images/dico.png"} style={{ width: "100px", height: "100px" }} />
+        <img
+          src={"./images/dico.png"}
+          alt="キャラクター"
+          style={{
+            width: "180px",
+            height: "180px",
+            marginBottom: "20px",
+            position: "absolute",
+            left: "30%",
+            top: "25%",
+          }}
+        />
         <br />
         {/* 中沢変更 */}
         <button

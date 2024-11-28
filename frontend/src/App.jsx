@@ -25,8 +25,8 @@ export default function App() {
   const [userInput, setUserInput] = useState(false);
   const [startDate, setStartDate] = useState(new Date("2024-11-29"));
   const [endDate, setEndDate] = useState(new Date("2024-12-31"));
-  const port = process.env.PORT || 5000;
-  const host = process.env.HOSTNAME || "98.82.11.196"; //これをlocalhostにしないとローカルで動かない
+  const port = process.env.REACT_APP_PORT || 5000;
+  const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
 
   async function getPlans(userId) {
     try {
@@ -163,17 +163,21 @@ export default function App() {
           </div>
         </div>
       ) : clickPopular ? (
-        <ReservationPopular popularLesson={popularLesson} />
+        <ReservationPopular popularLesson={popularLesson} lessonNumber={lessonNumber} />
       ) : !flick ? ( // flickがfalseならReservationを表示
-        <Reservation lesson={lesson} lessonNumber={lessonNumber} />
+        <Reservation
+          lesson={lesson}
+          lessonNumber={lessonNumber}
+        />
       ) : inputDate ? (
         <SwipeLessons
           profile={profile}
           lesson={lesson}
-          popularLesson={popularLesson}
           setFlick={setFlick}
+          setClickPopular={setClickPopular}
           reserveLesson={reserveLesson}
           handleSwipeType={handleSwipeType}
+          popularLesson={popularLesson}
           startDate={startDate}
           endDate={endDate}
         />
