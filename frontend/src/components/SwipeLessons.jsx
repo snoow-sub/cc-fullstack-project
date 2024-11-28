@@ -24,6 +24,19 @@ export function SwipeLessons({
   const card3Ref = useRef(null);
 
   const [isTutorial, setIsTutorial] = useState(true);
+  const [loadedImages, setLoadedImages] = useState([]);
+
+  useEffect(() => {
+    const preloadedImages = [];
+    lesson.forEach((data) => {
+      data.imagePath.forEach((path) => {
+        const img = new Image();
+        img.src = path;
+        preloadedImages.push(img);
+      });
+    });
+    setLoadedImages(preloadedImages);
+  }, [lesson]);
 
   const startAnimation = () => {
     if (card1Ref.current) {
