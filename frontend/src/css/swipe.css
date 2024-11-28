@@ -43,8 +43,8 @@
 
 .lesson-box {
   width: 80%;
-  max-width: 600px;
-  background: linear-gradient(#f39867, #6aaade);
+  max-width: 400px;
+  background: linear-gradient(to bottom, #f39867 0%, #deba6a 50%, #6aaade 100%);
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -52,6 +52,17 @@
   text-align: center;
   color: white;
   padding: 20px;
+}
+
+.lesson-box-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.lesson-box-discription {
+  font-size: 15px;
+}
+.lesson-box-otherInfo {
+  font-size: 10px;
 }
 
 /* R:201
