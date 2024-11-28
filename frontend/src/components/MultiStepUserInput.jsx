@@ -13,23 +13,39 @@ export function MultiStepUserInput({
   formData,
   setFormData,
   finalCallback,
+  currentStep,
+  setCurrentStep,
 }) {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentAnswer, setCurrentAnswer] = useState("");
+  const [currentTouch, setCurrentTouch] = useState(0);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    setCurrentAnswer(e.target.value);
+    console.log(typeof currentAnswer, currentAnswer);
   };
 
   const handleNext = () => {
-    if (currentStep < questions.length - 1) {
+    if (currentStep < questions.length) {
+      setCurrentTouch(0);
       setCurrentStep(currentStep + 1);
     } else {
       //alert("送る処理が入る: " + JSON.stringify(formData, null, 2));
-      setCurrentStep(0);
       finalCallback();
     }
+  };
+
+  const handleTouch = () => {
+    setCurrentTouch((prevTouch) => {
+      if (prevTouch < 10) {
+        return prevTouch + 1;
+      }
+      return prevTouch; // 10以上の場合はそのまま
+    });
   };
 
   const handleBack = () => {
@@ -38,11 +54,71 @@ export function MultiStepUserInput({
     }
   };
 
-  const sharedInputStyle = {
-    padding: "10px",
-    width: "100%",
-    fontSize: "16px",
-    boxSizing: "border-box",
+  const renderConfirmation = () => {
+    console.log(questions);
+    console.log(formData);
+
+    return (
+      <div className="confirmation-container">
+        {questions.map((question, index) => {
+          const inputId = `input-${question.name}`;
+          if (Array.isArray(question.label)) {
+            return (
+              <div key={index} className="slide-bar-container">
+                <label className="slide-bar label" htmlFor="scale">
+                  <p className="slide-bar-left">{question.label[0] + " "}</p>
+                  <p className="slide-bar-right">{" " + question.label[1]}</p>
+                </label>
+                <br />
+                <div className="range-container">
+                  <div className="range-track-disabled">
+                    {[...Array(11)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="range-tick-disabled"
+                        style={{
+                          left: `${i * 10}%`,
+                          visibility:
+                            i === 0 || i === 10 ? "hidden" : "visible",
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                  <input
+                    type="range"
+                    name={question.name}
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={Number(formData[question.name])}
+                    onChange={handleChange}
+                    className="range-input"
+                    disabled
+                  />
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div key={index} className="confirmation-item">
+              <label htmlFor={inputId} className="confirmation-label">
+                {question.label}
+              </label>
+              <span className="confirmation-value">
+                {question.type === "select" && question.options.values
+                  ? question.options.keys[
+                      question.options.values.indexOf(
+                        Number(formData[question.name])
+                      )
+                    ]
+                  : formData[question.name]}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   const renderInput = (step) => {
@@ -52,14 +128,7 @@ export function MultiStepUserInput({
     if (step.type === "select") {
       return (
         <>
-          <label
-            htmlFor={inputId}
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              textAlign: "left",
-            }}
-          >
+          <label htmlFor={inputId} className="label">
             {step.label}
           </label>
           <select
@@ -67,16 +136,11 @@ export function MultiStepUserInput({
             name={step.name}
             value={formData[step.name]}
             onChange={handleChange}
-            style={{
-              ...sharedInputStyle,
-              ...(isDate && {
-                appearance: "none",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }),
-            }}
+            className="input"
           >
-            <option value="">選択してください</option>
+            <option value="" disabled>
+              選択してください
+            </option>
             {step.options.keys.map((option, index) => (
               <option
                 key={index}
@@ -91,20 +155,28 @@ export function MultiStepUserInput({
         </>
       );
     }
-    if (typeof step.label === "object") {
+    if (Array.isArray(step.label)) {
       return (
         <>
-          <label
-            className="slide-bar"
-            htmlFor="scale"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              textAlign: "left",
-            }}
-          >
-            <div style={{ fontSize: "10px" }}>
-              {step.label[0] + " "}
+          <div className="slide-bar-container">
+            <label className="slide-bar label" htmlFor="scale">
+              <p className="slide-bar-left">{step.label[0] + " "}</p>
+              <p className="slide-bar-right">{" " + step.label[1]}</p>
+            </label>
+            <br />
+            <div className="range-container">
+              <div className="range-track">
+                {[...Array(11)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="range-tick"
+                    style={{
+                      left: `${i * 10}%`,
+                      visibility: i === 0 || i === 10 ? "hidden" : "visible",
+                    }}
+                  ></div>
+                ))}
+              </div>
               <input
                 type="range"
                 name={step.name}
@@ -113,27 +185,16 @@ export function MultiStepUserInput({
                 step="0.1"
                 value={Number(formData[step.name])}
                 onChange={handleChange}
-                style={{
-                  height: "20px",
-                  backgroundColor: "blue",
-                }}
+                className="range-input"
               />
-              {" " + step.label[1]}
             </div>
-          </label>
+          </div>
         </>
       );
     }
     return (
       <>
-        <label
-          htmlFor={inputId}
-          style={{
-            display: "block",
-            marginBottom: "5px",
-            textAlign: "left",
-          }}
-        >
+        <label htmlFor={inputId} className="label">
           {step.label}
         </label>
         <input
@@ -141,28 +202,14 @@ export function MultiStepUserInput({
           name={step.name}
           value={formData[step.name]}
           onChange={handleChange}
-          style={{
-            ...sharedInputStyle,
-          }}
+          className={`input ${isDate ? "date-style" : ""}`}
         />
       </>
     );
   };
   const progress = ((currentStep + 1) / questions.length) * 100;
   return (
-    <div
-      style={{
-        textAlign: "center",
-        width: "100%",
-        overflowX: "hidden",
-        minWidth: "300px",
-        display: "flex",
-        justifyContent: "center", // 横方向の中央揃え
-        alignItems: "center", // 縦方向の中央揃え
-        height: "100dvh", // ビューポート全体の高さ
-        position: "relative", // 子要素を絶対位置で配置可能
-      }}
-    >
+    <div className="userInputMain">
       {/* 戻るボタン（左上に固定） */}
       <a
         href="javascript:void(0)"
@@ -175,129 +222,71 @@ export function MultiStepUserInput({
       ></a>
 
       {/* プログレスバー */}
-      <div
-        style={{
-          marginBottom: "20px",
-          position: "absolute",
-          top: "5%",
-          height: "15px",
-          left: "0%",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            height: "10px",
-            backgroundColor: "#E9E9E9",
-            borderRadius: "5px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              height: "100%",
-              width: `${progress}%`,
-              backgroundColor: "#6AAADE",
-              transition: "width 0.3s ease",
-            }}
-          />
+      {currentStep !== questions.length && (
+        <div className="progress-bar-container">
+          <div className="progress-bar-background">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 質問と説明 */}
 
-      <div
-        style={{
-          position: "absolute",
-          top: "12%",
-          width: "100%",
-          maxWidth: "500px",
-          minWidth: "200px",
-          minHeight: "100px",
-          padding: "20px",
-          textAlign: "center",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "16px",
-            fontWeight: "bold",
-            textAlign: "center",
-            margin: "0 auto", // 中央揃え
-            width: "100%", // 親幅に合わせる
-            wordWrap: "break-word", // 長い単語を折り返し
-            whiteSpace: "normal", // 折り返し有効化
-            overflow: "hidden", // オーバーフロー防止
-            //textOverflow: "ellipsis", // 長すぎる場合に省略
-            //backgroundColor: "blue",
-          }}
-        >
-          {`${questions[currentStep].characterMainMessage}`}
-        </p>
-        <p
-          style={{
-            fontSize: "14px",
-            color: "#555",
-            textAlign: "center",
-            margin: "10px auto 0", // 上に余白を追加
-            width: "100%", // 親幅に合わせる
-            wordWrap: "break-word",
-            whiteSpace: "normal",
-          }}
-        >
-          {questions[currentStep].characterSubMessage}
+      <div className="chat-container">
+        <p className="chat-content">
+          <span className="chat-main">
+            {currentStep === questions.length
+              ? "ここまでの入力内容を確認して！"
+              : `${questions[currentStep].characterMainMessage}`}
+          </span>
+          <br />
+          <span className="chat-secondary">
+            {currentStep === questions.length
+              ? "質問はもう少しだけ続くよ！"
+              : currentTouch === 10
+              ? "そんなにつんつんしないでよ～くすぐったい！"
+              : currentTouch >= 1
+              ? "ぼくのこと触っても先には進まないよ～"
+              : Array.isArray(questions[currentStep].label)
+              ? Number(currentAnswer) <= 0.3
+                ? `${questions[currentStep].characterLeftMessage}`
+                : Number(currentAnswer) >= 0.8
+                ? `${questions[currentStep].characterRightMessage}`
+                : `${questions[currentStep].characterMediumMessage}`
+              : `${questions[currentStep].characterSubMessage}`}
+          </span>
         </p>
       </div>
 
       {/* イラスト */}
       <img
         src={"./images/dico.png"}
+        onClick={handleTouch}
         alt="キャラクター"
-        style={{
-          width: "180px",
-          height: "180px",
-          marginBottom: "20px",
-          position: "absolute",
-          top: "25%",
-        }}
+        className="character-image"
       />
 
       {/* 入力 */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "40%",
-          width: "90%",
-          maxWidth: "500px",
-          padding: "0px",
-          textAlign: "center",
-          overflowY: "visible",
-        }}
-      >
+      <div className="input-container">
         {/* 質問の入力欄 */}
-        {renderInput(questions[currentStep])}
+        {currentStep === questions.length
+          ? renderConfirmation()
+          : renderInput(questions[currentStep])}
       </div>
       {/* 次へボタン */}
       <button
         onClick={handleNext}
-        style={{
-          position: "absolute",
-          bottom: "8%",
-          left: "5%",
-          width: "90%",
-          padding: "10px",
-          backgroundColor: "#f39867",
-          color: "white",
-          border: "none",
-          borderradius: "5px",
-          fontsize: "16px",
-          cursor: "pointer",
-        }}
+        className="button-next"
+        disabled={currentAnswer === ""}
       >
-        {currentStep === questions.length - 1 ? "完了" : "次へ"}
+        {currentStep === questions.length - 1
+          ? "確認画面へ"
+          : currentStep === questions.length
+          ? "完了"
+          : "次へ"}
       </button>
     </div>
   );
