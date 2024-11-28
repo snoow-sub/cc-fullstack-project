@@ -22,58 +22,31 @@ export function ProgressToSwipe({ profile, lesson, startDate, endDate, onComplet
         // backgroundColor: "#fdf5e6", // 背景色（例: クリーム色）
       }}
     >
+      
+      {/* メッセージ */}
+      <div className="chat-container">
+        <p className="chat-content">
+          <span className="chat-main">
+          よし、じゃあ早速レッスンを探そう！
+          </span>
+          <br />
+          <span className="chat-secondary">
+          どうやって探すか、説明したほうがいいかな？
+          </span>
+        </p>
+      </div>
+
       {/* キャラクターの画像 */}
       <img
-        src={"./images/dico.png"}
+        src={"./images/dico.png"} // currentTouchに応じて画像を切り替え
         alt="キャラクター"
-        style={{
-          width: "180px",
-          height: "180px",
-          marginBottom: "20px",
-          position: "absolute",
-          top: "25%",
-        }}
+        className="character-image"
       />
-      <br />
-      <br />
-      {/* メッセージ */}
-      <p
-        style={{
-          fontSize: "18px",
-          fontWeight: "bold",
-          color: "#333",
-          margin: "10px 0",
-          textAlign: "center",
-          lineHeight: "1.5",
-        }}
-      >
-        よし、じゃあ早速レッスンを探そう！
-      </p>
-      <p
-        style={{
-          fontSize: "14px",
-          color: "#555",
-          textAlign: "center",
-          marginBottom: "30px",
-        }}
-      >
-        どうやって探すか、説明したほうがいいかな？
-      </p>
 
       {/* ボタン */}
       <button
         onClick={handleNext}
-        style={{
-          width: "200px",
-          padding: "10px",
-          backgroundColor: "#f39867", // ボタンの色
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          fontSize: "16px",
-          cursor: "pointer",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // 軽いシャドウ
-        }}
+        className="button-next"
       >
         レッスンを探す
       </button>
