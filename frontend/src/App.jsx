@@ -27,18 +27,42 @@ export default function App() {
   const [endDate, setEndDate] = useState("2024-12-31");
   const port = process.env.REACT_APP_PORT || 5000;
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
+  const [userId, setUserId] = useState(null);
+
+  async function postReservation(userId, lessonId) {
+    try {
+      const response = await fetch(`http://${host}:3000/api/reservation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          lesson_id: lessonId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("エラーが発生しました:", error);
+    }
+  }
 
   async function getPlans(userId) {
     try {
       let startDatePlus1 = new Date(startDate);
       startDatePlus1.setDate(startDatePlus1.getDate() + 1);
-      startDatePlus1 = startDatePlus1.toISOString().slice(0,10);
+      startDatePlus1 = startDatePlus1.toISOString().slice(0, 10);
       const queryString = new URLSearchParams({
         location: "特になし",
         startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
-      const response = await fetch(`http://${host}:3000/api/user/${userId}/lesson?${queryString}`);
+      const response = await fetch(
+        `http://${host}:3000/api/user/${userId}/lesson?${queryString}`
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -53,13 +77,15 @@ export default function App() {
     try {
       let startDatePlus1 = new Date(startDate);
       startDatePlus1.setDate(startDatePlus1.getDate() + 1);
-      startDatePlus1 = startDatePlus1.toISOString().slice(0,10);
+      startDatePlus1 = startDatePlus1.toISOString().slice(0, 10);
       const queryString = new URLSearchParams({
         location: "特になし",
         startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
-      const response = await fetch(`http://${host}:3000/api/lesson/popular?${queryString}`);
+      const response = await fetch(
+        `http://${host}:3000/api/lesson/popular?${queryString}`
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -158,6 +184,8 @@ export default function App() {
           setP2Swipe={setP2Swipe}
           setLogin={setLogin}
           setUserInput={setUserInput}
+          postReservation={postReservation}
+          userId={userId}
         />
       ) : !flick ? ( // flickがfalseならReservationを表示
         <Reservation
@@ -170,6 +198,8 @@ export default function App() {
           setP2Swipe={setP2Swipe}
           setLogin={setLogin}
           setUserInput={setUserInput}
+          postReservation={postReservation}
+          userId={userId}
         />
       ) : p2Swipe ? (
         <ProgressToSwipe
@@ -199,7 +229,13 @@ export default function App() {
           setP2Swipe={setP2Swipe}
         />
       ) : userInput ? (
-        <UserInputForMultiStep profile={profile} handleLogin={handleLogin} sendFormData={receiveFormData} />
+        <UserInputForMultiStep
+          profile={profile}
+          handleLogin={handleLogin}
+          sendFormData={receiveFormData}
+          setUserId={setUserId}
+          userId={userId}
+        />
       ) : (
         console.log("error")
       )}

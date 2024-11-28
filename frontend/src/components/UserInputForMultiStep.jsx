@@ -45,7 +45,9 @@ const baseQuestions = [
     name: "hobby",
     characterMainMessage: "今やってる趣味があれば、教えてほしいな！",
     characterSubMessage: "僕は南麻布に住んでるんだ～。",
-    options: { keys: ["スポーツ", "読書", "その他"] },
+    options: {
+      keys: ["特になし", "スポーツ", "読書", "音楽", "ゲーム", "料理"],
+    },
   },
   {
     id: 6,
@@ -54,7 +56,9 @@ const baseQuestions = [
     name: "location",
     characterMainMessage: "了解！そしたら希望の受講場所はある？",
     characterSubMessage: "月で受講できる講座があったらいいな",
-    options: { keys: ["自宅", "東京都", "千葉県"] },
+    options: {
+      keys: ["自宅", "東京都"],
+    },
   },
 ];
 
@@ -149,7 +153,12 @@ const addisionalQuestions = [
   },
 ];
 
-export function UserInputForMultiStep({ handleLogin, sendFormData }) {
+export function UserInputForMultiStep({
+  handleLogin,
+  sendFormData,
+  setUserId,
+  userId,
+}) {
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
 
   const mock = {
@@ -182,7 +191,6 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [currentPage, setCurrentPage] = useState("userBaseQuestions");
-  const [userId, setUserId] = useState(null);
   const [formData, setFormData] = useState(mock);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -235,16 +243,19 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
 
       // console.log(formatedAnswer);
 
-      const responseAnswer = await fetch(`http://${host}:3000/api/user_answer`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: userId,
-          user_answer: formatedAnswer,
-        }),
-      });
+      const responseAnswer = await fetch(
+        `http://${host}:3000/api/user_answer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: userId,
+            user_answer: formatedAnswer,
+          }),
+        }
+      );
       if (!responseAnswer.ok) {
         throw new Error(`HTTP error! Status: ${responseAnswer.status}`);
       }
