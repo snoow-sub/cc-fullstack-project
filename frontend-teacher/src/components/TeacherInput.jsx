@@ -65,6 +65,7 @@ export function TeacherInput({ handleLogin, sendFormData }) {
         ...prev,
         [key]: value,
       }));
+      console.log(lesson);
     }
   };
 
@@ -464,16 +465,40 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               </div>
               <span className="ornament"></span>
             </div>
-            <br />
             <h3>確認内容</h3>
-            <p>名前: {store.name}</p>
-            <p>住所: {store.address}</p>
-            <p>店舗情報: {store.info}</p>
-            <p>レッスン名: {lesson.title}</p>
-            <p>レッスン内容: {lesson.description}</p>
-            <p>場所: {lesson.location}</p>
-            <p>日時: {lesson.date}</p>
-            <br />
+            <p>
+              <strong>店舗名・講師名：　</strong> {store.name}
+            </p>
+            <p>
+              <strong>住所：　　　　　　</strong> {store.address}
+            </p>
+            <p>
+              <strong>店舗情報：　　　　</strong> {store.info}
+            </p>
+            <p>
+              <strong>レッスン名：　　　</strong> {lesson.title}
+            </p>
+            <p>
+              <strong>レッスン内容：　　</strong> {lesson.description}
+            </p>
+            <p>
+              <strong>場所：　　　　　　</strong> {lesson.location}
+            </p>
+            <p>
+              <strong>レッスン日付：　　</strong> {lesson.date}
+            </p>
+            <p>
+              <strong>開始〜終了日時：　</strong> {lesson.start_time}~
+              {lesson.end_time}
+            </p>
+            {/* <p>利用したい画像パス: {lesson.imagePath}</p> */}
+            <p>
+              <strong>画像パス：　　　　</strong> {lesson.imagePath.join(", ")}{" "}
+            </p>
+
+            <p>
+              <strong>YoutubeID:　　　</strong> {lesson.movie_id.join(", ")}
+            </p>
             <button
               className="button-deco-next"
               type="submit"
