@@ -2,15 +2,25 @@ import { useState } from "react";
 import React from "react";
 import "../css/selectDate.css";
 
-export function SelectDate({ handleInputStartDate, handleInputEndDate, handleInputDate }) {
-  const [inputStartDate, setInputStartDate] = useState("2024-11-29");
-  const [inputEndDate, setInputEndDate] = useState("2024-12-01");
+export function SelectDate({ setInputDate, setStartDate, setEndDate, setP2Swipe }) {
+  const today = new Date();
+  const formatted = today
+    .toLocaleDateString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .split("/")
+    .join("-");
+
+  const [inputStartDate, setInputStartDate] = useState(formatted);
+  const [inputEndDate, setInputEndDate] = useState(formatted);
 
   function setDate() {
-    console.log("開始日:", inputStartDate, "終了日:", inputEndDate); // デバッグ用
-    handleInputStartDate(inputStartDate);
-    handleInputEndDate(inputEndDate);
-    handleInputDate(true);
+    setStartDate(inputStartDate);
+    setEndDate(inputEndDate);
+    setInputDate(true);
+    setP2Swipe(true);
   }
   return (
     <>

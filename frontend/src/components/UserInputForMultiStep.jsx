@@ -212,7 +212,7 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
       }
 
       const responseData = await response.json();
-      console.log("登録成功:", responseData.id);
+      // console.log("登録成功:", responseData.id);
       setUserId(responseData.id);
 
       sendFormData(formData);
@@ -233,7 +233,7 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
         };
       });
 
-      console.log(formatedAnswer);
+      // console.log(formatedAnswer);
 
       const responseAnswer = await fetch(`http://${host}:3000/api/user_answer`, {
         method: "POST",
@@ -248,7 +248,7 @@ export function UserInputForMultiStep({ handleLogin, sendFormData }) {
       if (!responseAnswer.ok) {
         throw new Error(`HTTP error! Status: ${responseAnswer.status}`);
       }
-      console.log("回答登録成功:", await responseAnswer.json());
+      // console.log("回答登録成功:", await responseAnswer.json());
 
       sendFormData(formData);
       setCurrentStep(0);
