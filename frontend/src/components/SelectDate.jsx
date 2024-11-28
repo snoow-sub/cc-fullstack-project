@@ -8,7 +8,6 @@ export function SelectDate({
   setEndDate,
   setP2Swipe,
   fetchPlans,
-  setLessonLength,
 }) {
   const today = new Date();
   const defaultStartDate = today
@@ -31,7 +30,7 @@ export function SelectDate({
   
   const [inputStartDate, setInputStartDate] = useState(defaultStartDate);
   const [inputEndDate, setInputEndDate] = useState(defaultEndDate);
-  const [dateCheck, setDateCheck] = useState(0);
+  const [dateCheck, setDateCheck] = useState(false);
 
   function setDate() {
     const dateStartDate = new Date(inputStartDate);
@@ -39,16 +38,11 @@ export function SelectDate({
     if (dateStartDate <= dateEndDate) {
       setStartDate(inputStartDate);
       setEndDate(inputEndDate);
-      const lessonLength = fetchPlans();
-      if (lessonLength < 5) {
-        setDateCheck(2);
-      } else {
-        setInputDate(true);
-        setP2Swipe(true);
-        setDateCheck(0);
-      }
+      setInputDate(true);
+      setP2Swipe(true);
+      setDateCheck(false);
     } else {
-      setDateCheck(1);
+      setDateCheck(true);
     }
   }
   return (
@@ -69,7 +63,7 @@ export function SelectDate({
           boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
         }}
       >
-        { dateCheck === 1 ? (
+        { dateCheck ? (
           <>
             <p style={{
                 fontSize: "16px",
@@ -96,37 +90,6 @@ export function SelectDate({
                 whiteSpace: "normal",
               }}>
               正しい日付を入力してね！
-            </p>
-          </>
-        ) : dateCheck === 2 ? (
-          <>
-            <p
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              textAlign: "center",
-              margin: "0 auto", // 中央揃え
-              width: "100%", // 親幅に合わせる
-              wordWrap: "break-word", // 長い単語を折り返し
-              whiteSpace: "normal", // 折り返し有効化
-              overflow: "hidden", // オーバーフロー防止
-              //textOverflow: "ellipsis", // 長すぎる場合に省略
-              //backgroundColor: "blue",
-            }}>
-            ごめんね、入力した日付だとレッスンがないみたい...
-            </p>
-            <p
-              style={{
-                fontSize: "14px",
-                color: "#555",
-                textAlign: "center",
-                margin: "10px auto 0", // 上に余白を追加
-                width: "100%", // 親幅に合わせる
-                wordWrap: "break-word",
-                whiteSpace: "normal",
-              }}
-            >
-            もう1度別の日付で開始日と終了日を入力してほしいな！
             </p>
           </>
         ) : (
