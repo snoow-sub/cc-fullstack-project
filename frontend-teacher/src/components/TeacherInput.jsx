@@ -1,104 +1,114 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "../css/teacherInput.css";
+import axios from "axios";
 
 export function TeacherInput({ handleLogin, sendFormData }) {
-  const [formData, setFormData] = useState({
-    id: 13,
-    name: "test2",
-    birthday: "1992-02-20",
-    info: "この店はすごい健全なお店です。",
-    address: "test",
-    location: "test",
-  });
-
-  const [answer, setAnswer] = useState({
-    user_id: null,
-    user_answer: [
-      { question_id: 1, answer: 0.5 },
-      { question_id: 2, answer: 0.5 },
-      { question_id: 3, answer: 0.5 },
-      { question_id: 4, answer: 0.5 },
-    ],
-  });
   const [page, setPage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [lessonId, setLessonId] = useState();
+  const [lesson, setLesson] = useState({
+    title: "ポーカー体験クラス",
+    date: "2024-12-10",
+    start_time: "10:00:00",
+    end_time: "12:00:00",
+    location: "千葉県",
+    description: "ポーカーをやってみたい方はぜひ。",
+    imagePath: ["/images/lesson21.jpg"],
+    movie_id: ["2Ubyv9FbphM"],
+    review: null,
+    indicator: 85.0,
+  });
+  const [store, setStore] = useState({
+    address: "東京都千代田区丸の内1-1",
+    info: "家族経営の小さな本屋。温かい雰囲気が特徴。",
+    certification: true,
+    name: "丸の内書店",
+  });
+  // todo5個以上にも対応できるように修正
+  const [lessonAnswer, setLessonAnswer] = useState([
+    { question_id: 1, answer: 0.5 },
+    { question_id: 2, answer: 0.5 },
+    { question_id: 3, answer: 0.5 },
+    { question_id: 4, answer: 0.5 },
+    { question_id: 5, answer: 0.5 },
+  ]);
+
   const port = process.env.REACT_APP_PORT || 3000;
   const host = process.env.REACT_APP_HOST || "98.82.11.196";
 
+
   const [responseMessage, setResponseMessage] = useState("");
   const handleResponse = (response) => {
-    if (response === "はい") {
+    if (response === "OK") {
       setResponseMessage("登録できました！");
-      console.log(response);
-    } else if (response === "だめ") {
-      setResponseMessage("予約がキャンセルされました");
+    } else if (response === "NG") {
+      setResponseMessage("登録がキャンセルされました");
     }
   };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  const handleRangeChange = (questionId, newValue) => {
+    setLessonAnswer((prevAnswers) =>
+      prevAnswers.map((item) =>
+        item.question_id === questionId
+          ? { ...item, answer: newValue } // 該当する question_id の値を更新
+          : item
+      )
+    );
+  };
+
+
+  const handleChange = (dataType, key, value, index = null) => {
+    if (dataType === "store") {
+      setStore((prev) => ({
+        ...prev,
+        [key]: value, // key に "name" などが正しく渡される
+      }));
+    } else if (dataType === "lesson") {
+      setLesson((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+      console.log(lesson);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // デフォルトのフォーム送信を防止
     try {
-      const response = await fetch(`http://${host}:3000/api/user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const responseData = await response.json();
-      console.log("登録成功:", responseData.id);
-
-      const updatedAnswer = {
-        ...answer,
-        user_id: responseData.id,
+      const combinedData = {
+        store: { ...store },
+        lesson: { ...lesson },
+        lesson_answer: [...lessonAnswer],
       };
 
-      setAnswer(updatedAnswer);
 
-      const responseAnswer = await fetch(
-        `http://${host}:3000/api/user_answer`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedAnswer),
-        }
+      const response = await axios.post(
+        `http://${host}:3000/api/lesson`,
+        combinedData
+
       );
-      if (!responseAnswer.ok) {
-        throw new Error(`HTTP error! Status: ${responseAnswer.status}`);
+
+      if (response.status === 201) {
+        setResponseMessage("登録が完了しました！");
+        setLessonId(response.data.id);
+        // console.log(response.id);
+        console.log("Response:", response.data);
+      } else {
+        setResponseMessage("登録に失敗しました。もう一度お試しください。");
+        console.error("Unexpected response:", response);
       }
-      console.log("回答登録成功:", await responseAnswer.json());
-
-      sendFormData(formData);
-      handleLogin(true); // ログイン状態にする
     } catch (error) {
-      console.error("エラーが発生しました:", error);
-      setErrorMessage("ユーザー登録に失敗しました。もう一度お試しください。");
+      setResponseMessage("エラーが発生しました。");
+      console.error("Error submitting data:", error);
     }
-  }
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
   };
 
-  const handleRangeChange = (questionId, value) => {
-    setAnswer((prevAnswer) => ({
-      ...prevAnswer,
-      user_answer: prevAnswer.user_answer.map((item) =>
-        item.question_id === questionId ? { ...item, answer: value } : item
-      ),
-    }));
+  const formatTime = (time) => {
+    if (!time) return "";
+    // "HH:MM:SS" -> "HH:MM"
+    return time.slice(0, 5);
   };
 
   if (responseMessage) {
@@ -108,6 +118,8 @@ export function TeacherInput({ handleLogin, sendFormData }) {
         style={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}
       >
         {responseMessage}
+        <br></br>
+        lesson idは{lessonId}です。覚えておいてください
       </div>
     );
   }
@@ -124,15 +136,15 @@ export function TeacherInput({ handleLogin, sendFormData }) {
             </div>
             <br />
             <label htmlFor="name">
-              <pre>名前</pre>
+              <pre>店舗名or講師名</pre>
             </label>
             <input
               type="text"
               id="name"
               name="name"
-              placeholder="お名前を入力してください"
-              value={formData.name}
-              onChange={handleChange}
+              placeholder="店舗名or講師名を入力してください"
+              value={store.name}
+              onChange={(e) => handleChange("store", "name", e.target.value)}
               className="input-text"
             />
             <br />
@@ -145,8 +157,8 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               id="address"
               name="address"
               placeholder="東京都〇〇区〇〇町〇〇番地"
-              onChange={handleChange}
-              value={formData.address}
+              onChange={(e) => handleChange("store", "address", e.target.value)}
+              value={store.address}
               className="input-text"
             />
             <br />
@@ -158,8 +170,9 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               type="text"
               id="info"
               name="info"
-              value={formData.info}
-              onChange={handleChange}
+              value={store.info}
+              // onChange={handleChange}
+              onChange={(e) => handleChange("store", "info", e.target.value)}
               className="input-info"
             />
             <br />
@@ -190,8 +203,9 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               id="title"
               name="title"
               placeholder="レッスン名を入力してください"
-              value={formData.title}
-              onChange={handleChange}
+              value={lesson.title}
+              // onChange={handleChange}
+              onChange={(e) => handleChange("lesson", "title", e.target.value)}
               className="input-text"
             />
             <br />
@@ -203,8 +217,11 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               id="description"
               name="description"
               placeholder="レッスン内容を入力してください"
-              value={formData.description}
-              onChange={handleChange}
+              value={lesson.description}
+              // onChange={handleChange}
+              onChange={(e) =>
+                handleChange("lesson", "description", e.target.value)
+              }
               className="input-info"
             />
             <br />
@@ -215,10 +232,40 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               type="text"
               id="location"
               name="location"
-              value={formData.location}
-              onChange={handleChange}
+              value={lesson.location}
+              // onChange={handleChange}
+              onChange={(e) =>
+                handleChange("lesson", "location", e.target.value)
+              }
               className="input-text"
             />
+            <br />
+            <br />
+            <br></br>
+            <button
+              className="button-deco-next"
+              type="button"
+              onClick={() => setPage(page + 1)}
+            >
+              次へ
+            </button>
+            <br />
+            <button
+              className="button-deco"
+              type="button"
+              onClick={() => setPage(page - 1)}
+            >
+              戻る
+            </button>
+          </div>
+        ) : page === 3 ? (
+          <div>
+            <div className="hello-comment">
+              <div className="text">
+                レッスン開催日時とサイトに載せる画像などを入力してください
+              </div>
+              <span className="ornament"></span>
+            </div>
             <br />
             <label htmlFor="birthday">
               <pre>レッスン日付</pre>
@@ -226,11 +273,12 @@ export function TeacherInput({ handleLogin, sendFormData }) {
             <label className="input-text">
               <input
                 type="date"
-                id="brithday"
-                name="birthday"
-                placeholder="生年月日を入力してください"
-                value={formData.birthday}
-                onChange={handleChange}
+                id="date"
+                name="date"
+                placeholder="開催日を教えてください"
+                value={lesson.date}
+                onChange={(e) => handleChange("lesson", "date", e.target.value)}
+                // onChange={handleChange}
                 // required
               />
               <br />
@@ -242,8 +290,11 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               type="time"
               id="startTime"
               name="startTime"
-              value="00:00"
-              onChange={handleChange}
+              value={lesson.start_time}
+              // onChange={handleChange}
+              onChange={(e) =>
+                handleChange("lesson", "start_time", e.target.value)
+              }
             />
             {/* <label htmlFor="endTime">終了時間</label> */}
             {/* <br /> */}
@@ -251,31 +302,44 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               type="time"
               id="endTime"
               name="endTime"
-              value="23:00"
-              onChange={handleChange}
+              value={lesson.end_time}
+              // onChange={handleChange}
+              onChange={(e) =>
+                handleChange("lesson", "end_time", e.target.value)
+              }
             />
             <br />
             <label htmlFor="location">
-              <pre>利用したい画像アップロード</pre>
+              <pre>
+                利用したい画像パス(複数個ある場合は「,」区切りでお願いします。)
+              </pre>
             </label>
             <input
               type="text"
               id="imagePath"
               name="imagePath"
-              value={formData.location}
-              onChange={handleChange}
+              value={lesson.imagePath}
+              // onChange={handleChange}
+              onChange={(e) =>
+                handleChange("lesson", "imagePath", e.target.value.split(","))
+              }
               className="input-text"
             />
             <br />
             <label htmlFor="location">
-              <pre>Youtube URL</pre>
+              <pre>
+                利用したいYoutubeID(複数個ある場合は「,」区切りでお願いします。)
+              </pre>
             </label>
             <input
               type="text"
-              id="moviePath"
-              name="moviePath"
-              value={formData.location}
-              onChange={handleChange}
+              id="movie_id"
+              name="movie_id"
+              value={lesson.movie_id}
+              // onChange={handleChange}
+              onChange={(e) =>
+                handleChange("lesson", "movie_id", e.target.value.split(","))
+              }
               className="input-text"
             />
             <br />
@@ -298,8 +362,7 @@ export function TeacherInput({ handleLogin, sendFormData }) {
             </button>
           </div>
         ) : // 日付、開始時間、終了時間、imagePath[配列で渡す]、moviePath
-
-        page === 3 ? (
+        page === 4 ? (
           <div>
             <div className="hello-comment">
               <div className="text">
@@ -317,13 +380,12 @@ export function TeacherInput({ handleLogin, sendFormData }) {
                   min="0"
                   max="1"
                   step="0.1"
-                  value={answer.user_answer[0].answer}
+                  value={lessonAnswer[0].answer}
                   onChange={(e) => handleRangeChange(1, Number(e.target.value))}
                 />
                 　アウトドア派
               </pre>
             </label>
-            <br />
             <label className="slide-bar" htmlFor="scale">
               <pre>
                 　少人数
@@ -333,13 +395,12 @@ export function TeacherInput({ handleLogin, sendFormData }) {
                   min="0"
                   max="1"
                   step="0.1"
-                  value={answer.user_answer[1].answer}
+                  value={lessonAnswer[1].answer}
                   onChange={(e) => handleRangeChange(2, Number(e.target.value))}
                 />
                 　大人数
               </pre>
             </label>
-            <br />
             <label className="slide-bar" htmlFor="distance">
               <pre>
                 　近い方が良い
@@ -349,13 +410,12 @@ export function TeacherInput({ handleLogin, sendFormData }) {
                   min="0"
                   max="1"
                   step="0.1"
-                  value={answer.user_answer[2].answer}
+                  value={lessonAnswer[2].answer}
                   onChange={(e) => handleRangeChange(3, Number(e.target.value))}
                 />
                 　遠くても良い
               </pre>
             </label>
-            <br />
             <label className="slide-bar" htmlFor="silent">
               <pre>
                 　　　黙々とやりたい
@@ -365,10 +425,25 @@ export function TeacherInput({ handleLogin, sendFormData }) {
                   min="0"
                   max="1"
                   step="0.1"
-                  value={answer.user_answer[3].answer}
+                  value={lessonAnswer[3].answer}
                   onChange={(e) => handleRangeChange(4, Number(e.target.value))}
                 />
                 　和気藹々とやりたい
+              </pre>
+            </label>
+            <label className="slide-bar" htmlFor="silent">
+              <pre>
+                　運動量　小
+                <input
+                  type="range"
+                  name="silent"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={lessonAnswer[4].answer}
+                  onChange={(e) => handleRangeChange(5, Number(e.target.value))}
+                />
+                　運動量　大
               </pre>
             </label>
             <br />
@@ -397,19 +472,45 @@ export function TeacherInput({ handleLogin, sendFormData }) {
               </div>
               <span className="ornament"></span>
             </div>
-            <br />
             <h3>確認内容</h3>
-            <p>名前: {formData.name}</p>
-            <p>住所: {formData.address}</p>
-            <p>店舗情報: {formData.info}</p>
-            <p>レッスン名: {formData.lesson}</p>
-            <p>レッスン内容: {formData.description}</p>
-            <p>場所: {formData.location}</p>
-            <br />
+            <p>
+              <strong>店舗名・講師名：　</strong> {store.name}
+            </p>
+            <p>
+              <strong>住所：　　　　　　</strong> {store.address}
+            </p>
+            <p>
+              <strong>店舗情報：　　　　</strong> {store.info}
+            </p>
+            <p>
+              <strong>レッスン名：　　　</strong> {lesson.title}
+            </p>
+            <p>
+              <strong>レッスン内容：　　</strong> {lesson.description}
+            </p>
+            <p>
+              <strong>場所：　　　　　　</strong> {lesson.location}
+            </p>
+            <p>
+              <strong>レッスン日付：　　</strong> {lesson.date}
+            </p>
+            <p>
+              <strong>開始〜終了日時：　</strong> {lesson.start_time}~
+              {lesson.end_time}
+            </p>
+            {/* <p>利用したい画像パス: {lesson.imagePath}</p> */}
+            <p>
+              <strong>画像パス：　　　　</strong> {lesson.imagePath.join(", ")}{" "}
+            </p>
+
+            <p>
+              <strong>YoutubeID:　　　</strong> {lesson.movie_id.join(", ")}
+            </p>
             <button
               className="button-deco-next"
               type="submit"
-              onClick={() => handleResponse("はい")}
+              // onClick={() => handleResponse("OK")}
+              onClick={(e) => handleSubmit(e)}
             >
               確定
             </button>
