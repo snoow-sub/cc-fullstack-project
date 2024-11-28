@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import "../css/selectDate.css";
 
@@ -21,13 +21,26 @@ export function SelectDate({
 
   const [inputStartDate, setInputStartDate] = useState(formatted);
   const [inputEndDate, setInputEndDate] = useState(formatted);
+  const [readyToFetch, setReadyToFetch] = useState(false);
+
+  useEffect(() => {
+    if (readyToFetch) {
+      try {
+        fetchPlans();
+        setInputDate(true);
+        setP2Swipe(true);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setReadyToFetch(false);
+      }
+    }
+  }, [readyToFetch, fetchPlans, setInputDate, setP2Swipe]);
 
   function setDate() {
     setStartDate(inputStartDate);
     setEndDate(inputEndDate);
-    fetchPlans();
-    setInputDate(true);
-    setP2Swipe(true);
+    setReadyToFetch(true);
   }
   return (
     <>

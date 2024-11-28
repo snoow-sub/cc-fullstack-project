@@ -18,13 +18,14 @@ export function SwipeLessons({
   const currentPath = process.env.REACT_APP_BASE_DIR || "../../";
   const [number, setNumber] = useState(0);
   const [popularFlag, setPopularFlag] = useState(false);
-  const limit = 5;
+  const limit = lesson.length;
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
 
   const [isTutorial, setIsTutorial] = useState(true);
   const [loadedImages, setLoadedImages] = useState([]);
+  const [readyToFetch, setReadyToFetch] = useState(false);
 
   useEffect(() => {
     const preloadedImages = [];
@@ -131,10 +132,25 @@ export function SwipeLessons({
     setIsTutorial(true);
   }
 
-  async function nextPopularCard() {
-    await fetchPopularLesson(); // 人気のレッスンを取得
-    setPopularFlag(true); // 人気のフラグを立てる
-    startAnimation(); // アニメーションを開始
+  useEffect(() => {
+    async function fetchAndSetPupularLessons() {
+      if (readyToFetch) {
+        try {
+          await fetchPopularLesson(); // 人気のレッスンを取得
+          setPopularFlag(true); // 人気のフラグを立てる
+          startAnimation(); // アニメーションを開始
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setReadyToFetch(false);
+        }
+      }
+    }
+    fetchAndSetPupularLessons();
+  }, [readyToFetch]);
+
+  function nextPopularCard() {
+    setReadyToFetch(true);
   }
 
   return (
