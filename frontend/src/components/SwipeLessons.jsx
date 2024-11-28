@@ -16,30 +16,31 @@ export function SwipeLessons({
 }) {
   const currentPath = process.env.REACT_APP_BASE_DIR || "../../";
   const [number, setNumber] = useState(0);
+  const [popularFlag, setPopularFlag] = useState(false);
   const limit = 5;
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
 
+  const startAnimation = () => {
+    if (card1Ref.current) {
+      card1Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
+    }
+    if (card2Ref.current) {
+      card2Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
+    }
+    if (card3Ref.current) {
+      card3Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
+    }
+  };
+
+  const handleAnimationEnd = (event) => {
+    const cardElement = event.currentTarget; // どのカードがアニメーションを終えたかを取得
+    cardElement.style.animation = "none"; // アニメーションを無効化
+    cardElement.style.transform = "rotateY(0deg)"; // 表面を向かせる
+  };
+
   useEffect(() => {
-    const startAnimation = () => {
-      if (card1Ref.current) {
-        card1Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
-      }
-      if (card2Ref.current) {
-        card2Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
-      }
-      if (card3Ref.current) {
-        card3Ref.current.style.animation = "cardrotate 5s ease-in-out forwards";
-      }
-    };
-
-    const handleAnimationEnd = (event) => {
-      const cardElement = event.currentTarget; // どのカードがアニメーションを終えたかを取得
-      cardElement.style.animation = "none"; // アニメーションを無効化
-      cardElement.style.transform = "rotateY(0deg)"; // 表面を向かせる
-    };
-
     // アニメーションを開始
     startAnimation();
 
@@ -57,25 +58,16 @@ export function SwipeLessons({
     // クリーンアップ
     return () => {
       if (card1Ref.current) {
-        card1Ref.current.removeEventListener(
-          "animationend",
-          handleAnimationEnd
-        );
+        card1Ref.current.removeEventListener("animationend", handleAnimationEnd);
       }
       if (card2Ref.current) {
-        card2Ref.current.removeEventListener(
-          "animationend",
-          handleAnimationEnd
-        );
+        card2Ref.current.removeEventListener("animationend", handleAnimationEnd);
       }
       if (card3Ref.current) {
-        card3Ref.current.removeEventListener(
-          "animationend",
-          handleAnimationEnd
-        );
+        card3Ref.current.removeEventListener("animationend", handleAnimationEnd);
       }
     };
-  }, []);
+  }, [number, popularFlag]); // numberとpopularFlagが変わるたびにアニメーションを実行
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
@@ -95,27 +87,7 @@ export function SwipeLessons({
       setFlick(false);
       console.log("呼ばれてますよ右");
       console.log(lesson[number]);
-      // setTimeout(() => {
-      //   setFlick(true); // 元に戻す
-      //   handleSwipeType("なし");
-      // }, 1000);
     },
-    // onSwipedUp: () => {
-    //   handleSwipeType("up");
-    //   console.log("上スワイプされました");
-    //   setTimeout(() => {
-    //     handleSwipeType("なし");
-    //   }, 10);
-    // },
-    // onSwipedDown: () => {
-    //   handleSwipeType("down");
-    //   console.log("下スワイプされました");
-    //   setTimeout(() => {
-    //     handleSwipeType("なし");
-    //   }, 10);
-    // },
-    // preventDefaultTouchmoveEvent: true, // スクロールと競合しないよう設定
-    // trackTouch: true,
   });
 
   function clickPopularLesson(popularNumber) {
@@ -123,6 +95,16 @@ export function SwipeLessons({
     reserveLesson(popularNumber);
     setClickPopular(true);
     setFlick(false);
+  }
+
+  function returnFirstCard() {
+    reserveLesson(0);
+    setNumber(0);
+  }
+
+  function nextPopularCard() {
+    setPopularFlag(true); // 人気のフラグを立てる
+    startAnimation(); // アニメーションを開始
   }
 
   return (
@@ -168,10 +150,10 @@ export function SwipeLessons({
             </div>
           </div>
         </div>
-      ) : (
+      ) : popularFlag === true ? (
         <div id="container">
           <div>
-            <h1>人気Top3のレッスンから選んでね</h1>
+            <h1>3つ中から選んでね！</h1>
           </div>
           <div id="card" ref={card1Ref} onClick={() => clickPopularLesson(0)}>
             <figure className="front">
@@ -179,12 +161,8 @@ export function SwipeLessons({
               <p>その1</p>
             </figure>
             <figure className="back">
-              <h2>ID: {popularLesson[0].id}</h2>
-              <p>レッスン内容：{popularLesson[0].description}</p>
-              <p>日時：{popularLesson[0].date}</p>
-              <p>開始予定時刻：{popularLesson[0].start_time}</p>
-              <p>終了予定時刻：{popularLesson[0].location}</p>
-              <p>場所：{popularLesson[0].location}</p>
+              <h2>{popularLesson[0].title}</h2>
+              <p>{popularLesson[0].description}</p>
             </figure>
           </div>
           <br />
@@ -194,12 +172,8 @@ export function SwipeLessons({
               <p>その2</p>
             </figure>
             <figure className="back">
-              <h2>ID: {popularLesson[0].id}</h2>
-              <p>レッスン内容：{popularLesson[1].description}</p>
-              <p>日時：{popularLesson[1].date}</p>
-              <p>開始予定時刻：{popularLesson[1].start_time}</p>
-              <p>終了予定時刻：{popularLesson[1].location}</p>
-              <p>場所：{popularLesson[1].location}</p>
+              <h2>{popularLesson[1].title}</h2>
+              <p>{popularLesson[1].description}</p>
             </figure>
           </div>
           <br />
@@ -209,15 +183,100 @@ export function SwipeLessons({
               <p>その3</p>
             </figure>
             <figure className="back">
-              <h2>ID: {popularLesson[0].id}</h2>
-              <p>レッスン内容：{popularLesson[2].description}</p>
-              <p>日時：{popularLesson[2].date}</p>
-              <p>開始予定時刻：{popularLesson[2].start_time}</p>
-              <p>終了予定時刻：{popularLesson[2].location}</p>
-              <p>場所：{popularLesson[2].location}</p>
+              <h2>{popularLesson[2].title}</h2>
+              <p>{popularLesson[2].description}</p>
             </figure>
           </div>
         </div>
+      ) : (
+        <center>
+          <div
+            style={{
+              position: "absolute",
+              top: "12%",
+              left: "0%",
+              width: "100%",
+              maxWidth: "500px",
+              minWidth: "200px",
+              minHeight: "100px",
+              padding: "20px",
+              textAlign: "center",
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+            }}
+          >
+            <p style={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  margin: "0 auto", // 中央揃え
+                  width: "100%", // 親幅に合わせる
+                  wordWrap: "break-word", // 長い単語を折り返し
+                  whiteSpace: "normal", // 折り返し有効化
+                  overflow: "hidden", // オーバーフロー防止
+                  //textOverflow: "ellipsis", // 長すぎる場合に省略
+                  //backgroundColor: "blue",
+                }}
+            >興味があるレッスンが無かったかな...？<br />
+            人気でおすすめなレッスンを3つ選んだよ！<br />
+            もし心残りがあれば、もう1回見てみる？</p>
+            <p style={{
+                fontSize: "14px",
+                color: "#555",
+                textAlign: "center",
+                margin: "10px auto 0", // 上に余白を追加
+                width: "100%", // 親幅に合わせる
+                wordWrap: "break-word",
+                whiteSpace: "normal",
+              }}
+            >人気のレッスンは選び直しができないから気をつけてね！</p>
+          </div>
+          <img
+            src={"./images/dico.png"}
+            alt="キャラクター"
+            style={{
+              width: "180px",
+              height: "180px",
+              marginBottom: "20px",
+              position: "absolute",
+              left: "27%",
+              top: "30%",
+            }}
+          />
+          <button
+            onClick={returnFirstCard}
+              style={{
+                position: "absolute",
+                bottom: "15%",
+                left: "5%",
+                width: "90%",
+                padding: "10px",
+                backgroundColor: "#6AAADE",
+                color: "white",
+                border: "none",
+                borderradius: "5px",
+                fontsize: "16px",
+                cursor: "pointer",
+              }}
+          >選びなおす</button>
+          <button
+            onClick={nextPopularCard}
+              style={{
+                position: "absolute",
+                bottom: "8%",
+                left: "5%",
+                width: "90%",
+                padding: "10px",
+                backgroundColor: "#f39867",
+                color: "white",
+                border: "none",
+                borderradius: "5px",
+                fontsize: "16px",
+                cursor: "pointer",
+              }}
+          >人気のレッスンへ</button>
+        </center>
       )}
     </>
   );
