@@ -56,55 +56,9 @@ const baseQuestions = [
     name: "location",
     characterMainMessage: "了解！そしたら希望の受講場所はある？",
     characterSubMessage: "月で受講できる講座があったらいいな",
-    options: {
-      keys: ["自宅", "東京都"],
-    },
+    options: { keys: ["自宅", "東京都"] },
   },
 ];
-
-// const addisionalQuestions_ = [
-//   {
-//     id: 1,
-//     label: ["インドア派", "アウトドア派"],
-//     type: "text",
-//     name: "inoutdoor",
-//     characterMainMessage: "インドア派かアウトドア派かでいったら、どっち？",
-//     characterSubMessage: "**indooroutdoor**",
-//   },
-//   {
-//     id: 2,
-//     label: ["少人数でやりたい", "大人数でやりたい"],
-//     type: "text",
-//     name: "scale",
-//     characterMainMessage: "どのくらいの人数でやるのがいいかな",
-//     characterSubMessage: "**scale**",
-//   },
-//   {
-//     id: 3,
-//     label: ["近くでやりたい", "遠出が好き"],
-//     type: "text",
-//     name: "distance",
-//     characterMainMessage: "遠出は好き？それとも近場で済ませるタイプ？",
-//     characterSubMessage: "**distance**",
-//   },
-//   {
-//     id: 4,
-//     label: ["黙々とやりたい", "和気藹々とやりたい"],
-//     type: "text",
-//     name: "silent",
-//     characterMainMessage:
-//       "静かに集中したいタイプ？それともにぎやかなのが好き？",
-//     characterSubMessage: "**silence**",
-//   },
-//   {
-//     id: 5,
-//     label: ["運動量少なめ", "運動量多め"],
-//     type: "text",
-//     name: "momentum",
-//     characterMainMessage: "メインメッセージ",
-//     characterSubMessage: "**momentum**",
-//   },
-// ];
 
 const addisionalQuestions = [
   {
@@ -151,7 +105,65 @@ const addisionalQuestions = [
     characterMediumMessage: "実はこのスライドバーは僕の念力で動かしてるんだ！",
     characterRightMessage: "にぎやかしなら任せて！どんちゃん♪どんちゃん♪",
   },
+  {
+    id: 5,
+    label: ["運動量少なめ", "運動量多め"],
+    type: "text",
+    name: "momentum",
+    characterMainMessage: "どのくらい体を動かしたい？",
+    characterSubMessage: "**momentum**",
+    characterLeftMessage: "のんびりするのもいいよね～",
+    characterMediumMessage: "最後の質問だよ！",
+    characterRightMessage: "体を動かすと気分が良くなるよね！",
+  },
 ];
+
+// const addisionalQuestions = [
+//   {
+//     id: 1,
+//     label: ["インドア派", "アウトドア派"],
+//     type: "text",
+//     name: "inoutdoor",
+//     characterMainMessage: "インドア派かアウトドア派だと、どっち？",
+//     characterSubMessage: "",
+//     characterLeftMessage: "おうちの中でできる趣味っていいよね～",
+//     characterMediumMessage: "甲乙つけがたい……",
+//     characterRightMessage: "やっぱり外に出るのが楽しいかな～",
+//   },
+//   {
+//     id: 2,
+//     label: ["少人数でやりたい", "大人数でやりたい"],
+//     type: "text",
+//     name: "scale",
+//     characterMainMessage: "どのくらいの人数でやるのがいいかな",
+//     characterSubMessage: "**scale**",
+//     characterLeftMessage: "少ない人数だと集中できるよね",
+//     characterMediumMessage: "何事もちょうどいいくらいが大事",
+//     characterRightMessage: "大人数だと楽しみが共有できる人がたくさん",
+//   },
+//   {
+//     id: 3,
+//     label: ["近くでやりたい", "遠くてもよい"],
+//     type: "text",
+//     name: "distance",
+//     characterMainMessage: "遠出は好き？それとも近場で済ませるタイプ？",
+//     characterSubMessage: "**distance**",
+//     characterLeftMessage: "近所にも意外と知らないこと多いよね～",
+//     characterMediumMessage: "どっちにも魅力があって困っちゃう",
+//     characterRightMessage: "遠出はワクワク感があって楽しい",
+//   },
+//   {
+//     id: 4,
+//     label: ["黙々とやりたい", "和気藹々とやりたい"],
+//     type: "text",
+//     name: "silent",
+//     characterMainMessage: "静かに集中したい？にぎやかな方が好き？",
+//     characterSubMessage: "**silence**",
+//     characterLeftMessage: "……………………ぷはっ！静かにするの得意なんだ！",
+//     characterMediumMessage: "実はこのスライドバーは僕の念力で動かしてるんだ！",
+//     characterRightMessage: "にぎやかしなら任せて！どんちゃん♪どんちゃん♪",
+//   },
+// ];
 
 export function UserInputForMultiStep({
   handleLogin,
