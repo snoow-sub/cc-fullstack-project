@@ -202,7 +202,6 @@ export function SwipeLessons({
                   youtubeIds={lesson[number].movie_id}
                   disableButtons={false}
                 />
-                {console.log(lesson[number].imagePath)}
                 <div className="lesson-details">
                   {/* <p>{profile.calendar}</p> */}
                   <p className="lesson-box-title">{lesson[number].title}</p>
