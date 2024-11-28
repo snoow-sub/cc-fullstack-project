@@ -1,5 +1,12 @@
+@font-face {
+  font-family: 'LINE Seed JP';
+  src: url('../fonts/WOFF2/LINESeedJP_OTF_Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  font-family: "Arial", sans-serif;
+  font-family: 'LINE Seed JP', 'Quicksand', sans-serif;
   background-color: fffcee;
   color: black;
   display: flex;
@@ -16,7 +23,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Quicksand;
+  font-family: 'LINE Seed JP', 'Quicksand', sans-serif;
   font-weight: bold;
   font-size: 20px;
   color: #999999;
