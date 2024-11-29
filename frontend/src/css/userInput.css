@@ -72,7 +72,7 @@ body {
   mix-blend-mode: multiply; /* 乗算 */
 }
 
-.input-text{
+.input-text {
   flex-direction: column;
   align-items: flex-start;
   background-color: white;
@@ -111,20 +111,20 @@ body {
   background: #6aaade;
   border: 1px solid #6aaade;
   border-radius: 8px;
-  color: #FFFFFF;
+  color: #ffffff;
   flex: none;
   order: 1;
   flex-grow: 1;
 }
 
-.calendar-design {
+/* .calendar-design {
   position: relative;
   display: inline-block;
   width: 200px;
   height: 36px;
   border: 2px solid #ccc;
   border-radius: 15px;
-}
+} */
 
 input[type="date"] {
   position: relative;

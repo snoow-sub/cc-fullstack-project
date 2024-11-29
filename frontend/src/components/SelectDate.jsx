@@ -65,16 +65,7 @@ export function SelectDate({
   }
   return (
     <div
-      style={{
-        textAlign: "center",
-        width: "100%",
-        height: "100vh", // ビューポート全体の高さ
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center", // 縦方向の中央揃え
-        alignItems: "center", // 横方向の中央揃え
-        // backgroundColor: "#fdf5e6", // 背景色（例: クリーム色）
-      }}
+      className="selectDateMain"
     >
       { dateCheck ? (
         <div className="chat-container">
@@ -110,7 +101,7 @@ export function SelectDate({
               name="startDate"
               value={inputStartDate}
               onChange={(e) => setInputStartDate(e.target.value)}
-              // required
+              className="input date-style"
             />
           </label>
           <br />
@@ -122,7 +113,7 @@ export function SelectDate({
               name="startDate"
               value={inputEndDate}
               onChange={(e) => setInputEndDate(e.target.value)}
-              // required
+              className="input date-style"
             />
           </label>
         </form>

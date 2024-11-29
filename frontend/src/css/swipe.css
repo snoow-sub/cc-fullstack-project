@@ -137,14 +137,14 @@ B:222 */
   translate: -50%;
 }
 
-.calendar-design {
+/* .calendar-design {
   position: relative;
   display: inline-block;
   width: 200px;
   height: 36px;
   border: 2px solid #ccc;
   border-radius: 15px;
-}
+} */
 
 input[type="date"] {
   position: relative;
