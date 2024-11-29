@@ -55,13 +55,11 @@ export default function App() {
       startDatePlus1.setDate(startDatePlus1.getDate() + 1);
       startDatePlus1 = startDatePlus1.toISOString().slice(0, 10);
       const queryString = new URLSearchParams({
-        location: "特になし",
+        location: profile.location,
         startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
-      const response = await fetch(
-        `http://${host}:3000/api/user/${userId}/lesson?${queryString}`
-      );
+      const response = await fetch(`http://${host}:3000/api/user/${userId}/lesson?${queryString}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -78,13 +76,11 @@ export default function App() {
       startDatePlus1.setDate(startDatePlus1.getDate() + 1);
       startDatePlus1 = startDatePlus1.toISOString().slice(0, 10);
       const queryString = new URLSearchParams({
-        location: "特になし",
+        location: profile.location,
         startDate: startDatePlus1,
         endDate: endDate,
       }).toString();
-      const response = await fetch(
-        `http://${host}:3000/api/lesson/popular?${queryString}`
-      );
+      const response = await fetch(`http://${host}:3000/api/lesson/popular?${queryString}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

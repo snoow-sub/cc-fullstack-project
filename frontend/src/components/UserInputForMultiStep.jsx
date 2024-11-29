@@ -165,19 +165,14 @@ const addisionalQuestions = [
 //   },
 // ];
 
-export function UserInputForMultiStep({
-  handleLogin,
-  sendFormData,
-  setUserId,
-  userId,
-}) {
+export function UserInputForMultiStep({ handleLogin, sendFormData, setUserId, userId }) {
   const host = process.env.REACT_APP_HOSTNAME || "98.82.11.196";
 
   const mock = {
-    name: "テスト太郎",
-    sex: 1,
-    birthday: "2024-12-01",
-    address: "名古屋",
+    name: "趣味太郎",
+    sex: 0,
+    birthday: "1998-02-24",
+    address: "横浜",
     hobby: "スポーツ",
     location: "東京都",
     inoutdoor: 0.5,
@@ -255,19 +250,16 @@ export function UserInputForMultiStep({
 
       // console.log(formatedAnswer);
 
-      const responseAnswer = await fetch(
-        `http://${host}:3000/api/user_answer`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: userId,
-            user_answer: formatedAnswer,
-          }),
-        }
-      );
+      const responseAnswer = await fetch(`http://${host}:3000/api/user_answer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          user_answer: formatedAnswer,
+        }),
+      });
       if (!responseAnswer.ok) {
         throw new Error(`HTTP error! Status: ${responseAnswer.status}`);
       }

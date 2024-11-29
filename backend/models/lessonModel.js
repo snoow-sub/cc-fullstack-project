@@ -2,7 +2,7 @@ const knex = require("../knexConfig");
 
 module.exports = {
   async getLessons(location, startDate, endDate) {
-    if (location === "特になし") {
+    if (location === "東京都") {
       const lessons = await knex("lesson")
         .select("*")
         .andWhere("date", ">=", startDate)
@@ -24,7 +24,7 @@ module.exports = {
   },
 
   async getPopularLessons(location, startDate, endDate) {
-    if (location === "特になし") {
+    if (location === "東京都") {
       const lessons = await knex("lesson")
         .select("*")
         .andWhere("date", ">=", startDate)
