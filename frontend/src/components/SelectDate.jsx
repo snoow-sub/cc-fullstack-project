@@ -39,6 +39,7 @@ export function SelectDate({
     if (dateStartDate <= dateEndDate) {
       setStartDate(inputStartDate);
       setEndDate(inputEndDate);
+      fetchPlans();
       setInputDate(true);
       setP2Swipe(true);
       setDateCheck(false);
