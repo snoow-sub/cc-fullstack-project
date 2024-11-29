@@ -137,6 +137,7 @@ export default function App() {
   async function fetchPlans() {
     const responseData = await getPlans(userId);
     setLesson(responseData);
+    return Object.keys(responseData).length;
     // console.log("取得したレッスン:", responseData);
   }
 
