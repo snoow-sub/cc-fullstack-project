@@ -1,8 +1,19 @@
 import React from "react";
 import "../css/multiStepUserInput.css"; // 必要に応じてCSSファイルを調整してください
 
-export function ProgressToSwipe({ profile, lesson, startDate, endDate, onComplete }) {
-  console.log("ProgressToSwipeが表示されました", { profile, lesson, startDate, endDate }); // デバッグ用
+export function ProgressToSwipe({
+  profile,
+  lesson,
+  startDate,
+  endDate,
+  onComplete,
+}) {
+  console.log("ProgressToSwipeが表示されました", {
+    profile,
+    lesson,
+    startDate,
+    endDate,
+  }); // デバッグ用
 
   const handleNext = () => {
     // 次の画面に進むため、`inputDate`を`true`に設定
@@ -26,13 +37,7 @@ export function ProgressToSwipe({ profile, lesson, startDate, endDate, onComplet
       <img
         src={"./images/dico.png"}
         alt="キャラクター"
-        style={{
-          width: "180px",
-          height: "180px",
-          marginBottom: "20px",
-          position: "absolute",
-          top: "25%",
-        }}
+        className="character-image"
       />
       <br />
       <br />
@@ -61,20 +66,7 @@ export function ProgressToSwipe({ profile, lesson, startDate, endDate, onComplet
       </p>
 
       {/* ボタン */}
-      <button
-        onClick={handleNext}
-        style={{
-          width: "200px",
-          padding: "10px",
-          backgroundColor: "#f39867", // ボタンの色
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          fontSize: "16px",
-          cursor: "pointer",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // 軽いシャドウ
-        }}
-      >
+      <button onClick={handleNext} className="button-next">
         レッスンを探す
       </button>
     </div>
