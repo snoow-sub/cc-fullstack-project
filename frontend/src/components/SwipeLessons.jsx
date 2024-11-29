@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSwipeable } from "react-swipeable";
 import "../css/swipe.css";
 import { ImageGallery } from "./ImageGallery";
+import { convertFormatDatetimeForLesson } from "../utils/datetimeFormatter";
 
 export function SwipeLessons({
-  profile,
   lesson,
   setFlick,
   setClickPopular,
@@ -13,16 +13,31 @@ export function SwipeLessons({
   popularLesson,
   startDate,
   endDate,
+  fetchPopularLesson,
 }) {
   const currentPath = process.env.REACT_APP_BASE_DIR || "../../";
   const [number, setNumber] = useState(0);
   const [popularFlag, setPopularFlag] = useState(false);
-  const limit = 5;
+  const limit = lesson.length;
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
 
   const [isTutorial, setIsTutorial] = useState(true);
+  const [loadedImages, setLoadedImages] = useState([]);
+  const [readyToFetch, setReadyToFetch] = useState(false);
+
+  useEffect(() => {
+    const preloadedImages = [];
+    lesson.forEach((data) => {
+      data.imagePath.forEach((path) => {
+        const img = new Image();
+        img.src = path;
+        preloadedImages.push(img);
+      });
+    });
+    setLoadedImages(preloadedImages);
+  }, [lesson]);
 
   const startAnimation = () => {
     if (card1Ref.current) {
@@ -60,13 +75,22 @@ export function SwipeLessons({
     // クリーンアップ
     return () => {
       if (card1Ref.current) {
-        card1Ref.current.removeEventListener("animationend", handleAnimationEnd);
+        card1Ref.current.removeEventListener(
+          "animationend",
+          handleAnimationEnd
+        );
       }
       if (card2Ref.current) {
-        card2Ref.current.removeEventListener("animationend", handleAnimationEnd);
+        card2Ref.current.removeEventListener(
+          "animationend",
+          handleAnimationEnd
+        );
       }
       if (card3Ref.current) {
-        card3Ref.current.removeEventListener("animationend", handleAnimationEnd);
+        card3Ref.current.removeEventListener(
+          "animationend",
+          handleAnimationEnd
+        );
       }
     };
   }, [number, popularFlag]); // numberとpopularFlagが変わるたびにアニメーションを実行
@@ -80,7 +104,7 @@ export function SwipeLessons({
         reserveLesson(number + 1);
         setNumber(number + 1);
       }
-      console.log("呼ばれてますよ左");
+      // console.log("呼ばれてますよ左");
     },
     onSwipedRight: () => {
       handleSwipeType("right");
@@ -90,8 +114,8 @@ export function SwipeLessons({
         reserveLesson(number);
         setFlick(false);
       }
-      console.log("呼ばれてますよ右");
-      console.log(lesson[number]);
+      // console.log("呼ばれてますよ右");
+      // console.log(lesson[number]);
     },
   });
 
@@ -108,21 +132,25 @@ export function SwipeLessons({
     setIsTutorial(true);
   }
 
+  useEffect(() => {
+    async function fetchAndSetPupularLessons() {
+      if (readyToFetch) {
+        try {
+          await fetchPopularLesson(); // 人気のレッスンを取得
+          setPopularFlag(true); // 人気のフラグを立てる
+          startAnimation(); // アニメーションを開始
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setReadyToFetch(false);
+        }
+      }
+    }
+    fetchAndSetPupularLessons();
+  }, [readyToFetch]);
+
   function nextPopularCard() {
-    setPopularFlag(true); // 人気のフラグを立てる
-    startAnimation(); // アニメーションを開始
-  }
-
-  function convertFormatDatetime(lesson) {
-    console.log(lesson.date);
-    console.log(typeof lesson.date);
-    const formatDate = lesson.date.split("T")[0];
-    const formatStarttimeHour = lesson.start_time.split(":")[0];
-    const formatStarttimeMinite = lesson.start_time.split(":")[1];
-    const formatEndtimeHour = lesson.end_time.split(":")[0];
-    const formatEndtimeMinite = lesson.end_time.split(":")[1];
-
-    return `${formatDate} ${formatStarttimeHour}:${formatStarttimeMinite}-${formatEndtimeHour}:${formatEndtimeMinite}`;
+    setReadyToFetch(true);
   }
 
   return (
@@ -189,8 +217,8 @@ export function SwipeLessons({
               <br />
               <div className="lesson-box" {...handlers}>
                 <ImageGallery
-                  imgPaths={["./images/logo.png", "./images/tennis.png"]}
-                  youtubeIds={["Pj_DUmneOE8"]}
+                  imgPaths={lesson[number].imagePath}
+                  youtubeIds={lesson[number].movie_id}
                   disableButtons={false}
                 />
                 <div className="lesson-details">
@@ -200,7 +228,7 @@ export function SwipeLessons({
                     {lesson[number].description}
                   </p>
                   <p className="lesson-box-description">
-                    開催日時： {convertFormatDatetime(lesson[number])}
+                    開催日時： {convertFormatDatetimeForLesson(lesson[number])}
                     <br />
                     開催場所：{lesson[number].location}
                   </p>
@@ -265,22 +293,28 @@ export function SwipeLessons({
               boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
             }}
           >
-            <p style={{
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  margin: "0 auto", // 中央揃え
-                  width: "100%", // 親幅に合わせる
-                  wordWrap: "break-word", // 長い単語を折り返し
-                  whiteSpace: "normal", // 折り返し有効化
-                  overflow: "hidden", // オーバーフロー防止
-                  //textOverflow: "ellipsis", // 長すぎる場合に省略
-                  //backgroundColor: "blue",
-                }}
-            >興味があるレッスンが無かったかな...？<br />
-            人気でおすすめなレッスンを3つ選んだよ！<br />
-            もし心残りがあれば、もう1回見てみる？</p>
-            <p style={{
+            <p
+              style={{
+                fontSize: "16px",
+                fontWeight: "bold",
+                textAlign: "center",
+                margin: "0 auto", // 中央揃え
+                width: "100%", // 親幅に合わせる
+                wordWrap: "break-word", // 長い単語を折り返し
+                whiteSpace: "normal", // 折り返し有効化
+                overflow: "hidden", // オーバーフロー防止
+                //textOverflow: "ellipsis", // 長すぎる場合に省略
+                //backgroundColor: "blue",
+              }}
+            >
+              興味があるレッスンが無かったかな...？
+              <br />
+              人気でおすすめなレッスンを3つ選んだよ！
+              <br />
+              もし心残りがあれば、もう1回見てみる？
+            </p>
+            <p
+              style={{
                 fontSize: "14px",
                 color: "#555",
                 textAlign: "center",
@@ -289,7 +323,9 @@ export function SwipeLessons({
                 wordWrap: "break-word",
                 whiteSpace: "normal",
               }}
-            >人気のレッスンは選び直しができないから気をつけてね！</p>
+            >
+              人気のレッスンは選び直しができないから気をつけてね！
+            </p>
           </div>
           <img
             src={"./images/dico.png"}
@@ -305,36 +341,40 @@ export function SwipeLessons({
           />
           <button
             onClick={returnFirstCard}
-              style={{
-                position: "absolute",
-                bottom: "15%",
-                left: "5%",
-                width: "90%",
-                padding: "10px",
-                backgroundColor: "#6AAADE",
-                color: "white",
-                border: "none",
-                borderradius: "5px",
-                fontsize: "16px",
-                cursor: "pointer",
-              }}
-          >選びなおす</button>
+            style={{
+              position: "absolute",
+              bottom: "15%",
+              left: "5%",
+              width: "90%",
+              padding: "10px",
+              backgroundColor: "#6AAADE",
+              color: "white",
+              border: "none",
+              borderradius: "5px",
+              fontsize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            選びなおす
+          </button>
           <button
             onClick={nextPopularCard}
-              style={{
-                position: "absolute",
-                bottom: "8%",
-                left: "5%",
-                width: "90%",
-                padding: "10px",
-                backgroundColor: "#f39867",
-                color: "white",
-                border: "none",
-                borderradius: "5px",
-                fontsize: "16px",
-                cursor: "pointer",
-              }}
-          >人気のレッスンへ</button>
+            style={{
+              position: "absolute",
+              bottom: "8%",
+              left: "5%",
+              width: "90%",
+              padding: "10px",
+              backgroundColor: "#f39867",
+              color: "white",
+              border: "none",
+              borderradius: "5px",
+              fontsize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            人気のレッスンへ
+          </button>
         </center>
       )}
     </>

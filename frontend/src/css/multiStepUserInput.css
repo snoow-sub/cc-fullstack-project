@@ -1,3 +1,28 @@
+@font-face {
+  font-family: 'LINE Seed JP';
+  src: url('../fonts/WOFF2/LINESeedJP_OTF_Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "LINE Seed JP", Quicksand, "Noto Sans JP", "Noto Sans";
+}
+
+.buttonNext {
+  position: "absolute";
+  bottom: "8%";
+  left: "5%";
+  width: "90%";
+  padding: "10px";
+  background-color: "#f39867";
+  color: "white";
+  border: "none";
+  border-radius: "5px";
+  font-size: "16px";
+  cursor: "pointer";
+}
+
 .buttonReturn {
   width: 11px;
   height: 11px;

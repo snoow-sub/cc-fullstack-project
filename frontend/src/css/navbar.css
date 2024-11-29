@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'LINE Seed JP';
+  src: url('../fonts/WOFF2/LINESeedJP_OTF_Rg.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "LINE Seed JP", Quicksand, "Noto Sans JP", "Noto Sans";
+}
+
 .nav {
   /* 背景色設定 */
   background-color: #c9e8f8;
@@ -18,7 +29,7 @@
   /*ブロックにする */
   display: block;
   /* 文字を大き目に設定 */
-  font-family: 'Quicksand';
+  font-family: 'LINE Seed JP', 'Quicksand', sans-serif;
   font-size: 30px;
   font-weight: bold;
 }

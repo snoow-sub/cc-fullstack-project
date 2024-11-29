@@ -118,7 +118,7 @@ exports.seed = async function (knex) {
       date: "2024-12-01",
       start_time: "16:00:00",
       end_time: "18:00:00",
-      location: "東京都", // 修正
+      location: "自宅", // 修正
       description: "心身をリフレッシュさせるヨガセッションです。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/007_1.png",
@@ -135,7 +135,7 @@ exports.seed = async function (knex) {
       date: "2024-12-01",
       start_time: "19:00:00",
       end_time: "20:30:00",
-      location: "東京都", // 修正
+      location: "自宅", // 修正
       description: "リラックスした夜のヨガで一日の疲れを癒します。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/008_1.png",
@@ -152,7 +152,7 @@ exports.seed = async function (knex) {
       date: "2024-12-01",
       start_time: "15:00:00",
       end_time: "16:30:00",
-      location: "東京都", // 修正
+      location: "自宅", // 修正
       description: "初心者向け英会話教室で日常会話を学びます。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/009_1.png",
@@ -169,7 +169,7 @@ exports.seed = async function (knex) {
       date: "2024-12-03",
       start_time: "10:00:00",
       end_time: "12:00:00",
-      location: "千葉県", // サンプル別地域
+      location: "自宅", // サンプル別地域
       description: "初心者向けのプログラミング講座で基本的なスキルを習得。",
       imagePath: [
         "https://discoveru-s3.s3.us-east-1.amazonaws.com/0010_1.png",
@@ -186,9 +186,12 @@ exports.seed = async function (knex) {
       date: "2024-12-03",
       start_time: "13:00:00",
       end_time: "15:00:00",
-      location: "埼玉県",
+      location: "東京都",
       description: "初心者向けのカラオケレッスンで歌唱力を向上させます。",
-      imagePath: ["/images/karaoke1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0011_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0011_2.png",
+      ],
       movie_id: ["Hy2_ai9ldkA"],
       review: 4.0,
       indicator: 75.0,
@@ -200,9 +203,12 @@ exports.seed = async function (knex) {
       date: "2024-12-04",
       start_time: "10:00:00",
       end_time: "12:00:00",
-      location: "神奈川県",
+      location: "東京都",
       description: "初心者向けの写真撮影クラスで構図や基本操作を学びます。",
-      imagePath: ["/images/photography1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0012_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0012_2.png",
+      ],
       movie_id: ["tQK0BTmluKo"],
       review: 4.6,
       indicator: 88.0,
@@ -214,9 +220,12 @@ exports.seed = async function (knex) {
       date: "2024-12-05",
       start_time: "15:00:00",
       end_time: "16:30:00",
-      location: "茨城県",
+      location: "東京都",
       description: "初心者向けスイミングクラスで基本を習得します。",
-      imagePath: ["/images/swimming1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0013_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0013_2.png",
+      ],
       movie_id: ["Egc4mPetg-o"],
       review: 3.9,
       indicator: 72.5,
@@ -228,9 +237,12 @@ exports.seed = async function (knex) {
       date: "2024-12-06",
       start_time: "10:00:00",
       end_time: "12:30:00",
-      location: "千葉県",
+      location: "東京都",
       description: "初心者向けのボルダリングクラスで体を動かし、楽しみます。",
-      imagePath: ["/images/bouldering1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0014_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0014_2.png",
+      ],
       movie_id: ["kND5qMSarZg"],
       review: 4.8,
       indicator: 90.0,
@@ -244,7 +256,10 @@ exports.seed = async function (knex) {
       end_time: "16:00:00",
       location: "自宅",
       description: "初心者向けペイントクラスで絵を描く楽しさを体験。",
-      imagePath: ["/images/painting1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0015_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0015_2.png",
+      ],
       movie_id: ["EXQ3X0VuIjM"],
       review: 4.3,
       indicator: 85.0,
@@ -256,9 +271,12 @@ exports.seed = async function (knex) {
       date: "2024-12-07",
       start_time: "17:00:00",
       end_time: "18:30:00",
-      location: "神奈川県",
+      location: "自宅",
       description: "初心者向けの瞑想レッスンで心をリフレッシュ。",
-      imagePath: ["/images/meditation1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0016_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0016_2.png",
+      ],
       movie_id: ["2noZdKKi9DU"],
       review: 4.9,
       indicator: 92.0,
@@ -270,9 +288,12 @@ exports.seed = async function (knex) {
       date: "2024-12-08",
       start_time: "11:00:00",
       end_time: "12:30:00",
-      location: "茨城県",
+      location: "東京都",
       description: "初心者向けの日本茶教室で茶道の基本を学びます。",
-      imagePath: ["/images/teaceremony1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0017_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0017_2.png",
+      ],
       movie_id: ["qIXyu-BexSk"],
       review: 4.7,
       indicator: 87.5,
@@ -286,7 +307,10 @@ exports.seed = async function (knex) {
       end_time: "15:00:00",
       location: "東京都",
       description: "ドローンの基本操作を学ぶ初心者向け講座。",
-      imagePath: ["/images/drone1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0018_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0018_2.png",
+      ],
       movie_id: ["y-GzZAhWj9g"],
       review: 4.5,
       indicator: 90.0,
@@ -298,9 +322,12 @@ exports.seed = async function (knex) {
       date: "2024-12-09",
       start_time: "07:00:00",
       end_time: "08:30:00",
-      location: "埼玉県",
+      location: "東京都",
       description: "初心者向けランニングで基本のフォームを習得。",
-      imagePath: ["/images/running1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0019_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0019_2.png",
+      ],
       movie_id: ["UDWK4gvzCVE"],
       review: 3.8,
       indicator: 75.0,
@@ -312,9 +339,12 @@ exports.seed = async function (knex) {
       date: "2024-12-09",
       start_time: "09:00:00",
       end_time: "11:30:00",
-      location: "自宅",
+      location: "東京都",
       description: "初心者向けスキークラスで雪山を楽しみます。",
-      imagePath: ["/images/skiing1.jpg"],
+      imagePath: [
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0020_1.png",
+        "https://discoveru-s3.s3.us-east-1.amazonaws.com/0020_2.png",
+      ],
       movie_id: ["0PSW9ZRLASc"],
       review: 4.0,
       indicator: 80.0,
