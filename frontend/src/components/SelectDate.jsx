@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import "../css/selectDate.css";
 import "../css/multiStepUserInput.css";
@@ -32,6 +32,21 @@ export function SelectDate({
   const [inputStartDate, setInputStartDate] = useState(defaultStartDate);
   const [inputEndDate, setInputEndDate] = useState(defaultEndDate);
   const [dateCheck, setDateCheck] = useState(false);
+  const [readyToFetch, setReadyToFetch] = useState(false);
+
+  useEffect(() => {
+    if (readyToFetch) {
+      try {
+        fetchPlans();
+        setInputDate(true);
+        setP2Swipe(true);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setReadyToFetch(false);
+      }
+    }
+  }, [readyToFetch, fetchPlans, setInputDate, setP2Swipe]);
 
   function setDate() {
     const dateStartDate = new Date(inputStartDate);
@@ -43,6 +58,7 @@ export function SelectDate({
       setInputDate(true);
       setP2Swipe(true);
       setDateCheck(false);
+      setReadyToFetch(true);
     } else {
       setDateCheck(true);
     }
